@@ -1,13 +1,13 @@
-# Tendermint
+# Teragrid
 
 [Byzantine-Fault Tolerant](https://en.wikipedia.org/wiki/Byzantine_fault_tolerance)
 [State Machine Replication](https://en.wikipedia.org/wiki/State_machine_replication).
 Or [Blockchain](https://en.wikipedia.org/wiki/Blockchain_(database)) for short.
 
-[![version](https://img.shields.io/github/tag/tendermint/tendermint.svg)](https://github.com/tendermint/tendermint/releases/latest)
+[![version](https://img.shields.io/github/tag/teragrid/teragrid.svg)](https://github.com/teragrid/teragrid/releases/latest)
 [![API Reference](
-https://camo.githubusercontent.com/915b7be44ada53c290eb157634330494ebe3e30a/68747470733a2f2f676f646f632e6f72672f6769746875622e636f6d2f676f6c616e672f6764646f3f7374617475732e737667
-)](https://godoc.org/github.com/tendermint/tendermint)
+https://teragrid.network/api/docs
+)](https://godoc.org/github.com/teragrid/teragrid)
 [![Go version](https://img.shields.io/badge/go-1.9.2-blue.svg)](https://github.com/moovweb/gvm)
 [![Rocket.Chat](https://demo.rocket.chat/images/join-chat.svg)](https://cosmos.rocket.chat/)
 [![license](https://img.shields.io/github/license/tendermint/tendermint.svg)](https://github.com/tendermint/tendermint/blob/master/LICENSE)
@@ -16,15 +16,15 @@ https://camo.githubusercontent.com/915b7be44ada53c290eb157634330494ebe3e30a/6874
 
 Branch    | Tests | Coverage
 ----------|-------|----------
-master    | [![CircleCI](https://circleci.com/gh/tendermint/tendermint/tree/master.svg?style=shield)](https://circleci.com/gh/tendermint/tendermint/tree/master) | [![codecov](https://codecov.io/gh/tendermint/tendermint/branch/master/graph/badge.svg)](https://codecov.io/gh/tendermint/tendermint)
-develop   | [![CircleCI](https://circleci.com/gh/tendermint/tendermint/tree/develop.svg?style=shield)](https://circleci.com/gh/tendermint/tendermint/tree/develop) | [![codecov](https://codecov.io/gh/tendermint/tendermint/branch/develop/graph/badge.svg)](https://codecov.io/gh/tendermint/tendermint)
+master    | [![CircleCI](https://circleci.com/gh/teragrid/teragrid/tree/master.svg?style=shield)](https://circleci.com/gh/teragrid/teragrid/tree/master) | [![codecov](https://codecov.io/gh/teragrid/teragrid/branch/master/graph/badge.svg)](https://codecov.io/gh/teragrid/teragrid)
+develop   | [![CircleCI](https://circleci.com/gh/teragrid/teragrid/tree/develop.svg?style=shield)](https://circleci.com/gh/teragrid/teragrid/tree/develop) | [![codecov](https://codecov.io/gh/teragrid/teragrid/branch/develop/graph/badge.svg)](https://codecov.io/gh/teragrid/teragrid)
 
 _NOTE: This is alpha software. Please contact us if you intend to run it in production._
 
-Tendermint Core is Byzantine Fault Tolerant (BFT) middleware that takes a state transition machine - written in any programming language -
+Teragrid Core is Byzantine Fault Tolerant (BFT) middleware that takes a state transition machine - written in any programming language -
 and securely replicates it on many machines.
 
-For more information, from introduction to install to application development, [Read The Docs](https://tendermint.readthedocs.io/en/master/).
+For more information, from introduction to install to application development, [Read The Docs](https://teragrid.readthedocs.io/en/master/).
 
 ## Minimum requirements
 
@@ -34,43 +34,40 @@ Go version | Go1.9 or higher
 
 ## Install
 
-To download pre-built binaries, see our [downloads page](https://tendermint.com/downloads).
+To download pre-built binaries, see our [downloads page](https://teragrid.network/downloads).
 
 To install from source, you should be able to:
 
-`go get -u github.com/tendermint/tendermint/cmd/tendermint`
+`go get -u github.com/teragrid/teragrid/cmd/teragrid`
 
-For more details (or if it fails), [read the docs](https://tendermint.readthedocs.io/en/master/install.html).
+For more details (or if it fails), [read the docs](https://teragrid.readthedocs.io/en/master/install.html).
 
 ## Resources
 
-### Tendermint Core
+### Teragrid Core
 
-All resources involving the use of, building application on, or developing for, tendermint, can be found at [Read The Docs](https://tendermint.readthedocs.io/en/master/). Additional information about some - and eventually all - of the sub-projects below, can be found at Read The Docs.
+All resources involving the use of, building application on, or developing for, tendermint, can be found at [Read The Docs](https://teragrid.readthedocs.io/en/master/). Additional information about some - and eventually all - of the sub-projects below, can be found at Read The Docs.
 
 ### Sub-projects
 
-* [ABCI](http://github.com/tendermint/abci), the Application Blockchain Interface
-* [Go-Wire](http://github.com/tendermint/go-wire), a deterministic serialization library
-* [Go-Crypto](http://github.com/tendermint/go-crypto), an elliptic curve cryptography library
-* [TmLibs](http://github.com/tendermint/tmlibs), an assortment of Go libraries used internally
-* [IAVL](http://github.com/tendermint/iavl), Merkleized IAVL+ Tree implementation
+* [Asura](http://github.com/teragrid/asura), the Application Blockchain Interface
+* [Parkhill](http://github.com/teragrid/parkhill), a D-Apps MVC Framwork for rapid development and adoptation 
 
 ### Tools
-* [Deployment, Benchmarking, and Monitoring](http://tendermint.readthedocs.io/projects/tools/en/develop/index.html#tendermint-tools)
+* [Deployment, Benchmarking, and Monitoring](http://teragrid.readthedocs.io/projects/tools/en/develop/index.html#teragrid-tools)
 
 ### Applications
 
-* [Ethermint](http://github.com/tendermint/ethermint); Ethereum on Tendermint
-* [Cosmos SDK](http://github.com/cosmos/cosmos-sdk); a cryptocurrency application framework
-* [Many more](https://tendermint.readthedocs.io/en/master/ecosystem.html#abci-applications)
+* [TeraReal](http://github.com/teragrid/terareal); A real estate platform on Teragrid
+* [TeraCoin](http://github.com/teragrid/teracoin); Teragrid cryptocurrency
+* [TeraWallet](http://github.com/teragrid/terawallet); Teragrid wallet
+* [TeraTalk](http://github.com/teragrid/teratalk); A Secure Message Platform Integrated in Teragrid
+* [Many more](https://teragrid.readthedocs.io/en/master/ecosystem.html)
 
 ### More
 
-* [Master's Thesis on Tendermint](https://atrium.lib.uoguelph.ca/xmlui/handle/10214/9769)
-* [Original Whitepaper](https://tendermint.com/static/docs/tendermint.pdf)
-* [Tendermint Blog](https://blog.cosmos.network/tendermint/home)
-* [Cosmos Blog](https://blog.cosmos.network)
+* [Original Whitepaper](https://teragrid.network/static/docs/teragrid-whitepaper.pdf)
+* [Teragrid Blog](https://blog.teragrid.network/teragrid/home)
 
 ## Contributing
 
@@ -80,10 +77,10 @@ Yay open source! Please see our [contributing guidelines](CONTRIBUTING.md).
 
 ### SemVer
 
-Tendermint uses [SemVer](http://semver.org/) to determine when and how the version changes.
+Teragrid uses [SemVer](http://semver.org/) to determine when and how the version changes.
 According to SemVer, anything in the public API can change at any time before version 1.0.0
 
-To provide some stability to Tendermint users in these 0.X.X days, the MINOR version is used
+To provide some stability to Teragrid users in these 0.X.X days, the MINOR version is used
 to signal breaking changes across a subset of the total public API. This subset includes all
 interfaces exposed to other processes (cli, rpc, p2p, etc.), as well as parts of the following packages:
 
@@ -105,7 +102,7 @@ have to start a new blockchain, or write something custom to get the old
 data into the new chain.
 
 However, any bump in the PATCH version should be compatible with existing histories
-(if not please open an [issue](https://github.com/tendermint/tendermint/issues)).
+(if not please open an [issue](https://github.com/teragrid/teragrid/issues)).
 
 ## Code of Conduct
 

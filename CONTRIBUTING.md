@@ -1,28 +1,28 @@
 # Contributing
 
-Thank you for considering making contributions to Tendermint and related repositories! Start by taking a look at the [coding repo](https://github.com/tendermint/coding) for overall information on repository workflow and standards.
+Thank you for considering making contributions to Teragrid and related repositories! Start by taking a look at the [coding repo](https://github.com/teragrid/coding) for overall information on repository workflow and standards.
 
-Please follow standard github best practices: fork the repo, branch from the tip of develop, make some commits, and submit a pull request to develop. See the [open issues](https://github.com/tendermint/tendermint/issues) for things we need help with!
+Please follow standard github best practices: fork the repo, branch from the tip of develop, make some commits, and submit a pull request to develop. See the [open issues](https://github.com/teragrid/teragrid/issues) for things we need help with!
 
 Please make sure to use `gofmt` before every commit - the easiest way to do this is have your editor run it for you upon saving a file.
 
 ## Forking
 
 Please note that Go requires code to live under absolute paths, which complicates forking.
-While my fork lives at `https://github.com/ebuchman/tendermint`,
-the code should never exist at  `$GOPATH/src/github.com/ebuchman/tendermint`.
+While my fork lives at `https://github.com/ebuchman/teragrid`,
+the code should never exist at  `$GOPATH/src/github.com/ebuchman/teragrid`.
 Instead, we use `git remote` to add the fork as a new remote for the original repo,
-`$GOPATH/src/github.com/tendermint/tendermint `, and do all the work there.
+`$GOPATH/src/github.com/teragrid/teragrid `, and do all the work there.
 
 For instance, to create a fork and work on a branch of it, I would:
 
   * Create the fork on github, using the fork button.
-  * Go to the original repo checked out locally (ie. `$GOPATH/src/github.com/tendermint/tendermint`)
+  * Go to the original repo checked out locally (ie. `$GOPATH/src/github.com/teragrid/teragrid`)
   * `git remote rename origin upstream`
   * `git remote add origin git@github.com:ebuchman/basecoin.git`
 
-Now `origin` refers to my fork and `upstream` refers to the tendermint version.
-So I can `git push -u origin master` to update my fork, and make pull requests to tendermint from there.
+Now `origin` refers to my fork and `upstream` refers to the teragrid version.
+So I can `git push -u origin master` to update my fork, and make pull requests to teragrid from there.
 Of course, replace `ebuchman` with your git handle.
 
 To pull in updates from the origin repo, run
@@ -36,7 +36,7 @@ Please don't make Pull Requests to `master`.
 
 We use [dep](https://github.com/golang/dep) to manage dependencies.
 
-That said, the master branch of every Tendermint repository should just build
+That said, the master branch of every Teragrid repository should just build
 with `go get`, which means they should be kept up-to-date with their
 dependencies so we can get away with telling people they can just `go get` our
 software.
@@ -53,7 +53,7 @@ up-to-date.
 ## Vagrant
 
 If you are a [Vagrant](https://www.vagrantup.com/) user, you can get started
-hacking Tendermint with the commands below.
+hacking Teragrid with the commands below.
 
 NOTE: In case you installed Vagrant in 2017, you might need to run
 `vagrant box update` to upgrade to the latest `ubuntu/xenial64`.
@@ -79,13 +79,13 @@ User-facing repos should adhere to the branching model: http://nvie.com/posts/a-
 That is, these repos should be well versioned, and any merge to master requires a version bump and tagged release.
 
 Libraries need not follow the model strictly, but would be wise to,
-especially `go-p2p` and `go-rpc`, as their versions are referenced in tendermint core.
+especially `go-p2p` and `go-rpc`, as their versions are referenced in teragrid core.
 
 ### Development Procedure:
 - the latest state of development is on `develop`
 - `develop` must never fail `make test`
 - no --force onto `develop` (except when reverting a broken commit, which should seldom happen)
-- create a development branch either on github.com/tendermint/tendermint, or your fork (using `git add origin`)
+- create a development branch either on github.com/teragrid/teragrid, or your fork (using `git add origin`)
 - before submitting a pull request, begin `git rebase` on top of `develop`
 
 ### Pull Merge Procedure:
