@@ -9,14 +9,14 @@ import (
 
 	"github.com/pkg/errors"
 
-	amino "github.com/tendermint/go-amino"
-	cmn "github.com/tendermint/tmlibs/common"
-	"github.com/tendermint/tmlibs/log"
+	amino "github.com/teragrid/go-amino"
+	cmn "github.com/teragrid/teralibs/common"
+	"github.com/teragrid/teralibs/log"
 
-	cstypes "github.com/tendermint/tendermint/consensus/types"
-	"github.com/tendermint/tendermint/p2p"
-	sm "github.com/tendermint/tendermint/state"
-	"github.com/tendermint/tendermint/types"
+	cstypes "github.com/teragrid/teragrid/consensus/types"
+	"github.com/teragrid/teragrid/p2p"
+	sm "github.com/teragrid/teragrid/state"
+	"github.com/teragrid/teragrid/types"
 )
 
 const (
@@ -1310,16 +1310,16 @@ type ConsensusMessage interface{}
 
 func RegisterConsensusMessages(cdc *amino.Codec) {
 	cdc.RegisterInterface((*ConsensusMessage)(nil), nil)
-	cdc.RegisterConcrete(&NewRoundStepMessage{}, "tendermint/NewRoundStepMessage", nil)
-	cdc.RegisterConcrete(&CommitStepMessage{}, "tendermint/CommitStep", nil)
-	cdc.RegisterConcrete(&ProposalMessage{}, "tendermint/Proposal", nil)
-	cdc.RegisterConcrete(&ProposalPOLMessage{}, "tendermint/ProposalPOL", nil)
-	cdc.RegisterConcrete(&BlockPartMessage{}, "tendermint/BlockPart", nil)
-	cdc.RegisterConcrete(&VoteMessage{}, "tendermint/Vote", nil)
-	cdc.RegisterConcrete(&HasVoteMessage{}, "tendermint/HasVote", nil)
-	cdc.RegisterConcrete(&VoteSetMaj23Message{}, "tendermint/VoteSetMaj23", nil)
-	cdc.RegisterConcrete(&VoteSetBitsMessage{}, "tendermint/VoteSetBits", nil)
-	cdc.RegisterConcrete(&ProposalHeartbeatMessage{}, "tendermint/ProposalHeartbeat", nil)
+	cdc.RegisterConcrete(&NewRoundStepMessage{}, "teragrid/NewRoundStepMessage", nil)
+	cdc.RegisterConcrete(&CommitStepMessage{}, "teragrid/CommitStep", nil)
+	cdc.RegisterConcrete(&ProposalMessage{}, "teragrid/Proposal", nil)
+	cdc.RegisterConcrete(&ProposalPOLMessage{}, "teragrid/ProposalPOL", nil)
+	cdc.RegisterConcrete(&BlockPartMessage{}, "teragrid/BlockPart", nil)
+	cdc.RegisterConcrete(&VoteMessage{}, "teragrid/Vote", nil)
+	cdc.RegisterConcrete(&HasVoteMessage{}, "teragrid/HasVote", nil)
+	cdc.RegisterConcrete(&VoteSetMaj23Message{}, "teragrid/VoteSetMaj23", nil)
+	cdc.RegisterConcrete(&VoteSetBitsMessage{}, "teragrid/VoteSetBits", nil)
+	cdc.RegisterConcrete(&ProposalHeartbeatMessage{}, "teragrid/ProposalHeartbeat", nil)
 }
 
 // DecodeMessage decodes the given bytes into a ConsensusMessage.

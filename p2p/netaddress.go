@@ -1,4 +1,4 @@
-// Modified for Tendermint
+// Modified for teragrid
 // Originally Copyright (c) 2013-2014 Conformal Systems LLC.
 // https://github.com/conformal/btcd/blob/master/LICENSE
 
@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	cmn "github.com/tendermint/tmlibs/common"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 // NetAddress defines information about a peer on the network

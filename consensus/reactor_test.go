@@ -10,14 +10,14 @@ import (
 	"testing"
 	"time"
 
-	"github.com/tendermint/abci/example/kvstore"
-	cmn "github.com/tendermint/tmlibs/common"
-	"github.com/tendermint/tmlibs/log"
+	"github.com/teragrid/asura/example/kvstore"
+	cmn "github.com/teragrid/teralibs/common"
+	"github.com/teragrid/teralibs/log"
 
-	cfg "github.com/tendermint/tendermint/config"
-	"github.com/tendermint/tendermint/p2p"
-	p2pdummy "github.com/tendermint/tendermint/p2p/dummy"
-	"github.com/tendermint/tendermint/types"
+	cfg "github.com/teragrid/teragrid/config"
+	"github.com/teragrid/teragrid/p2p"
+	p2pdummy "github.com/teragrid/teragrid/p2p/dummy"
+	"github.com/teragrid/teragrid/types"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

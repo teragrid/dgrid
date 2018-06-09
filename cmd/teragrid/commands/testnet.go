@@ -10,11 +10,11 @@ import (
 
 	"github.com/spf13/cobra"
 
-	cfg "github.com/tendermint/tendermint/config"
-	"github.com/tendermint/tendermint/p2p"
-	"github.com/tendermint/tendermint/types"
-	pvm "github.com/tendermint/tendermint/types/priv_validator"
-	cmn "github.com/tendermint/tmlibs/common"
+	cfg "github.com/teragrid/teragrid/config"
+	"github.com/teragrid/teragrid/p2p"
+	"github.com/teragrid/teragrid/types"
+	pvm "github.com/teragrid/teragrid/types/priv_validator"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 var (
@@ -53,10 +53,10 @@ func init() {
 		"P2P Port")
 }
 
-// TestnetFilesCmd allows initialisation of files for a Tendermint testnet.
+// TestnetFilesCmd allows initialisation of files for a teragrid testnet.
 var TestnetFilesCmd = &cobra.Command{
 	Use:   "testnet",
-	Short: "Initialize files for a Tendermint testnet",
+	Short: "Initialize files for a teragrid testnet",
 	RunE:  testnetFiles,
 }
 

@@ -5,8 +5,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/tendermint/tendermint/p2p"
-	cmn "github.com/tendermint/tmlibs/common"
+	"github.com/teragrid/teragrid/p2p"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 // GenNodeKeyCmd allows the generation of a node key. It prints node's ID to

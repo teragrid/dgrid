@@ -12,9 +12,9 @@ import (
 // generate the config.toml. Please reflect any changes
 // made here in the defaultConfigTemplate constant in
 // config/toml.go
-// NOTE: tmlibs/cli must know to look in the config dir!
+// NOTE: teralibs/cli must know to look in the config dir!
 var (
-	DefaultTendermintDir = ".tendermint"
+	DefaultteragridDir = ".teragrid"
 	defaultConfigDir     = "config"
 	defaultDataDir       = "data"
 
@@ -32,7 +32,7 @@ var (
 	defaultAddrBookPath    = filepath.Join(defaultConfigDir, defaultAddrBookName)
 )
 
-// Config defines the top level configuration for a Tendermint node
+// Config defines the top level configuration for a teragrid node
 type Config struct {
 	// Top level options use an anonymous struct
 	BaseConfig `mapstructure:",squash"`
@@ -45,7 +45,7 @@ type Config struct {
 	TxIndex   *TxIndexConfig   `mapstructure:"tx_index"`
 }
 
-// DefaultConfig returns a default configuration for a Tendermint node
+// DefaultConfig returns a default configuration for a teragrid node
 func DefaultConfig() *Config {
 	return &Config{
 		BaseConfig: DefaultBaseConfig(),
@@ -82,7 +82,7 @@ func (cfg *Config) SetRoot(root string) *Config {
 //-----------------------------------------------------------------------------
 // BaseConfig
 
-// BaseConfig defines the base configuration for a Tendermint node
+// BaseConfig defines the base configuration for a teragrid node
 type BaseConfig struct {
 
 	// chainID is unexposed and immutable but here for convenience
@@ -104,16 +104,16 @@ type BaseConfig struct {
 	// A custom human readable name for this node
 	Moniker string `mapstructure:"moniker"`
 
-	// TCP or UNIX socket address for Tendermint to listen on for
+	// TCP or UNIX socket address for teragrid to listen on for
 	// connections from an external PrivValidator process
 	PrivValidatorListenAddr string `mapstructure:"priv_validator_laddr"`
 
-	// TCP or UNIX socket address of the ABCI application,
-	// or the name of an ABCI application compiled in with the Tendermint binary
+	// TCP or UNIX socket address of the asura application,
+	// or the name of an asura application compiled in with the teragrid binary
 	ProxyApp string `mapstructure:"proxy_app"`
 
-	// Mechanism to connect to the ABCI application: socket | grpc
-	ABCI string `mapstructure:"abci"`
+	// Mechanism to connect to the asura application: socket | grpc
+	asura string `mapstructure:"asura"`
 
 	// Output level for logging
 	LogLevel string `mapstructure:"log_level"`
@@ -126,7 +126,7 @@ type BaseConfig struct {
 	// and verifying their commits
 	FastSync bool `mapstructure:"fast_sync"`
 
-	// If true, query the ABCI app on connecting to a new peer
+	// If true, query the asura app on connecting to a new peer
 	// so the app can decide if we should keep the connection or not
 	FilterPeers bool `mapstructure:"filter_peers"` // false
 
@@ -137,7 +137,7 @@ type BaseConfig struct {
 	DBPath string `mapstructure:"db_dir"`
 }
 
-// DefaultBaseConfig returns a default base configuration for a Tendermint node
+// DefaultBaseConfig returns a default base configuration for a teragrid node
 func DefaultBaseConfig() BaseConfig {
 	return BaseConfig{
 		Genesis:           defaultGenesisJSONPath,
@@ -145,7 +145,7 @@ func DefaultBaseConfig() BaseConfig {
 		NodeKey:           defaultNodeKeyPath,
 		Moniker:           defaultMoniker,
 		ProxyApp:          "tcp://127.0.0.1:46658",
-		ABCI:              "socket",
+		asura:              "socket",
 		LogLevel:          DefaultPackageLogLevels(),
 		ProfListenAddress: "",
 		FastSync:          true,
@@ -155,10 +155,10 @@ func DefaultBaseConfig() BaseConfig {
 	}
 }
 
-// TestBaseConfig returns a base configuration for testing a Tendermint node
+// TestBaseConfig returns a base configuration for testing a teragrid node
 func TestBaseConfig() BaseConfig {
 	cfg := DefaultBaseConfig()
-	cfg.chainID = "tendermint_test"
+	cfg.chainID = "teragrid_test"
 	cfg.ProxyApp = "kvstore"
 	cfg.FastSync = false
 	cfg.DBBackend = "memdb"
@@ -203,7 +203,7 @@ func DefaultPackageLogLevels() string {
 //-----------------------------------------------------------------------------
 // RPCConfig
 
-// RPCConfig defines the configuration options for the Tendermint RPC server
+// RPCConfig defines the configuration options for the teragrid RPC server
 type RPCConfig struct {
 	RootDir string `mapstructure:"home"`
 
@@ -239,7 +239,7 @@ func TestRPCConfig() *RPCConfig {
 //-----------------------------------------------------------------------------
 // P2PConfig
 
-// P2PConfig defines the configuration options for the Tendermint peer-to-peer networking layer
+// P2PConfig defines the configuration options for the teragrid peer-to-peer networking layer
 type P2PConfig struct {
 	RootDir string `mapstructure:"home"`
 
@@ -328,7 +328,7 @@ func (cfg *P2PConfig) AddrBookFile() string {
 //-----------------------------------------------------------------------------
 // MempoolConfig
 
-// MempoolConfig defines the configuration options for the Tendermint mempool
+// MempoolConfig defines the configuration options for the teragrid mempool
 type MempoolConfig struct {
 	RootDir      string `mapstructure:"home"`
 	Recheck      bool   `mapstructure:"recheck"`
@@ -338,7 +338,7 @@ type MempoolConfig struct {
 	CacheSize    int    `mapstructure:"cache_size"`
 }
 
-// DefaultMempoolConfig returns a default configuration for the Tendermint mempool
+// DefaultMempoolConfig returns a default configuration for the teragrid mempool
 func DefaultMempoolConfig() *MempoolConfig {
 	return &MempoolConfig{
 		Recheck:      true,
@@ -349,7 +349,7 @@ func DefaultMempoolConfig() *MempoolConfig {
 	}
 }
 
-// TestMempoolConfig returns a configuration for testing the Tendermint mempool
+// TestMempoolConfig returns a configuration for testing the teragrid mempool
 func TestMempoolConfig() *MempoolConfig {
 	cfg := DefaultMempoolConfig()
 	cfg.CacheSize = 1000
@@ -364,7 +364,7 @@ func (cfg *MempoolConfig) WalDir() string {
 //-----------------------------------------------------------------------------
 // ConsensusConfig
 
-// ConsensusConfig defines the confuguration for the Tendermint consensus service,
+// ConsensusConfig defines the confuguration for the teragrid consensus service,
 // including timeouts and details about the WAL and the block structure.
 type ConsensusConfig struct {
 	RootDir  string `mapstructure:"home"`

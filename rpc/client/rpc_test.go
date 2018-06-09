@@ -8,11 +8,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	abci "github.com/tendermint/abci/types"
+	asura "github.com/teragrid/asura/types"
 
-	"github.com/tendermint/tendermint/rpc/client"
-	rpctest "github.com/tendermint/tendermint/rpc/test"
-	"github.com/tendermint/tendermint/types"
+	"github.com/teragrid/teragrid/rpc/client"
+	rpctest "github.com/teragrid/teragrid/rpc/test"
+	"github.com/teragrid/teragrid/types"
 )
 
 func getHTTPClient() *client.HTTP {
@@ -47,7 +47,7 @@ func TestInfo(t *testing.T) {
 	for i, c := range GetClients() {
 		// status, err := c.Status()
 		// require.Nil(t, err, "%+v", err)
-		info, err := c.ABCIInfo()
+		info, err := c.asuraInfo()
 		require.Nil(t, err, "%d: %+v", i, err)
 		// TODO: this is not correct - fix merkleeyes!
 		// assert.EqualValues(t, status.SyncInfo.LatestBlockHeight, info.Response.LastBlockHeight)
@@ -109,7 +109,7 @@ func TestGenesisAndValidators(t *testing.T) {
 	}
 }
 
-func TestABCIQuery(t *testing.T) {
+func TestasuraQuery(t *testing.T) {
 	for i, c := range GetClients() {
 		// write something
 		k, v, tx := MakeTxKV()
@@ -119,7 +119,7 @@ func TestABCIQuery(t *testing.T) {
 
 		// wait before querying
 		client.WaitForHeight(c, apph, nil)
-		res, err := c.ABCIQuery("/key", k)
+		res, err := c.asuraQuery("/key", k)
 		qres := res.Response
 		if assert.Nil(t, err) && assert.True(t, qres.IsOK()) {
 			assert.EqualValues(t, v, qres.Value)
@@ -155,7 +155,7 @@ func TestAppCalls(t *testing.T) {
 		if err := client.WaitForHeight(c, apph, nil); err != nil {
 			t.Error(err)
 		}
-		_qres, err := c.ABCIQueryWithOptions("/key", k, client.ABCIQueryOptions{Trusted: true})
+		_qres, err := c.asuraQueryWithOptions("/key", k, client.asuraQueryOptions{Trusted: true})
 		qres := _qres.Response
 		if assert.Nil(err) && assert.True(qres.IsOK()) {
 			// assert.Equal(k, data.GetKey())  // only returned for proofs
@@ -210,7 +210,7 @@ func TestAppCalls(t *testing.T) {
 		assert.Equal(block.Block.LastCommit, commit2.Commit)
 
 		// and we got a proof that works!
-		_pres, err := c.ABCIQueryWithOptions("/key", k, client.ABCIQueryOptions{Trusted: false})
+		_pres, err := c.asuraQueryWithOptions("/key", k, client.asuraQueryOptions{Trusted: false})
 		pres := _pres.Response
 		assert.Nil(err)
 		assert.True(pres.IsOK())
@@ -227,7 +227,7 @@ func TestBroadcastTxSync(t *testing.T) {
 		_, _, tx := MakeTxKV()
 		bres, err := c.BroadcastTxSync(tx)
 		require.Nil(err, "%d: %+v", i, err)
-		require.Equal(bres.Code, abci.CodeTypeOK) // FIXME
+		require.Equal(bres.Code, asura.CodeTypeOK) // FIXME
 
 		require.Equal(initMempoolSize+1, mempool.Size())
 

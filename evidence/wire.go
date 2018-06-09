@@ -1,9 +1,9 @@
 package evidence
 
 import (
-	"github.com/tendermint/go-amino"
-	"github.com/tendermint/go-crypto"
-	"github.com/tendermint/tendermint/types"
+	"github.com/teragrid/go-amino"
+	"github.com/teragrid/go-crypto"
+	"github.com/teragrid/teragrid/types"
 )
 
 var cdc = amino.NewCodec()
@@ -19,7 +19,7 @@ func init() {
 
 func RegisterMockEvidences(cdc *amino.Codec) {
 	cdc.RegisterConcrete(types.MockGoodEvidence{},
-		"tendermint/MockGoodEvidence", nil)
+		"teragrid/MockGoodEvidence", nil)
 	cdc.RegisterConcrete(types.MockBadEvidence{},
-		"tendermint/MockBadEvidence", nil)
+		"teragrid/MockBadEvidence", nil)
 }

@@ -2,7 +2,7 @@ package types
 
 import (
 	"github.com/stretchr/testify/assert"
-	"github.com/tendermint/go-crypto"
+	"github.com/teragrid/go-crypto"
 	"testing"
 )
 

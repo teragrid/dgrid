@@ -5,11 +5,11 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/tendermint/go-amino"
-	"github.com/tendermint/tmlibs/log"
+	"github.com/teragrid/go-amino"
+	"github.com/teragrid/teralibs/log"
 
-	"github.com/tendermint/tendermint/p2p"
-	"github.com/tendermint/tendermint/types"
+	"github.com/teragrid/teragrid/p2p"
+	"github.com/teragrid/teragrid/types"
 )
 
 const (
@@ -142,7 +142,7 @@ type EvidenceMessage interface{}
 func RegisterEvidenceMessages(cdc *amino.Codec) {
 	cdc.RegisterInterface((*EvidenceMessage)(nil), nil)
 	cdc.RegisterConcrete(&EvidenceListMessage{},
-		"tendermint/evidence/EvidenceListMessage", nil)
+		"teragrid/evidence/EvidenceListMessage", nil)
 }
 
 // DecodeMessage decodes a byte-array into a EvidenceMessage.

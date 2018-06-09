@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	dbm "github.com/tendermint/tmlibs/db"
-	"github.com/tendermint/tmlibs/log"
+	dbm "github.com/teragrid/teralibs/db"
+	"github.com/teragrid/teralibs/log"
 )
 
 func TestValidateBlock(t *testing.T) {

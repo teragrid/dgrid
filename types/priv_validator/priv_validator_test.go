@@ -9,9 +9,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tendermint/go-crypto"
-	"github.com/tendermint/tendermint/types"
-	cmn "github.com/tendermint/tmlibs/common"
+	"github.com/teragrid/go-crypto"
+	"github.com/teragrid/teragrid/types"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 func TestGenLoadValidator(t *testing.T) {

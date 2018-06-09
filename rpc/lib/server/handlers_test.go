@@ -12,10 +12,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/tendermint/go-amino"
-	rs "github.com/tendermint/tendermint/rpc/lib/server"
-	types "github.com/tendermint/tendermint/rpc/lib/types"
-	"github.com/tendermint/tmlibs/log"
+	"github.com/teragrid/go-amino"
+	rs "github.com/teragrid/teragrid/rpc/lib/server"
+	types "github.com/teragrid/teragrid/rpc/lib/types"
+	"github.com/teragrid/teralibs/log"
 )
 
 func testMux() *http.ServeMux {
@@ -35,7 +35,7 @@ func statusOK(code int) bool { return code >= 200 && code <= 299 }
 
 // Ensure that nefarious/unintended inputs to `params`
 // do not crash our RPC handlers.
-// See Issue https://github.com/tendermint/tendermint/issues/708.
+// See Issue https://github.com/teragrid/teragrid/issues/708.
 func TestRPCParams(t *testing.T) {
 	mux := testMux()
 	tests := []struct {

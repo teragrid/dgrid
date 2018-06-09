@@ -5,12 +5,12 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/tendermint/go-amino"
-	"github.com/tendermint/tendermint/p2p"
-	sm "github.com/tendermint/tendermint/state"
-	"github.com/tendermint/tendermint/types"
-	cmn "github.com/tendermint/tmlibs/common"
-	"github.com/tendermint/tmlibs/log"
+	"github.com/teragrid/go-amino"
+	"github.com/teragrid/teragrid/p2p"
+	sm "github.com/teragrid/teragrid/state"
+	"github.com/teragrid/teragrid/types"
+	cmn "github.com/teragrid/teralibs/common"
+	"github.com/teragrid/teralibs/log"
 )
 
 const (
@@ -155,7 +155,7 @@ func (bcR *BlockchainReactor) RemovePeer(peer p2p.Peer, reason interface{}) {
 
 // respondToPeer loads a block and sends it to the requesting peer,
 // if we have it. Otherwise, we'll respond saying we don't have it.
-// According to the Tendermint spec, if all nodes are honest,
+// According to the teragrid spec, if all nodes are honest,
 // no node should be requesting for a block that's non-existent.
 func (bcR *BlockchainReactor) respondToPeer(msg *bcBlockRequestMessage,
 	src p2p.Peer) (queued bool) {
@@ -335,11 +335,11 @@ type BlockchainMessage interface{}
 
 func RegisterBlockchainMessages(cdc *amino.Codec) {
 	cdc.RegisterInterface((*BlockchainMessage)(nil), nil)
-	cdc.RegisterConcrete(&bcBlockRequestMessage{}, "tendermint/mempool/BlockRequest", nil)
-	cdc.RegisterConcrete(&bcBlockResponseMessage{}, "tendermint/mempool/BlockResponse", nil)
-	cdc.RegisterConcrete(&bcNoBlockResponseMessage{}, "tendermint/mempool/NoBlockResponse", nil)
-	cdc.RegisterConcrete(&bcStatusResponseMessage{}, "tendermint/mempool/StatusResponse", nil)
-	cdc.RegisterConcrete(&bcStatusRequestMessage{}, "tendermint/mempool/StatusRequest", nil)
+	cdc.RegisterConcrete(&bcBlockRequestMessage{}, "teragrid/mempool/BlockRequest", nil)
+	cdc.RegisterConcrete(&bcBlockResponseMessage{}, "teragrid/mempool/BlockResponse", nil)
+	cdc.RegisterConcrete(&bcNoBlockResponseMessage{}, "teragrid/mempool/NoBlockResponse", nil)
+	cdc.RegisterConcrete(&bcStatusResponseMessage{}, "teragrid/mempool/StatusResponse", nil)
+	cdc.RegisterConcrete(&bcStatusRequestMessage{}, "teragrid/mempool/StatusRequest", nil)
 }
 
 // DecodeMessage decodes BlockchainMessage.

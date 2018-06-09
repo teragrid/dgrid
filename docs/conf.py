@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Tendermint documentation build configuration file, created by
+# teragrid documentation build configuration file, created by
 # sphinx-quickstart on Mon Aug  7 04:55:09 2017.
 #
 # This file is execfile()d with the current directory set to its
@@ -48,9 +48,9 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Tendermint'
+project = u'teragrid'
 copyright = u'2018, The Authors'
-author = u'Tendermint'
+author = u'teragrid'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -118,7 +118,7 @@ html_sidebars = {
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'Tendermintdoc'
+htmlhelp_basename = 'teragriddoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -145,7 +145,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'Tendermint.tex', u'Tendermint Documentation',
+    (master_doc, 'teragrid.tex', u'teragrid Documentation',
      u'The Authors', 'manual'),
 ]
 
@@ -155,7 +155,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'Tendermint', u'Tendermint Documentation',
+    (master_doc, 'teragrid', u'teragrid Documentation',
      [author], 1)
 ]
 
@@ -166,14 +166,14 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'Tendermint', u'Tendermint Documentation',
-     author, 'Tendermint', 'Byzantine Fault Tolerant Consensus.',
+    (master_doc, 'teragrid', u'teragrid Documentation',
+     author, 'teragrid', 'Byzantine Fault Tolerant Consensus.',
      'Database'),
 ]
 
 # ---- customization -------------------------
 
-tools_repo = "https://raw.githubusercontent.com/tendermint/tools/"
+tools_repo = "https://raw.githubusercontent.com/teragrid/tools/"
 tools_branch = "master"
 
 tools_dir = "./tools"
@@ -197,11 +197,11 @@ urllib.urlretrieve(tools_repo+tools_branch+'/mintnet-kubernetes/assets/t_plus_k.
 
 urllib.urlretrieve(tools_repo+tools_branch+'/terraform-digitalocean/README.rst', filename=tools_dir+'/terraform-digitalocean.rst')
 urllib.urlretrieve(tools_repo+tools_branch+'/tm-bench/README.rst', filename=tools_dir+'/benchmarking.rst')
-urllib.urlretrieve('https://raw.githubusercontent.com/tendermint/tools/master/tm-monitor/README.rst', filename='tools/monitoring.rst')
+urllib.urlretrieve('https://raw.githubusercontent.com/teragrid/tools/master/tm-monitor/README.rst', filename='tools/monitoring.rst')
 
-#### abci spec #################################
+#### asura spec #################################
 
-abci_repo = "https://raw.githubusercontent.com/tendermint/abci/"
-abci_branch = "develop"
+asura_repo = "https://raw.githubusercontent.com/teragrid/asura/"
+asura_branch = "develop"
 
-urllib.urlretrieve(abci_repo+abci_branch+'/specification.rst', filename='abci-spec.rst')
+urllib.urlretrieve(asura_repo+asura_branch+'/specification.rst', filename='asura-spec.rst')

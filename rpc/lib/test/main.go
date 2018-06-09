@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/tendermint/go-amino"
-	rpcserver "github.com/tendermint/tendermint/rpc/lib/server"
-	cmn "github.com/tendermint/tmlibs/common"
-	"github.com/tendermint/tmlibs/log"
+	"github.com/teragrid/go-amino"
+	rpcserver "github.com/teragrid/teragrid/rpc/lib/server"
+	cmn "github.com/teragrid/teralibs/common"
+	"github.com/teragrid/teralibs/log"
 )
 
 var routes = map[string]*rpcserver.RPCFunc{

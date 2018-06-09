@@ -11,10 +11,10 @@ import (
 	"sync/atomic"
 	"time"
 
-	amino "github.com/tendermint/go-amino"
-	cmn "github.com/tendermint/tmlibs/common"
-	flow "github.com/tendermint/tmlibs/flowrate"
-	"github.com/tendermint/tmlibs/log"
+	amino "github.com/teragrid/go-amino"
+	cmn "github.com/teragrid/teralibs/common"
+	flow "github.com/teragrid/teralibs/flowrate"
+	"github.com/teragrid/teralibs/log"
 )
 
 const (
@@ -491,7 +491,7 @@ FOR_LOOP:
 		switch pkt := packet.(type) {
 		case PacketPing:
 			// TODO: prevent abuse, as they cause flush()'s.
-			// https://github.com/tendermint/tendermint/issues/1190
+			// https://github.com/teragrid/teragrid/issues/1190
 			c.Logger.Debug("Receive Ping")
 			select {
 			case c.pong <- struct{}{}:
@@ -760,9 +760,9 @@ type Packet interface {
 
 func RegisterPacket(cdc *amino.Codec) {
 	cdc.RegisterInterface((*Packet)(nil), nil)
-	cdc.RegisterConcrete(PacketPing{}, "tendermint/p2p/PacketPing", nil)
-	cdc.RegisterConcrete(PacketPong{}, "tendermint/p2p/PacketPong", nil)
-	cdc.RegisterConcrete(PacketMsg{}, "tendermint/p2p/PacketMsg", nil)
+	cdc.RegisterConcrete(PacketPing{}, "teragrid/p2p/PacketPing", nil)
+	cdc.RegisterConcrete(PacketPong{}, "teragrid/p2p/PacketPong", nil)
+	cdc.RegisterConcrete(PacketMsg{}, "teragrid/p2p/PacketMsg", nil)
 }
 
 func (_ PacketPing) AssertIsPacket() {}

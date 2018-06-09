@@ -5,8 +5,8 @@ import (
 	"io/ioutil"
 	"time"
 
-	"github.com/tendermint/go-crypto"
-	cmn "github.com/tendermint/tmlibs/common"
+	"github.com/teragrid/go-crypto"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 //------------------------------------------------------------
@@ -19,7 +19,7 @@ type GenesisValidator struct {
 	Name   string        `json:"name"`
 }
 
-// GenesisDoc defines the initial conditions for a tendermint blockchain, in particular its validator set.
+// GenesisDoc defines the initial conditions for a teragrid blockchain, in particular its validator set.
 type GenesisDoc struct {
 	GenesisTime     time.Time          `json:"genesis_time"`
 	ChainID         string             `json:"chain_id"`

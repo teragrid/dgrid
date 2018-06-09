@@ -1,32 +1,32 @@
 package proxy
 
 import (
-	abcicli "github.com/tendermint/abci/client"
-	"github.com/tendermint/abci/types"
+	asuracli "github.com/teragrid/asura/client"
+	"github.com/teragrid/asura/types"
 )
 
 //----------------------------------------------------------------------------------------
-// Enforce which abci msgs can be sent on a connection at the type level
+// Enforce which asura msgs can be sent on a connection at the type level
 
 type AppConnConsensus interface {
-	SetResponseCallback(abcicli.Callback)
+	SetResponseCallback(asuracli.Callback)
 	Error() error
 
 	InitChainSync(types.RequestInitChain) (*types.ResponseInitChain, error)
 
 	BeginBlockSync(types.RequestBeginBlock) (*types.ResponseBeginBlock, error)
-	DeliverTxAsync(tx []byte) *abcicli.ReqRes
+	DeliverTxAsync(tx []byte) *asuracli.ReqRes
 	EndBlockSync(types.RequestEndBlock) (*types.ResponseEndBlock, error)
 	CommitSync() (*types.ResponseCommit, error)
 }
 
 type AppConnMempool interface {
-	SetResponseCallback(abcicli.Callback)
+	SetResponseCallback(asuracli.Callback)
 	Error() error
 
-	CheckTxAsync(tx []byte) *abcicli.ReqRes
+	CheckTxAsync(tx []byte) *asuracli.ReqRes
 
-	FlushAsync() *abcicli.ReqRes
+	FlushAsync() *asuracli.ReqRes
 	FlushSync() error
 }
 
@@ -41,19 +41,19 @@ type AppConnQuery interface {
 }
 
 //-----------------------------------------------------------------------------------------
-// Implements AppConnConsensus (subset of abcicli.Client)
+// Implements AppConnConsensus (subset of asuracli.Client)
 
 type appConnConsensus struct {
-	appConn abcicli.Client
+	appConn asuracli.Client
 }
 
-func NewAppConnConsensus(appConn abcicli.Client) *appConnConsensus {
+func NewAppConnConsensus(appConn asuracli.Client) *appConnConsensus {
 	return &appConnConsensus{
 		appConn: appConn,
 	}
 }
 
-func (app *appConnConsensus) SetResponseCallback(cb abcicli.Callback) {
+func (app *appConnConsensus) SetResponseCallback(cb asuracli.Callback) {
 	app.appConn.SetResponseCallback(cb)
 }
 
@@ -69,7 +69,7 @@ func (app *appConnConsensus) BeginBlockSync(req types.RequestBeginBlock) (*types
 	return app.appConn.BeginBlockSync(req)
 }
 
-func (app *appConnConsensus) DeliverTxAsync(tx []byte) *abcicli.ReqRes {
+func (app *appConnConsensus) DeliverTxAsync(tx []byte) *asuracli.ReqRes {
 	return app.appConn.DeliverTxAsync(tx)
 }
 
@@ -82,19 +82,19 @@ func (app *appConnConsensus) CommitSync() (*types.ResponseCommit, error) {
 }
 
 //------------------------------------------------
-// Implements AppConnMempool (subset of abcicli.Client)
+// Implements AppConnMempool (subset of asuracli.Client)
 
 type appConnMempool struct {
-	appConn abcicli.Client
+	appConn asuracli.Client
 }
 
-func NewAppConnMempool(appConn abcicli.Client) *appConnMempool {
+func NewAppConnMempool(appConn asuracli.Client) *appConnMempool {
 	return &appConnMempool{
 		appConn: appConn,
 	}
 }
 
-func (app *appConnMempool) SetResponseCallback(cb abcicli.Callback) {
+func (app *appConnMempool) SetResponseCallback(cb asuracli.Callback) {
 	app.appConn.SetResponseCallback(cb)
 }
 
@@ -102,7 +102,7 @@ func (app *appConnMempool) Error() error {
 	return app.appConn.Error()
 }
 
-func (app *appConnMempool) FlushAsync() *abcicli.ReqRes {
+func (app *appConnMempool) FlushAsync() *asuracli.ReqRes {
 	return app.appConn.FlushAsync()
 }
 
@@ -110,18 +110,18 @@ func (app *appConnMempool) FlushSync() error {
 	return app.appConn.FlushSync()
 }
 
-func (app *appConnMempool) CheckTxAsync(tx []byte) *abcicli.ReqRes {
+func (app *appConnMempool) CheckTxAsync(tx []byte) *asuracli.ReqRes {
 	return app.appConn.CheckTxAsync(tx)
 }
 
 //------------------------------------------------
-// Implements AppConnQuery (subset of abcicli.Client)
+// Implements AppConnQuery (subset of asuracli.Client)
 
 type appConnQuery struct {
-	appConn abcicli.Client
+	appConn asuracli.Client
 }
 
-func NewAppConnQuery(appConn abcicli.Client) *appConnQuery {
+func NewAppConnQuery(appConn asuracli.Client) *appConnQuery {
 	return &appConnQuery{
 		appConn: appConn,
 	}

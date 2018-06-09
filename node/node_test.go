@@ -7,10 +7,10 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/tendermint/tmlibs/log"
+	"github.com/teragrid/teralibs/log"
 
-	cfg "github.com/tendermint/tendermint/config"
-	"github.com/tendermint/tendermint/types"
+	cfg "github.com/teragrid/teragrid/config"
+	"github.com/teragrid/teragrid/types"
 )
 
 func TestNodeStartStop(t *testing.T) {

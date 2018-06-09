@@ -7,8 +7,8 @@ import (
 
 	"context"
 
-	"github.com/tendermint/go-wire"
-	"github.com/tendermint/tendermint/rpc/grpc"
+	"github.com/teragrid/go-wire"
+	"github.com/teragrid/teragrid/rpc/grpc"
 )
 
 var grpcAddr = "tcp://localhost:36656"

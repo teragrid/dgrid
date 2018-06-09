@@ -2,7 +2,7 @@
 Specification
 #############
 
-Here you'll find details of the Tendermint specification. Tendermint's types are produced by `godoc <https://godoc.org/github.com/tendermint/tendermint/types>`__.
+Here you'll find details of the teragrid specification. teragrid's types are produced by `godoc <https://godoc.org/github.com/teragrid/teragrid/types>`__.
 
 .. toctree::
    :maxdepth: 2

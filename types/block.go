@@ -8,12 +8,12 @@ import (
 	"sync"
 	"time"
 
-	cmn "github.com/tendermint/tmlibs/common"
-	"github.com/tendermint/tmlibs/merkle"
+	cmn "github.com/teragrid/teralibs/common"
+	"github.com/teragrid/teralibs/merkle"
 	"golang.org/x/crypto/ripemd160"
 )
 
-// Block defines the atomic unit of a Tendermint blockchain.
+// Block defines the atomic unit of a teragrid blockchain.
 // TODO: add Version byte
 type Block struct {
 	mtx        sync.Mutex
@@ -168,9 +168,9 @@ func (b *Block) StringShort() string {
 
 //-----------------------------------------------------------------------------
 
-// Header defines the structure of a Tendermint block header
+// Header defines the structure of a teragrid block header
 // TODO: limit header size
-// NOTE: changes to the Header should be duplicated in the abci Header
+// NOTE: changes to the Header should be duplicated in the asura Header
 type Header struct {
 	// basic block info
 	ChainID string    `json:"chain_id"`

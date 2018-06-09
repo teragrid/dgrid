@@ -1,9 +1,9 @@
 package core_types
 
 import (
-	"github.com/tendermint/go-amino"
-	"github.com/tendermint/go-crypto"
-	"github.com/tendermint/tendermint/types"
+	"github.com/teragrid/go-amino"
+	"github.com/teragrid/go-crypto"
+	"github.com/teragrid/teragrid/types"
 )
 
 func RegisterAmino(cdc *amino.Codec) {

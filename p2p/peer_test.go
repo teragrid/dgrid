@@ -9,9 +9,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	crypto "github.com/tendermint/go-crypto"
-	tmconn "github.com/tendermint/tendermint/p2p/conn"
-	"github.com/tendermint/tmlibs/log"
+	crypto "github.com/teragrid/go-crypto"
+	tmconn "github.com/teragrid/teragrid/p2p/conn"
+	"github.com/teragrid/teralibs/log"
 )
 
 const testCh = 0x01

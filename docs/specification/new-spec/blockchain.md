@@ -1,10 +1,10 @@
-# Tendermint Blockchain
+# teragrid Blockchain
 
-Here we describe the data structures in the Tendermint blockchain and the rules for validating them.
+Here we describe the data structures in the teragrid blockchain and the rules for validating them.
 
 ## Data Structures
 
-The Tendermint blockchains consists of a short list of basic data types:
+The teragrid blockchains consists of a short list of basic data types:
 
 - `Block`
 - `Header`
@@ -50,7 +50,7 @@ type Header struct {
     LastBlockID         BlockID // BlockID of prevBlock
 
     // application
-    ResultsHash         []byte  // SimpleMerkle of []abci.Result from prevBlock
+    ResultsHash         []byte  // SimpleMerkle of []asura.Result from prevBlock
     AppHash             []byte  // Arbitrary state digest
     ValidatorsHash      []byte  // SimpleMerkle of the ValidatorSet
     ConsensusParamsHash []byte  // SimpleMerkle of the ConsensusParams
@@ -108,9 +108,9 @@ a *precommit* has `vote.Type == 2`.
 
 ## Signature
 
-Tendermint allows for multiple signature schemes to be used by prepending a single type-byte
+teragrid allows for multiple signature schemes to be used by prepending a single type-byte
 to the signature bytes. Different signatures may also come with fixed or variable lengths.
-Currently, Tendermint supports Ed25519 and Secp256k1.
+Currently, teragrid supports Ed25519 and Secp256k1.
 
 ### ED25519
 
@@ -391,29 +391,29 @@ The state follows this recursive equation:
 
 ```go
 state(1) = InitialState
-state(h+1) <- Execute(state(h), ABCIApp, block(h))
+state(h+1) <- Execute(state(h), asuraApp, block(h))
 ```
 
 where `InitialState` includes the initial consensus parameters and validator set,
-and `ABCIApp` is an ABCI application that can return results and changes to the validator
+and `asuraApp` is an asura application that can return results and changes to the validator
 set (TODO). Execute is defined as:
 
 ```go
-Execute(s State, app ABCIApp, block Block) State {
+Execute(s State, app asuraApp, block Block) State {
     TODO: just spell out ApplyBlock here
-    and remove ABCIResponses struct.
-    abciResponses := app.ApplyBlock(block)
+    and remove asuraResponses struct.
+    asuraResponses := app.ApplyBlock(block)
 
     return State{
-        LastResults: abciResponses.DeliverTxResults,
-        AppHash: abciResponses.AppHash,
-        Validators: UpdateValidators(state.Validators, abciResponses.ValidatorChanges),
+        LastResults: asuraResponses.DeliverTxResults,
+        AppHash: asuraResponses.AppHash,
+        Validators: UpdateValidators(state.Validators, asuraResponses.ValidatorChanges),
         LastValidators: state.Validators,
-        ConsensusParams: UpdateConsensusParams(state.ConsensusParams, abci.Responses.ConsensusParamChanges),
+        ConsensusParams: UpdateConsensusParams(state.ConsensusParams, asura.Responses.ConsensusParamChanges),
     }
 }
 
-type ABCIResponses struct {
+type asuraResponses struct {
     DeliverTxResults        []Result
     ValidatorChanges        []Validator
     ConsensusParamChanges   ConsensusParams

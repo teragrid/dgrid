@@ -229,7 +229,7 @@
   revision = "714f901b98fdb3aa954b4193d8cbd64a28d80cad"
 
 [[projects]]
-  name = "github.com/tendermint/abci"
+  name = "github.com/teragrid/asura"
   packages = [
     "client",
     "example/code",
@@ -243,7 +243,7 @@
 
 [[projects]]
   branch = "master"
-  name = "github.com/tendermint/ed25519"
+  name = "github.com/teragrid/ed25519"
   packages = [
     ".",
     "edwards25519",
@@ -252,25 +252,25 @@
   revision = "d8387025d2b9d158cf4efb07e7ebf814bcce2057"
 
 [[projects]]
-  name = "github.com/tendermint/go-amino"
+  name = "github.com/teragrid/go-amino"
   packages = ["."]
   revision = "42246108ff925a457fb709475070a03dfd3e2b5c"
   version = "0.9.6"
 
 [[projects]]
-  name = "github.com/tendermint/go-crypto"
+  name = "github.com/teragrid/go-crypto"
   packages = ["."]
   revision = "915416979bf70efa4bcbf1c6cd5d64c5fff9fc19"
   version = "v0.6.2"
 
 [[projects]]
-  name = "github.com/tendermint/go-wire"
+  name = "github.com/teragrid/go-wire"
   packages = ["."]
   revision = "fa721242b042ecd4c6ed1a934ee740db4f74e45c"
   version = "v0.7.3"
 
 [[projects]]
-  name = "github.com/tendermint/tmlibs"
+  name = "github.com/teragrid/teralibs"
   packages = [
     "autofile",
     "cli",

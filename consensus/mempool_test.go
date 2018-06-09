@@ -8,11 +8,11 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/tendermint/abci/example/code"
-	abci "github.com/tendermint/abci/types"
-	cmn "github.com/tendermint/tmlibs/common"
+	"github.com/teragrid/asura/example/code"
+	asura "github.com/teragrid/asura/types"
+	cmn "github.com/teragrid/teralibs/common"
 
-	"github.com/tendermint/tendermint/types"
+	"github.com/teragrid/teragrid/types"
 )
 
 func init() {
@@ -135,9 +135,9 @@ func TestMempoolRmBadTx(t *testing.T) {
 	checkTxRespCh := make(chan struct{})
 	go func() {
 		// Try to send the tx through the mempool.
-		// CheckTx should not err, but the app should return a bad abci code
+		// CheckTx should not err, but the app should return a bad asura code
 		// and the tx should get removed from the pool
-		err := cs.mempool.CheckTx(txBytes, func(r *abci.Response) {
+		err := cs.mempool.CheckTx(txBytes, func(r *asura.Response) {
 			if r.GetCheckTx().Code != code.CodeTypeBadNonce {
 				t.Fatalf("expected checktx to return bad nonce, got %v", r)
 			}
@@ -179,7 +179,7 @@ func TestMempoolRmBadTx(t *testing.T) {
 
 // CounterApplication that maintains a mempool state and resets it upon commit
 type CounterApplication struct {
-	abci.BaseApplication
+	asura.BaseApplication
 
 	txCount        int
 	mempoolTxCount int
@@ -189,30 +189,30 @@ func NewCounterApplication() *CounterApplication {
 	return &CounterApplication{}
 }
 
-func (app *CounterApplication) Info(req abci.RequestInfo) abci.ResponseInfo {
-	return abci.ResponseInfo{Data: cmn.Fmt("txs:%v", app.txCount)}
+func (app *CounterApplication) Info(req asura.RequestInfo) asura.ResponseInfo {
+	return asura.ResponseInfo{Data: cmn.Fmt("txs:%v", app.txCount)}
 }
 
-func (app *CounterApplication) DeliverTx(tx []byte) abci.ResponseDeliverTx {
+func (app *CounterApplication) DeliverTx(tx []byte) asura.ResponseDeliverTx {
 	txValue := txAsUint64(tx)
 	if txValue != uint64(app.txCount) {
-		return abci.ResponseDeliverTx{
+		return asura.ResponseDeliverTx{
 			Code: code.CodeTypeBadNonce,
 			Log:  fmt.Sprintf("Invalid nonce. Expected %v, got %v", app.txCount, txValue)}
 	}
 	app.txCount++
-	return abci.ResponseDeliverTx{Code: code.CodeTypeOK}
+	return asura.ResponseDeliverTx{Code: code.CodeTypeOK}
 }
 
-func (app *CounterApplication) CheckTx(tx []byte) abci.ResponseCheckTx {
+func (app *CounterApplication) CheckTx(tx []byte) asura.ResponseCheckTx {
 	txValue := txAsUint64(tx)
 	if txValue != uint64(app.mempoolTxCount) {
-		return abci.ResponseCheckTx{
+		return asura.ResponseCheckTx{
 			Code: code.CodeTypeBadNonce,
 			Log:  fmt.Sprintf("Invalid nonce. Expected %v, got %v", app.mempoolTxCount, txValue)}
 	}
 	app.mempoolTxCount++
-	return abci.ResponseCheckTx{Code: code.CodeTypeOK}
+	return asura.ResponseCheckTx{Code: code.CodeTypeOK}
 }
 
 func txAsUint64(tx []byte) uint64 {
@@ -221,12 +221,12 @@ func txAsUint64(tx []byte) uint64 {
 	return binary.BigEndian.Uint64(tx8)
 }
 
-func (app *CounterApplication) Commit() abci.ResponseCommit {
+func (app *CounterApplication) Commit() asura.ResponseCommit {
 	app.mempoolTxCount = app.txCount
 	if app.txCount == 0 {
-		return abci.ResponseCommit{}
+		return asura.ResponseCommit{}
 	}
 	hash := make([]byte, 8)
 	binary.BigEndian.PutUint64(hash, uint64(app.txCount))
-	return abci.ResponseCommit{Data: hash}
+	return asura.ResponseCommit{Data: hash}
 }

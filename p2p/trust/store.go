@@ -1,4 +1,4 @@
-// Copyright 2017 Tendermint. All rights reserved.
+// Copyright 2018 teragrid. All rights reserved.
 // Use of this source code is governed by Apache 2 LICENSE that can be found in the LICENSE file.
 
 package trust
@@ -8,8 +8,8 @@ import (
 	"sync"
 	"time"
 
-	cmn "github.com/tendermint/tmlibs/common"
-	dbm "github.com/tendermint/tmlibs/db"
+	cmn "github.com/teragrid/teralibs/common"
+	dbm "github.com/teragrid/teralibs/db"
 )
 
 const defaultStorePeriodicSaveInterval = 1 * time.Minute

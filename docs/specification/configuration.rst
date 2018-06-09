@@ -1,7 +1,7 @@
 Configuration
 =============
 
-Tendermint Core can be configured via a TOML file in
+teragrid Core can be configured via a TOML file in
 ``$TMHOME/config/config.toml``. Some of these parameters can be overridden by
 command-line flags. For most users, the options in the ``##### main
 base configuration options #####`` are intended to be modified while
@@ -10,10 +10,10 @@ config options further below are intended for advance power users.
 Config options
 ~~~~~~~~~~~~~~
 
-The default configuration file create by ``tendermint init`` has all
+The default configuration file create by ``teragrid init`` has all
 the parameters set with their default values. It will look something
 like the file below, however, double check by inspecting the
-``config.toml`` created with your version of ``tendermint`` installed:
+``config.toml`` created with your version of ``teragrid`` installed:
 
 ::
 
@@ -22,8 +22,8 @@ like the file below, however, double check by inspecting the
 
     ##### main base config options #####
 
-    # TCP or UNIX socket address of the ABCI application,
-    # or the name of an ABCI application compiled in with the Tendermint binary
+    # TCP or UNIX socket address of the asura application,
+    # or the name of an asura application compiled in with the teragrid binary
     proxy_app = "tcp://127.0.0.1:46658"
 
     # A custom human readable name for this node
@@ -54,13 +54,13 @@ like the file below, however, double check by inspecting the
     # Path to the JSON file containing the private key to use as a validator in the consensus protocol
     priv_validator_file = "priv_validator.json"
 
-    # Mechanism to connect to the ABCI application: socket | grpc
-    abci = "socket"
+    # Mechanism to connect to the asura application: socket | grpc
+    asura = "socket"
 
     # TCP or UNIX socket address for the profiling server to listen on
     prof_laddr = ""
 
-    # If true, query the ABCI app on connecting to a new peer
+    # If true, query the asura app on connecting to a new peer
     # so the app can decide if we should keep the connection or not
     filter_peers = false
 

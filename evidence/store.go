@@ -3,8 +3,8 @@ package evidence
 import (
 	"fmt"
 
-	"github.com/tendermint/tendermint/types"
-	dbm "github.com/tendermint/tmlibs/db"
+	"github.com/teragrid/teragrid/types"
+	dbm "github.com/teragrid/teralibs/db"
 )
 
 /*

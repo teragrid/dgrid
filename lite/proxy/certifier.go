@@ -1,9 +1,9 @@
 package proxy
 
 import (
-	"github.com/tendermint/tendermint/lite"
-	certclient "github.com/tendermint/tendermint/lite/client"
-	"github.com/tendermint/tendermint/lite/files"
+	"github.com/teragrid/teragrid/lite"
+	certclient "github.com/teragrid/teragrid/lite/client"
+	"github.com/teragrid/teragrid/lite/files"
 )
 
 func GetCertifier(chainID, rootDir, nodeAddr string) (*lite.InquiringCertifier, error) {

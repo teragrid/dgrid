@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	pvm "github.com/tendermint/tendermint/types/priv_validator"
+	pvm "github.com/teragrid/teragrid/types/priv_validator"
 )
 
 // GenValidatorCmd allows the generation of a keypair for a

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 
-	privval "github.com/tendermint/tendermint/types/priv_validator"
+	privval "github.com/teragrid/teragrid/types/priv_validator"
 )
 
 // ShowValidatorCmd adds capabilities for showing the validator info.

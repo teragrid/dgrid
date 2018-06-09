@@ -6,11 +6,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/tendermint/tendermint/lite"
-	liteErr "github.com/tendermint/tendermint/lite/errors"
-	rpcclient "github.com/tendermint/tendermint/rpc/client"
-	rpctest "github.com/tendermint/tendermint/rpc/test"
-	"github.com/tendermint/tendermint/types"
+	"github.com/teragrid/teragrid/lite"
+	liteErr "github.com/teragrid/teragrid/lite/errors"
+	rpcclient "github.com/teragrid/teragrid/rpc/client"
+	rpctest "github.com/teragrid/teragrid/rpc/test"
+	"github.com/teragrid/teragrid/types"
 )
 
 func TestProvider(t *testing.T) {

@@ -1,17 +1,17 @@
 # Light client
 
-A light client is a process that connects to the Tendermint Full Node(s) and then tries to verify the Merkle proofs 
-about the blockchain application. In this document we describe mechanisms that ensures that the Tendermint light client 
+A light client is a process that connects to the teragrid Full Node(s) and then tries to verify the Merkle proofs 
+about the blockchain application. In this document we describe mechanisms that ensures that the teragrid light client 
 has the same level of security as Full Node processes (without being itself a Full Node). 
 
 To be able to validate a Merkle proof, a light client needs to validate the blockchain header that contains the root app hash. 
-Validating a blockchain header in Tendermint consists in verifying that the header is committed (signed) by >2/3 of the 
+Validating a blockchain header in teragrid consists in verifying that the header is committed (signed) by >2/3 of the 
 voting power of the corresponding validator set. As the validator set is a dynamic set (it is changing), one of the 
 core functionality of the light client is updating the current validator set, that is then used to verify the 
 blockchain header, and further the corresponding Merkle proofs. 
 
-For the purpose of this light client specification, we assume that the Tendermint Full Node exposes the following functions over
-Tendermint RPC:
+For the purpose of this light client specification, we assume that the teragrid Full Node exposes the following functions over
+teragrid RPC:
 
 ```golang
 Header(height int64) (SignedHeader, error) // returns signed header for the given height
@@ -32,8 +32,8 @@ type ResultValidators struct {
 }
 ```
 
-We assume that Tendermint keeps track of the validator set changes and that each time a validator set is changed it is 
-being assigned the next sequence number. We can call this number the validator set sequence number. Tendermint also remembers 
+We assume that teragrid keeps track of the validator set changes and that each time a validator set is changed it is 
+being assigned the next sequence number. We can call this number the validator set sequence number. teragrid also remembers 
 the Time from the header when the next validator set is initialised (starts to be in power), and we refer to this time
 as validator set init time.
 Furthermore, we assume that each validator set change is signed (committed) by the current validator set. More precisely,
@@ -41,7 +41,7 @@ given a block `H` that contains transactions that are modifying the current vali
 validator set (modified based on transactions from block H) will be in block `H+1` (and signed by the current validator 
 set), and then starting from the block `H+2`, it will be signed by the next validator set.    
 
-Note that the real Tendermint RPC API is slightly different (for example, response messages contain more data and function 
+Note that the real teragrid RPC API is slightly different (for example, response messages contain more data and function 
 names are slightly different); we shortened (and modified) it for the purpose of this document to make the spec more 
 clear and simple. Furthermore, note that in case of the third function, the returned header has `ValSetNumber` equals to 
 `valSetNumber+1`.    

@@ -8,9 +8,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/tendermint/go-crypto"
-	"github.com/tendermint/tendermint/types"
-	cmn "github.com/tendermint/tmlibs/common"
+	"github.com/teragrid/go-crypto"
+	"github.com/teragrid/teragrid/types"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 // TODO: type ?

@@ -7,12 +7,12 @@ import (
 	"sync"
 	"time"
 
-	cmn "github.com/tendermint/tmlibs/common"
-	flow "github.com/tendermint/tmlibs/flowrate"
-	"github.com/tendermint/tmlibs/log"
+	cmn "github.com/teragrid/teralibs/common"
+	flow "github.com/teragrid/teralibs/flowrate"
+	"github.com/teragrid/teralibs/log"
 
-	"github.com/tendermint/tendermint/p2p"
-	"github.com/tendermint/tendermint/types"
+	"github.com/teragrid/teragrid/p2p"
+	"github.com/teragrid/teragrid/types"
 )
 
 /*
@@ -358,7 +358,7 @@ func (pool *BlockPool) sendError(err error, peerID p2p.ID) {
 	pool.errorsCh <- peerError{err, peerID}
 }
 
-// unused by tendermint; left for debugging purposes
+// unused by teragrid; left for debugging purposes
 func (pool *BlockPool) debug() string {
 	pool.mtx.Lock() // Lock
 	defer pool.mtx.Unlock()

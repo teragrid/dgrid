@@ -11,14 +11,14 @@ import (
 
 	"github.com/pkg/errors"
 
-	bc "github.com/tendermint/tendermint/blockchain"
-	cfg "github.com/tendermint/tendermint/config"
-	"github.com/tendermint/tendermint/proxy"
-	sm "github.com/tendermint/tendermint/state"
-	"github.com/tendermint/tendermint/types"
-	cmn "github.com/tendermint/tmlibs/common"
-	dbm "github.com/tendermint/tmlibs/db"
-	"github.com/tendermint/tmlibs/log"
+	bc "github.com/teragrid/teragrid/blockchain"
+	cfg "github.com/teragrid/teragrid/config"
+	"github.com/teragrid/teragrid/proxy"
+	sm "github.com/teragrid/teragrid/state"
+	"github.com/teragrid/teragrid/types"
+	cmn "github.com/teragrid/teralibs/common"
+	dbm "github.com/teragrid/teralibs/db"
+	"github.com/teragrid/teralibs/log"
 )
 
 const (
@@ -296,7 +296,7 @@ func newConsensusStateForReplay(config cfg.BaseConfig, csConfig *cfg.ConsensusCo
 	}
 
 	// Create proxyAppConn connection (consensus, mempool, query)
-	clientCreator := proxy.DefaultClientCreator(config.ProxyApp, config.ABCI, config.DBDir())
+	clientCreator := proxy.DefaultClientCreator(config.ProxyApp, config.asura, config.DBDir())
 	proxyApp := proxy.NewAppConns(clientCreator,
 		NewHandshaker(stateDB, state, blockStore, gdoc.AppState()))
 	err = proxyApp.Start()

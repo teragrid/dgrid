@@ -10,17 +10,17 @@ application (running ``kvstore`` locally in this case).
 ::
 
     I[10-04|13:54:27.364] Starting multiAppConn                        module=proxy impl=multiAppConn
-    I[10-04|13:54:27.366] Starting localClient                         module=abci-client connection=query impl=localClient
-    I[10-04|13:54:27.366] Starting localClient                         module=abci-client connection=mempool impl=localClient
-    I[10-04|13:54:27.367] Starting localClient                         module=abci-client connection=consensus impl=localClient
+    I[10-04|13:54:27.366] Starting localClient                         module=asura-client connection=query impl=localClient
+    I[10-04|13:54:27.366] Starting localClient                         module=asura-client connection=mempool impl=localClient
+    I[10-04|13:54:27.367] Starting localClient                         module=asura-client connection=consensus impl=localClient
 
-Then Tendermint Core and the application perform a handshake.
+Then teragrid Core and the application perform a handshake.
 
 ::
 
-    I[10-04|13:54:27.367] ABCI Handshake                               module=consensus appHeight=90 appHash=E0FBAFBF6FCED8B9786DDFEB1A0D4FA2501BADAD
-    I[10-04|13:54:27.368] ABCI Replay Blocks                           module=consensus appHeight=90 storeHeight=90 stateHeight=90
-    I[10-04|13:54:27.368] Completed ABCI Handshake - Tendermint and App are synced module=consensus appHeight=90 appHash=E0FBAFBF6FCED8B9786DDFEB1A0D4FA2501BADAD
+    I[10-04|13:54:27.367] asura Handshake                               module=consensus appHeight=90 appHash=E0FBAFBF6FCED8B9786DDFEB1A0D4FA2501BADAD
+    I[10-04|13:54:27.368] asura Replay Blocks                           module=consensus appHeight=90 storeHeight=90 stateHeight=90
+    I[10-04|13:54:27.368] Completed asura Handshake - teragrid and App are synced module=consensus appHeight=90 appHash=E0FBAFBF6FCED8B9786DDFEB1A0D4FA2501BADAD
 
 After that, we start a few more things like the event switch, reactors, and
 perform UPNP discover in order to detect the IP address.
@@ -40,10 +40,10 @@ perform UPNP discover in order to detect the IP address.
     I[10-04|13:54:30.387] Starting ConsensusReactor                    module=consensus impl=ConsensusReactor
     I[10-04|13:54:30.387] ConsensusReactor                             module=consensus fastSync=false
     I[10-04|13:54:30.387] Starting ConsensusState                      module=consensus impl=ConsensusState
-    I[10-04|13:54:30.387] Starting WAL                                 module=consensus wal=/home/vagrant/.tendermint/data/cs.wal/wal impl=WAL
+    I[10-04|13:54:30.387] Starting WAL                                 module=consensus wal=/home/vagrant/.teragrid/data/cs.wal/wal impl=WAL
     I[10-04|13:54:30.388] Starting TimeoutTicker                       module=consensus impl=TimeoutTicker
 
-Notice the second row where Tendermint Core reports that "This node is a
+Notice the second row where teragrid Core reports that "This node is a
 validator". It also could be just an observer (regular node).
 
 Next we replay all the messages from the WAL.
@@ -113,22 +113,22 @@ or `Byzantine Consensus Algorithm
 List of modules
 ---------------
 
-Here is the list of modules you may encounter in Tendermint's log and a little
+Here is the list of modules you may encounter in teragrid's log and a little
 overview what they do.
 
-- ``abci-client`` As mentioned in `Application Development Guide
-  <app-development.html#abci-design>`__,
-  Tendermint acts as an ABCI client with respect to the application and
+- ``asura-client`` As mentioned in `Application Development Guide
+  <app-development.html#asura-design>`__,
+  teragrid acts as an asura client with respect to the application and
   maintains 3 connections: mempool, consensus and query. The code used by
-  Tendermint Core can be found `here
-  <https://github.com/tendermint/abci/tree/master/client>`__.
+  teragrid Core can be found `here
+  <https://github.com/teragrid/asura/tree/master/client>`__.
 
 - ``blockchain``
   Provides storage, pool (a group of peers), and reactor for both storing and
   exchanging blocks between peers.
 
 - ``consensus``
-  The heart of Tendermint core, which is the implementation of the consensus
+  The heart of teragrid core, which is the implementation of the consensus
   algorithm. Includes two "submodules": ``wal`` (write-ahead logging) for
   ensuring data integrity and ``replay`` to replay blocks and messages on
   recovery from a crash.
@@ -136,7 +136,7 @@ overview what they do.
 - ``events``
   Simple event notification system. The list of events can be found
   `here
-  <https://github.com/tendermint/tendermint/blob/master/types/events.go>`__.
+  <https://github.com/teragrid/teragrid/blob/master/types/events.go>`__.
   You can subscribe to them by calling ``subscribe`` RPC method.
   Refer to `RPC docs
   <specification/rpc.html>`__
@@ -149,13 +149,13 @@ overview what they do.
 - ``p2p``
   Provides an abstraction around peer-to-peer communication. For more details,
   please check out the `README
-  <https://github.com/tendermint/tendermint/blob/56c60fba2381e4ac41d2ae38a1eb6569acfbc095/p2p/README.md>`__.
+  <https://github.com/teragrid/teragrid/blob/56c60fba2381e4ac41d2ae38a1eb6569acfbc095/p2p/README.md>`__.
 
 - ``rpc``
-  `Tendermint's RPC <specification/rpc.html>`__.
+  `teragrid's RPC <specification/rpc.html>`__.
 
 - ``rpc-server``
-  RPC server. For implementation details, please read the `README <https://github.com/tendermint/tendermint/blob/master/rpc/lib/README.md>`__.
+  RPC server. For implementation details, please read the `README <https://github.com/teragrid/teragrid/blob/master/rpc/lib/README.md>`__.
 
 - ``state``
   Represents the latest state and execution submodule, which executes

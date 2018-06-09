@@ -12,13 +12,13 @@ import (
 
 	"github.com/go-kit/kit/log/term"
 
-	"github.com/tendermint/abci/example/kvstore"
-	"github.com/tendermint/tmlibs/log"
+	"github.com/teragrid/asura/example/kvstore"
+	"github.com/teragrid/teralibs/log"
 
-	cfg "github.com/tendermint/tendermint/config"
-	"github.com/tendermint/tendermint/p2p"
-	"github.com/tendermint/tendermint/proxy"
-	"github.com/tendermint/tendermint/types"
+	cfg "github.com/teragrid/teragrid/config"
+	"github.com/teragrid/teragrid/p2p"
+	"github.com/teragrid/teragrid/proxy"
+	"github.com/teragrid/teragrid/types"
 )
 
 // mempoolLogger is a TestingLogger which uses a different

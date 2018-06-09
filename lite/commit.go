@@ -5,9 +5,9 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/tendermint/tendermint/types"
+	"github.com/teragrid/teragrid/types"
 
-	liteErr "github.com/tendermint/tendermint/lite/errors"
+	liteErr "github.com/teragrid/teragrid/lite/errors"
 )
 
 // Certifier checks the votes to make sure the block really is signed properly.
@@ -22,7 +22,7 @@ type Certifier interface {
 // This is the basepoint for proving anything on the blockchain. It contains
 // a signed header.  If the signatures are valid and > 2/3 of the known set,
 // we can store this checkpoint and use it to prove any number of aspects of
-// the system: such as txs, abci state, validator sets, etc...
+// the system: such as txs, asura state, validator sets, etc...
 type Commit types.SignedHeader
 
 // FullCommit is a commit and the actual validator set,

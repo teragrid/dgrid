@@ -6,9 +6,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/tendermint/tendermint/p2p/upnp"
-	cmn "github.com/tendermint/tmlibs/common"
-	"github.com/tendermint/tmlibs/log"
+	"github.com/teragrid/teragrid/p2p/upnp"
+	cmn "github.com/teragrid/teralibs/common"
+	"github.com/teragrid/teralibs/log"
 )
 
 type Listener interface {
@@ -191,7 +191,7 @@ func getUPNPExternalAddress(externalPort, internalPort int, logger log.Logger) *
 		externalPort = defaultExternalPort
 	}
 
-	externalPort, err = nat.AddPortMapping("tcp", externalPort, internalPort, "tendermint", 0)
+	externalPort, err = nat.AddPortMapping("tcp", externalPort, internalPort, "teragrid", 0)
 	if err != nil {
 		logger.Info("Could not add UPNP port mapping", "err", err)
 		return nil

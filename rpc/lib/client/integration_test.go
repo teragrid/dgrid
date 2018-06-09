@@ -14,7 +14,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/require"
-	"github.com/tendermint/tmlibs/log"
+	"github.com/teragrid/teralibs/log"
 )
 
 func TestWSClientReconnectWithJitter(t *testing.T) {

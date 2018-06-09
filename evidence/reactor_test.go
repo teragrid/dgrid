@@ -10,12 +10,12 @@ import (
 
 	"github.com/go-kit/kit/log/term"
 
-	dbm "github.com/tendermint/tmlibs/db"
-	"github.com/tendermint/tmlibs/log"
+	dbm "github.com/teragrid/teralibs/db"
+	"github.com/teragrid/teralibs/log"
 
-	cfg "github.com/tendermint/tendermint/config"
-	"github.com/tendermint/tendermint/p2p"
-	"github.com/tendermint/tendermint/types"
+	cfg "github.com/teragrid/teragrid/config"
+	"github.com/teragrid/teragrid/p2p"
+	"github.com/teragrid/teragrid/types"
 )
 
 // evidenceLogger is a TestingLogger which uses a different

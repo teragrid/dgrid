@@ -3,10 +3,10 @@ package core
 import (
 	"fmt"
 
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
-	"github.com/tendermint/tendermint/state/txindex/null"
-	"github.com/tendermint/tendermint/types"
-	tmquery "github.com/tendermint/tmlibs/pubsub/query"
+	ctypes "github.com/teragrid/teragrid/rpc/core/types"
+	"github.com/teragrid/teragrid/state/txindex/null"
+	"github.com/teragrid/teragrid/types"
+	tmquery "github.com/teragrid/teralibs/pubsub/query"
 )
 
 // Tx allows you to query the transaction results. `nil` could mean the
@@ -65,7 +65,7 @@ import (
 //
 // - `proof`: the `types.TxProof` object
 // - `tx`: `[]byte` - the transaction
-// - `tx_result`: the `abci.Result` object
+// - `tx_result`: the `asura.Result` object
 // - `index`: `int` - index of the transaction
 // - `height`: `int` - height of the block where this transaction was in
 // - `hash`: `[]byte` - hash of the transaction
@@ -162,7 +162,7 @@ func Tx(hash []byte, prove bool) (*ctypes.ResultTx, error) {
 //
 // - `proof`: the `types.TxProof` object
 // - `tx`: `[]byte` - the transaction
-// - `tx_result`: the `abci.Result` object
+// - `tx_result`: the `asura.Result` object
 // - `index`: `int` - index of the transaction
 // - `height`: `int` - height of the block where this transaction was in
 // - `hash`: `[]byte` - hash of the transaction

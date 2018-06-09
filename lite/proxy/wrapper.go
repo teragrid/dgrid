@@ -1,12 +1,12 @@
 package proxy
 
 import (
-	cmn "github.com/tendermint/tmlibs/common"
+	cmn "github.com/teragrid/teralibs/common"
 
-	"github.com/tendermint/tendermint/lite"
-	certclient "github.com/tendermint/tendermint/lite/client"
-	rpcclient "github.com/tendermint/tendermint/rpc/client"
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
+	"github.com/teragrid/teragrid/lite"
+	certclient "github.com/teragrid/teragrid/lite/client"
+	rpcclient "github.com/teragrid/teragrid/rpc/client"
+	ctypes "github.com/teragrid/teragrid/rpc/core/types"
 )
 
 var _ rpcclient.Client = Wrapper{}
@@ -33,17 +33,17 @@ func SecureClient(c rpcclient.Client, cert *lite.InquiringCertifier) Wrapper {
 	return wrap
 }
 
-// ABCIQueryWithOptions exposes all options for the ABCI query and verifies the returned proof
-func (w Wrapper) ABCIQueryWithOptions(path string, data cmn.HexBytes,
-	opts rpcclient.ABCIQueryOptions) (*ctypes.ResultABCIQuery, error) {
+// asuraQueryWithOptions exposes all options for the asura query and verifies the returned proof
+func (w Wrapper) asuraQueryWithOptions(path string, data cmn.HexBytes,
+	opts rpcclient.asuraQueryOptions) (*ctypes.ResultasuraQuery, error) {
 
 	res, _, err := GetWithProofOptions(path, data, opts, w.Client, w.cert)
 	return res, err
 }
 
-// ABCIQuery uses default options for the ABCI query and verifies the returned proof
-func (w Wrapper) ABCIQuery(path string, data cmn.HexBytes) (*ctypes.ResultABCIQuery, error) {
-	return w.ABCIQueryWithOptions(path, data, rpcclient.DefaultABCIQueryOptions)
+// asuraQuery uses default options for the asura query and verifies the returned proof
+func (w Wrapper) asuraQuery(path string, data cmn.HexBytes) (*ctypes.ResultasuraQuery, error) {
+	return w.asuraQueryWithOptions(path, data, rpcclient.DefaultasuraQueryOptions)
 }
 
 // Tx queries for a given tx and verifies the proof if it was requested

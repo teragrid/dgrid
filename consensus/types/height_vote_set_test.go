@@ -4,9 +4,9 @@ import (
 	"testing"
 	"time"
 
-	cfg "github.com/tendermint/tendermint/config"
-	"github.com/tendermint/tendermint/types"
-	cmn "github.com/tendermint/tmlibs/common"
+	cfg "github.com/teragrid/teragrid/config"
+	"github.com/teragrid/teragrid/types"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 var config *cfg.Config // NOTE: must be reset for each _test.go file

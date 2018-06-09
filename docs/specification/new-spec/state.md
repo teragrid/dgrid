@@ -1,4 +1,4 @@
-# Tendermint State
+# teragrid State
 
 ## State
 

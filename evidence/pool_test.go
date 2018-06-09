@@ -7,9 +7,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	sm "github.com/tendermint/tendermint/state"
-	"github.com/tendermint/tendermint/types"
-	dbm "github.com/tendermint/tmlibs/db"
+	sm "github.com/teragrid/teragrid/state"
+	"github.com/teragrid/teragrid/types"
+	dbm "github.com/teragrid/teralibs/db"
 )
 
 var mockState = sm.State{}

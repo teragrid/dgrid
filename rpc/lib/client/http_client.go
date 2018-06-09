@@ -12,9 +12,9 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
-	"github.com/tendermint/go-amino"
+	"github.com/teragrid/go-amino"
 
-	types "github.com/tendermint/tendermint/rpc/lib/types"
+	types "github.com/teragrid/teragrid/rpc/lib/types"
 )
 
 // HTTPClient is a common interface for JSONRPCClient and URIClient.

@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"sync"
 
-	dbm "github.com/tendermint/tmlibs/db"
-	"github.com/tendermint/tmlibs/log"
+	dbm "github.com/teragrid/teralibs/db"
+	"github.com/teragrid/teralibs/log"
 
-	sm "github.com/tendermint/tendermint/state"
-	"github.com/tendermint/tendermint/types"
+	sm "github.com/teragrid/teragrid/state"
+	"github.com/teragrid/teragrid/types"
 )
 
 // EvidencePool maintains a pool of valid evidence

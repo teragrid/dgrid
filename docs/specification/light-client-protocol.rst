@@ -2,11 +2,11 @@ Light Client Protocol
 =====================
 
 Light clients are an important part of the complete blockchain system
-for most applications. Tendermint provides unique speed and security
+for most applications. teragrid provides unique speed and security
 properties for light client applications.
 
 See our `lite package
-<https://godoc.org/github.com/tendermint/tendermint/lite>`__.
+<https://godoc.org/github.com/teragrid/teragrid/lite>`__.
 
 Overview
 --------
@@ -21,9 +21,9 @@ proofs <./merkle.html#iavl-tree>`__.
 Properties
 ----------
 
--  You get the full collateralized security benefits of Tendermint; No
+-  You get the full collateralized security benefits of teragrid; No
    need to wait for confirmations.
--  You get the full speed benefits of Tendermint; transactions commit
+-  You get the full speed benefits of teragrid; transactions commit
    instantly.
 -  You can get the most recent version of the application state
    non-interactively (without committing anything to the blockchain).

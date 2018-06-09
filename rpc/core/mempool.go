@@ -7,14 +7,14 @@ import (
 
 	"github.com/pkg/errors"
 
-	abci "github.com/tendermint/abci/types"
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
-	"github.com/tendermint/tendermint/types"
-	cmn "github.com/tendermint/tmlibs/common"
+	asura "github.com/teragrid/asura/types"
+	ctypes "github.com/teragrid/teragrid/rpc/core/types"
+	"github.com/teragrid/teragrid/types"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 //-----------------------------------------------------------------------------
-// NOTE: tx should be signed, but this is only checked at the app level (not by Tendermint!)
+// NOTE: tx should be signed, but this is only checked at the app level (not by teragrid!)
 
 // Returns right away, with no response
 //
@@ -89,8 +89,8 @@ func BroadcastTxAsync(tx types.Tx) (*ctypes.ResultBroadcastTx, error) {
 // |-----------+------+---------+----------+-----------------|
 // | tx        | Tx   | nil     | true     | The transaction |
 func BroadcastTxSync(tx types.Tx) (*ctypes.ResultBroadcastTx, error) {
-	resCh := make(chan *abci.Response, 1)
-	err := mempool.CheckTx(tx, func(res *abci.Response) {
+	resCh := make(chan *asura.Response, 1)
+	err := mempool.CheckTx(tx, func(res *asura.Response) {
 		resCh <- res
 	})
 	if err != nil {
@@ -109,7 +109,7 @@ func BroadcastTxSync(tx types.Tx) (*ctypes.ResultBroadcastTx, error) {
 // CONTRACT: only returns error if mempool.BroadcastTx errs (ie. problem with the app)
 // or if we timeout waiting for tx to commit.
 // If CheckTx or DeliverTx fail, no error will be returned, but the returned result
-// will contain a non-OK ABCI code.
+// will contain a non-OK asura code.
 //
 // ```shell
 // curl 'localhost:46657/broadcast_tx_commit?tx="789"'
@@ -164,8 +164,8 @@ func BroadcastTxCommit(tx types.Tx) (*ctypes.ResultBroadcastTxCommit, error) {
 	defer eventBus.Unsubscribe(context.Background(), "mempool", q)
 
 	// broadcast the tx and register checktx callback
-	checkTxResCh := make(chan *abci.Response, 1)
-	err = mempool.CheckTx(tx, func(res *abci.Response) {
+	checkTxResCh := make(chan *asura.Response, 1)
+	err = mempool.CheckTx(tx, func(res *asura.Response) {
 		checkTxResCh <- res
 	})
 	if err != nil {
@@ -174,11 +174,11 @@ func BroadcastTxCommit(tx types.Tx) (*ctypes.ResultBroadcastTxCommit, error) {
 	}
 	checkTxRes := <-checkTxResCh
 	checkTxR := checkTxRes.GetCheckTx()
-	if checkTxR.Code != abci.CodeTypeOK {
+	if checkTxR.Code != asura.CodeTypeOK {
 		// CheckTx failed!
 		return &ctypes.ResultBroadcastTxCommit{
 			CheckTx:   *checkTxR,
-			DeliverTx: abci.ResponseDeliverTx{},
+			DeliverTx: asura.ResponseDeliverTx{},
 			Hash:      tx.Hash(),
 		}, nil
 	}
@@ -203,7 +203,7 @@ func BroadcastTxCommit(tx types.Tx) (*ctypes.ResultBroadcastTxCommit, error) {
 		logger.Error("failed to include tx")
 		return &ctypes.ResultBroadcastTxCommit{
 			CheckTx:   *checkTxR,
-			DeliverTx: abci.ResponseDeliverTx{},
+			DeliverTx: asura.ResponseDeliverTx{},
 			Hash:      tx.Hash(),
 		}, fmt.Errorf("Timed out waiting for transaction to be included in a block")
 	}

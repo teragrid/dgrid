@@ -1,7 +1,7 @@
-# Proposer selection procedure in Tendermint
+# Proposer selection procedure in teragrid
 
-This document specifies the Proposer Selection Procedure that is used in Tendermint to choose a round proposer. 
-As Tendermint is “leader-based protocol”, the proposer selection is critical for its correct functioning.
+This document specifies the Proposer Selection Procedure that is used in teragrid to choose a round proposer. 
+As teragrid is “leader-based protocol”, the proposer selection is critical for its correct functioning.
 Let denote with `proposer_p(h,r)` a process returned by the Proposer Selection Procedure at the process p, at height h
 and round r. Then the Proposer Selection procedure should fulfill the following properties:
 

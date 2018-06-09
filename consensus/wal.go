@@ -10,10 +10,10 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/tendermint/go-amino"
-	"github.com/tendermint/tendermint/types"
-	auto "github.com/tendermint/tmlibs/autofile"
-	cmn "github.com/tendermint/tmlibs/common"
+	"github.com/teragrid/go-amino"
+	"github.com/teragrid/teragrid/types"
+	auto "github.com/teragrid/teralibs/autofile"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 const (
@@ -39,10 +39,10 @@ type WALMessage interface{}
 
 func RegisterWALMessages(cdc *amino.Codec) {
 	cdc.RegisterInterface((*WALMessage)(nil), nil)
-	cdc.RegisterConcrete(types.EventDataRoundState{}, "tendermint/wal/EventDataRoundState", nil)
-	cdc.RegisterConcrete(msgInfo{}, "tendermint/wal/MsgInfo", nil)
-	cdc.RegisterConcrete(timeoutInfo{}, "tendermint/wal/TimeoutInfo", nil)
-	cdc.RegisterConcrete(EndHeightMessage{}, "tendermint/wal/EndHeightMessage", nil)
+	cdc.RegisterConcrete(types.EventDataRoundState{}, "teragrid/wal/EventDataRoundState", nil)
+	cdc.RegisterConcrete(msgInfo{}, "teragrid/wal/MsgInfo", nil)
+	cdc.RegisterConcrete(timeoutInfo{}, "teragrid/wal/TimeoutInfo", nil)
+	cdc.RegisterConcrete(EndHeightMessage{}, "teragrid/wal/EndHeightMessage", nil)
 }
 
 //--------------------------------------------------------

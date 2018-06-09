@@ -7,10 +7,10 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	abci "github.com/tendermint/abci/types"
-	"github.com/tendermint/tendermint/rpc/client"
-	"github.com/tendermint/tendermint/types"
-	cmn "github.com/tendermint/tmlibs/common"
+	asura "github.com/teragrid/asura/types"
+	"github.com/teragrid/teragrid/rpc/client"
+	"github.com/teragrid/teragrid/types"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 var waitForEventTimeout = 5 * time.Second
@@ -98,7 +98,7 @@ func TestTxEventsSentWithBroadcastTxAsync(t *testing.T) {
 			// send async
 			txres, err := c.BroadcastTxAsync(tx)
 			require.Nil(t, err, "%+v", err)
-			require.Equal(t, txres.Code, abci.CodeTypeOK) // FIXME
+			require.Equal(t, txres.Code, asura.CodeTypeOK) // FIXME
 
 			// and wait for confirmation
 			evt, err := client.WaitForOneEvent(c, evtTyp, waitForEventTimeout)
@@ -133,7 +133,7 @@ func TestTxEventsSentWithBroadcastTxSync(t *testing.T) {
 			// send sync
 			txres, err := c.BroadcastTxSync(tx)
 			require.Nil(t, err, "%+v", err)
-			require.Equal(t, txres.Code, abci.CodeTypeOK) // FIXME
+			require.Equal(t, txres.Code, asura.CodeTypeOK) // FIXME
 
 			// and wait for confirmation
 			evt, err := client.WaitForOneEvent(c, evtTyp, waitForEventTimeout)

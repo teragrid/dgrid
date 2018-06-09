@@ -15,7 +15,7 @@ func MaxNodeInfoSize() int {
 }
 
 // NodeInfo is the basic node information exchanged
-// between two peers during the Tendermint P2P handshake.
+// between two peers during the teragrid P2P handshake.
 type NodeInfo struct {
 	// Authenticate
 	ID         ID     `json:"id"`          // authenticated identifier

@@ -10,12 +10,12 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	cmn "github.com/tendermint/tmlibs/common"
-	dbm "github.com/tendermint/tmlibs/db"
-	"github.com/tendermint/tmlibs/pubsub/query"
+	cmn "github.com/teragrid/teralibs/common"
+	dbm "github.com/teragrid/teralibs/db"
+	"github.com/teragrid/teralibs/pubsub/query"
 
-	"github.com/tendermint/tendermint/state/txindex"
-	"github.com/tendermint/tendermint/types"
+	"github.com/teragrid/teragrid/state/txindex"
+	"github.com/teragrid/teragrid/types"
 )
 
 const (
@@ -378,7 +378,7 @@ LOOP:
 			if include {
 				hashesMap[fmt.Sprintf("%X", it.Value())] = it.Value()
 			}
-			// XXX: passing time in a ABCI Tags is not yet implemented
+			// XXX: passing time in a asura Tags is not yet implemented
 			// case time.Time:
 			// 	v := strconv.ParseInt(extractValueFromKey(it.Key()), 10, 64)
 			// 	if v == r.upperBound {

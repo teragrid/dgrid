@@ -1,10 +1,10 @@
 package types
 
 import (
-	"github.com/tendermint/abci/types"
+	"github.com/teragrid/asura/types"
 )
 
-// TM2PB is used for converting Tendermint types to protobuf types.
+// TM2PB is used for converting teragrid types to protobuf types.
 // UNSTABLE
 var TM2PB = tm2pb{}
 

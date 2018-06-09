@@ -7,13 +7,13 @@ import (
 	"net"
 	"time"
 
-	"github.com/tendermint/go-amino"
-	"github.com/tendermint/go-crypto"
-	cmn "github.com/tendermint/tmlibs/common"
-	"github.com/tendermint/tmlibs/log"
+	"github.com/teragrid/go-amino"
+	"github.com/teragrid/go-crypto"
+	cmn "github.com/teragrid/teralibs/common"
+	"github.com/teragrid/teralibs/log"
 
-	p2pconn "github.com/tendermint/tendermint/p2p/conn"
-	"github.com/tendermint/tendermint/types"
+	p2pconn "github.com/teragrid/teragrid/p2p/conn"
+	"github.com/teragrid/teragrid/types"
 )
 
 const (
@@ -494,10 +494,10 @@ type SocketPVMsg interface{}
 
 func RegisterSocketPVMsg(cdc *amino.Codec) {
 	cdc.RegisterInterface((*SocketPVMsg)(nil), nil)
-	cdc.RegisterConcrete(&PubKeyMsg{}, "tendermint/socketpv/PubKeyMsg", nil)
-	cdc.RegisterConcrete(&SignVoteMsg{}, "tendermint/socketpv/SignVoteMsg", nil)
-	cdc.RegisterConcrete(&SignProposalMsg{}, "tendermint/socketpv/SignProposalMsg", nil)
-	cdc.RegisterConcrete(&SignHeartbeatMsg{}, "tendermint/socketpv/SignHeartbeatMsg", nil)
+	cdc.RegisterConcrete(&PubKeyMsg{}, "teragrid/socketpv/PubKeyMsg", nil)
+	cdc.RegisterConcrete(&SignVoteMsg{}, "teragrid/socketpv/SignVoteMsg", nil)
+	cdc.RegisterConcrete(&SignProposalMsg{}, "teragrid/socketpv/SignProposalMsg", nil)
+	cdc.RegisterConcrete(&SignHeartbeatMsg{}, "teragrid/socketpv/SignHeartbeatMsg", nil)
 }
 
 // PubKeyMsg is a PrivValidatorSocket message containing the public key.

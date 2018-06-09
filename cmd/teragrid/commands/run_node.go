@@ -5,11 +5,11 @@ import (
 
 	"github.com/spf13/cobra"
 
-	nm "github.com/tendermint/tendermint/node"
+	nm "github.com/teragrid/teragrid/node"
 )
 
 // AddNodeFlags exposes some common configuration options on the command-line
-// These are exposed for convenience of commands embedding a tendermint node
+// These are exposed for convenience of commands embedding a teragrid node
 func AddNodeFlags(cmd *cobra.Command) {
 	// bind flags
 	cmd.Flags().String("moniker", config.Moniker, "Node Name")
@@ -20,9 +20,9 @@ func AddNodeFlags(cmd *cobra.Command) {
 	// node flags
 	cmd.Flags().Bool("fast_sync", config.FastSync, "Fast blockchain syncing")
 
-	// abci flags
+	// asura flags
 	cmd.Flags().String("proxy_app", config.ProxyApp, "Proxy app address, or 'nilapp' or 'kvstore' for local testing.")
-	cmd.Flags().String("abci", config.ABCI, "Specify abci transport (socket | grpc)")
+	cmd.Flags().String("asura", config.asura, "Specify asura transport (socket | grpc)")
 
 	// rpc flags
 	cmd.Flags().String("rpc.laddr", config.RPC.ListenAddress, "RPC listen address. Port required")
@@ -43,11 +43,11 @@ func AddNodeFlags(cmd *cobra.Command) {
 }
 
 // NewRunNodeCmd returns the command that allows the CLI to start a node.
-// It can be used with a custom PrivValidator and in-process ABCI application.
+// It can be used with a custom PrivValidator and in-process asura application.
 func NewRunNodeCmd(nodeProvider nm.NodeProvider) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "node",
-		Short: "Run the tendermint node",
+		Short: "Run the teragrid node",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			// Create & start node
 			n, err := nodeProvider(config, logger)

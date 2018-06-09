@@ -1,14 +1,14 @@
-# Tendermint Encoding
+# teragrid Encoding
 
 ## Binary Serialization (TMBIN)
 
-Tendermint aims to encode data structures in a manner similar to how the corresponding Go structs
+teragrid aims to encode data structures in a manner similar to how the corresponding Go structs
 are laid out in memory.
 Variable length items are length-prefixed.
 While the encoding was inspired by Go, it is easily implemented in other languages as well, given its intuitive design.
 
 XXX: This is changing to use real varints and 4-byte-prefixes.
-See https://github.com/tendermint/go-wire/tree/sdk2.
+See https://github.com/teragrid/go-wire/tree/sdk2.
 
 ### Fixed Length Integers
 
@@ -143,7 +143,7 @@ encode(MyStruct{4, "hello", time.Time("Mon Jan 2 15:04:05 -0700 MST 2006")}) ==
 
 ## Merkle Trees
 
-Simple Merkle trees are used in numerous places in Tendermint to compute a cryptographic digest of a data structure.
+Simple Merkle trees are used in numerous places in teragrid to compute a cryptographic digest of a data structure.
 
 RIPEMD160 is always used as the hashing function.
 

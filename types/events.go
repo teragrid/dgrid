@@ -3,9 +3,9 @@ package types
 import (
 	"fmt"
 
-	"github.com/tendermint/go-amino"
-	tmpubsub "github.com/tendermint/tmlibs/pubsub"
-	tmquery "github.com/tendermint/tmlibs/pubsub/query"
+	"github.com/teragrid/go-amino"
+	tmpubsub "github.com/teragrid/teralibs/pubsub"
+	tmquery "github.com/teragrid/teralibs/pubsub/query"
 )
 
 // Reserved event types
@@ -51,13 +51,13 @@ func (_ EventDataString) AssertIsTMEventData()            {}
 
 func RegisterEventDatas(cdc *amino.Codec) {
 	cdc.RegisterInterface((*TMEventData)(nil), nil)
-	cdc.RegisterConcrete(EventDataNewBlock{}, "tendermint/event/NewBlock", nil)
-	cdc.RegisterConcrete(EventDataNewBlockHeader{}, "tendermint/event/NewBlockHeader", nil)
-	cdc.RegisterConcrete(EventDataTx{}, "tendermint/event/Tx", nil)
-	cdc.RegisterConcrete(EventDataRoundState{}, "tendermint/event/RoundState", nil)
-	cdc.RegisterConcrete(EventDataVote{}, "tendermint/event/Vote", nil)
-	cdc.RegisterConcrete(EventDataProposalHeartbeat{}, "tendermint/event/ProposalHeartbeat", nil)
-	cdc.RegisterConcrete(EventDataString(""), "tendermint/event/ProposalString", nil)
+	cdc.RegisterConcrete(EventDataNewBlock{}, "teragrid/event/NewBlock", nil)
+	cdc.RegisterConcrete(EventDataNewBlockHeader{}, "teragrid/event/NewBlockHeader", nil)
+	cdc.RegisterConcrete(EventDataTx{}, "teragrid/event/Tx", nil)
+	cdc.RegisterConcrete(EventDataRoundState{}, "teragrid/event/RoundState", nil)
+	cdc.RegisterConcrete(EventDataVote{}, "teragrid/event/Vote", nil)
+	cdc.RegisterConcrete(EventDataProposalHeartbeat{}, "teragrid/event/ProposalHeartbeat", nil)
+	cdc.RegisterConcrete(EventDataString(""), "teragrid/event/ProposalString", nil)
 }
 
 // Most event messages are basic types (a block, a transaction)

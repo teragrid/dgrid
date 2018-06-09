@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"fmt"
 
-	"github.com/tendermint/go-crypto"
+	"github.com/teragrid/go-crypto"
 )
 
-// PrivValidator defines the functionality of a local Tendermint validator
+// PrivValidator defines the functionality of a local teragrid validator
 // that signs votes, proposals, and heartbeats, and never double signs.
 type PrivValidator interface {
 	GetAddress() Address // redundant since .PubKey().Address()

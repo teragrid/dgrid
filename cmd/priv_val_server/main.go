@@ -4,11 +4,11 @@ import (
 	"flag"
 	"os"
 
-	crypto "github.com/tendermint/go-crypto"
-	cmn "github.com/tendermint/tmlibs/common"
-	"github.com/tendermint/tmlibs/log"
+	crypto "github.com/teragrid/go-crypto"
+	cmn "github.com/teragrid/teralibs/common"
+	"github.com/teragrid/teralibs/log"
 
-	priv_val "github.com/tendermint/tendermint/types/priv_validator"
+	priv_val "github.com/teragrid/teragrid/types/priv_validator"
 )
 
 func main() {

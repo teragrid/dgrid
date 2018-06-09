@@ -5,10 +5,10 @@ import (
 
 	"github.com/pkg/errors"
 
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
-	rpctypes "github.com/tendermint/tendermint/rpc/lib/types"
-	tmtypes "github.com/tendermint/tendermint/types"
-	tmquery "github.com/tendermint/tmlibs/pubsub/query"
+	ctypes "github.com/teragrid/teragrid/rpc/core/types"
+	rpctypes "github.com/teragrid/teragrid/rpc/lib/types"
+	tmtypes "github.com/teragrid/teragrid/types"
+	tmquery "github.com/teragrid/teralibs/pubsub/query"
 )
 
 // Subscribe for events via WebSocket.
@@ -27,7 +27,7 @@ import (
 //		tm.event = 'Tx' AND tx.height = 5		# all txs of the fifth block
 //		tx.height = 5												# all txs of the fifth block
 //
-// Tendermint provides a few predefined keys: tm.event, tx.hash and tx.height.
+// teragrid provides a few predefined keys: tm.event, tx.hash and tx.height.
 // Note for transactions, you can define additional keys by providing tags with
 // DeliverTx response.
 //
@@ -43,14 +43,14 @@ import (
 //		tm.event = 'Tx' AND account.owner CONTAINS 'Igor'
 //
 // See list of all possible events here
-// https://godoc.org/github.com/tendermint/tendermint/types#pkg-constants
+// https://godoc.org/github.com/teragrid/teragrid/types#pkg-constants
 //
 // For complete query syntax, check out
-// https://godoc.org/github.com/tendermint/tmlibs/pubsub/query.
+// https://godoc.org/github.com/teragrid/teralibs/pubsub/query.
 //
 // ```go
-// import "github.com/tendermint/tmlibs/pubsub/query"
-// import "github.com/tendermint/tendermint/types"
+// import "github.com/teragrid/teralibs/pubsub/query"
+// import "github.com/teragrid/teragrid/types"
 //
 // client := client.NewHTTP("tcp://0.0.0.0:46657", "/websocket")
 // ctx, cancel := context.WithTimeout(context.Background(), timeout)

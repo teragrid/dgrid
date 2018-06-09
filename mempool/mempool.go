@@ -9,15 +9,15 @@ import (
 
 	"github.com/pkg/errors"
 
-	abci "github.com/tendermint/abci/types"
-	auto "github.com/tendermint/tmlibs/autofile"
-	"github.com/tendermint/tmlibs/clist"
-	cmn "github.com/tendermint/tmlibs/common"
-	"github.com/tendermint/tmlibs/log"
+	asura "github.com/teragrid/asura/types"
+	auto "github.com/teragrid/teralibs/autofile"
+	"github.com/teragrid/teralibs/clist"
+	cmn "github.com/teragrid/teralibs/common"
+	"github.com/teragrid/teralibs/log"
 
-	cfg "github.com/tendermint/tendermint/config"
-	"github.com/tendermint/tendermint/proxy"
-	"github.com/tendermint/tendermint/types"
+	cfg "github.com/teragrid/teragrid/config"
+	"github.com/teragrid/teragrid/proxy"
+	"github.com/teragrid/teragrid/types"
 )
 
 /*
@@ -44,14 +44,14 @@ Garbage collection of old elements from mempool.txs is handlde via
 the DetachPrev() call, which makes old elements not reachable by
 peer broadcastTxRoutine() automatically garbage collected.
 
-TODO: Better handle abci client errors. (make it automatically handle connection errors)
+TODO: Better handle asura client errors. (make it automatically handle connection errors)
 
 */
 
 var ErrTxInCache = errors.New("Tx already exists in cache")
 
 // Mempool is an ordered in-memory pool for transactions before they are proposed in a consensus
-// round. Transaction validity is checked using the CheckTx abci message before the transaction is
+// round. Transaction validity is checked using the CheckTx asura message before the transaction is
 // added to the pool. The Mempool uses a concurrent list structure for storing transactions that
 // can be efficiently accessed by multiple concurrent readers.
 type Mempool struct {
@@ -197,7 +197,7 @@ func (mem *Mempool) TxsWaitChan() <-chan struct{} {
 // cb: A callback from the CheckTx command.
 //     It gets called from another goroutine.
 // CONTRACT: Either cb will get called, or err returned.
-func (mem *Mempool) CheckTx(tx types.Tx, cb func(*abci.Response)) (err error) {
+func (mem *Mempool) CheckTx(tx types.Tx, cb func(*asura.Response)) (err error) {
 	mem.proxyMtx.Lock()
 	defer mem.proxyMtx.Unlock()
 
@@ -234,8 +234,8 @@ func (mem *Mempool) CheckTx(tx types.Tx, cb func(*abci.Response)) (err error) {
 	return nil
 }
 
-// ABCI callback function
-func (mem *Mempool) resCb(req *abci.Request, res *abci.Response) {
+// asura callback function
+func (mem *Mempool) resCb(req *asura.Request, res *asura.Response) {
 	if mem.recheckCursor == nil {
 		mem.resCbNormal(req, res)
 	} else {
@@ -243,11 +243,11 @@ func (mem *Mempool) resCb(req *abci.Request, res *abci.Response) {
 	}
 }
 
-func (mem *Mempool) resCbNormal(req *abci.Request, res *abci.Response) {
+func (mem *Mempool) resCbNormal(req *asura.Request, res *asura.Response) {
 	switch r := res.Value.(type) {
-	case *abci.Response_CheckTx:
+	case *asura.Response_CheckTx:
 		tx := req.GetCheckTx().Tx
-		if r.CheckTx.Code == abci.CodeTypeOK {
+		if r.CheckTx.Code == asura.CodeTypeOK {
 			mem.counter++
 			memTx := &mempoolTx{
 				counter: mem.counter,
@@ -271,15 +271,15 @@ func (mem *Mempool) resCbNormal(req *abci.Request, res *abci.Response) {
 	}
 }
 
-func (mem *Mempool) resCbRecheck(req *abci.Request, res *abci.Response) {
+func (mem *Mempool) resCbRecheck(req *asura.Request, res *asura.Response) {
 	switch r := res.Value.(type) {
-	case *abci.Response_CheckTx:
+	case *asura.Response_CheckTx:
 		memTx := mem.recheckCursor.Value.(*mempoolTx)
 		if !bytes.Equal(req.GetCheckTx().Tx, memTx.tx) {
 			cmn.PanicSanity(cmn.Fmt("Unexpected tx response from proxy during recheck\n"+
 				"Expected %X, got %X", r.CheckTx.Data, memTx.tx))
 		}
-		if r.CheckTx.Code == abci.CodeTypeOK {
+		if r.CheckTx.Code == asura.CodeTypeOK {
 			// Good, nothing to do.
 		} else {
 			// Tx became invalidated due to newly committed block.

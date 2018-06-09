@@ -1,23 +1,23 @@
 #! /bin/bash
 
 
-export TMHOME=$HOME/.tendermint_persist
+export TMHOME=$HOME/.teragrid_persist
 
 rm -rf $TMHOME
-tendermint init
+teragrid init
 
 function start_procs(){
     name=$1
-    echo "Starting persistent kvstore and tendermint"
-    abci-cli kvstore --persist $TMHOME/kvstore &> "kvstore_${name}.log" &
+    echo "Starting persistent kvstore and teragrid"
+    asura-cli kvstore --persist $TMHOME/kvstore &> "kvstore_${name}.log" &
     PID_DUMMY=$!
-    tendermint node &> tendermint_${name}.log &
-    PID_TENDERMINT=$!
+    teragrid node &> teragrid_${name}.log &
+    PID_teragrid=$!
     sleep 5
 }
 
 function kill_procs(){
-    kill -9 $PID_DUMMY $PID_TENDERMINT
+    kill -9 $PID_DUMMY $PID_teragrid
 }
 
 
@@ -51,7 +51,7 @@ while [ "$ERR" != 0 ]; do
     ERR=$?
     i=$(($i + 1))
     if [[ $i == 10 ]]; then
-        echo "Timed out waiting for tendermint to start"
+        echo "Timed out waiting for teragrid to start"
         exit 1
     fi
 done

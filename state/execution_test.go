@@ -7,14 +7,14 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/tendermint/abci/example/kvstore"
-	abci "github.com/tendermint/abci/types"
-	crypto "github.com/tendermint/go-crypto"
-	"github.com/tendermint/tendermint/proxy"
-	"github.com/tendermint/tendermint/types"
-	cmn "github.com/tendermint/tmlibs/common"
-	dbm "github.com/tendermint/tmlibs/db"
-	"github.com/tendermint/tmlibs/log"
+	"github.com/teragrid/asura/example/kvstore"
+	asura "github.com/teragrid/asura/types"
+	crypto "github.com/teragrid/go-crypto"
+	"github.com/teragrid/teragrid/proxy"
+	"github.com/teragrid/teragrid/types"
+	cmn "github.com/teragrid/teralibs/common"
+	dbm "github.com/teragrid/teralibs/db"
+	"github.com/teragrid/teralibs/log"
 )
 
 var (
@@ -106,11 +106,11 @@ func TestBeginBlockByzantineValidators(t *testing.T) {
 	testCases := []struct {
 		desc                        string
 		evidence                    []types.Evidence
-		expectedByzantineValidators []abci.Evidence
+		expectedByzantineValidators []asura.Evidence
 	}{
-		{"none byzantine", []types.Evidence{}, []abci.Evidence{}},
-		{"one byzantine", []types.Evidence{ev1}, []abci.Evidence{{ev1.Address(), ev1.Height()}}},
-		{"multiple byzantine", []types.Evidence{ev1, ev2}, []abci.Evidence{
+		{"none byzantine", []types.Evidence{}, []asura.Evidence{}},
+		{"one byzantine", []types.Evidence{ev1}, []asura.Evidence{{ev1.Address(), ev1.Height()}}},
+		{"multiple byzantine", []types.Evidence{ev1, ev2}, []asura.Evidence{
 			{ev1.Address(), ev1.Height()},
 			{ev2.Address(), ev2.Height()}}},
 	}
@@ -156,41 +156,41 @@ func makeBlock(state State, height int64) *types.Block {
 
 //----------------------------------------------------------------------------
 
-var _ abci.Application = (*testApp)(nil)
+var _ asura.Application = (*testApp)(nil)
 
 type testApp struct {
-	abci.BaseApplication
+	asura.BaseApplication
 
 	AbsentValidators    []int32
-	ByzantineValidators []abci.Evidence
+	ByzantineValidators []asura.Evidence
 }
 
 func NewKVStoreApplication() *testApp {
 	return &testApp{}
 }
 
-func (app *testApp) Info(req abci.RequestInfo) (resInfo abci.ResponseInfo) {
-	return abci.ResponseInfo{}
+func (app *testApp) Info(req asura.RequestInfo) (resInfo asura.ResponseInfo) {
+	return asura.ResponseInfo{}
 }
 
-func (app *testApp) BeginBlock(req abci.RequestBeginBlock) abci.ResponseBeginBlock {
+func (app *testApp) BeginBlock(req asura.RequestBeginBlock) asura.ResponseBeginBlock {
 	app.AbsentValidators = req.AbsentValidators
 	app.ByzantineValidators = req.ByzantineValidators
-	return abci.ResponseBeginBlock{}
+	return asura.ResponseBeginBlock{}
 }
 
-func (app *testApp) DeliverTx(tx []byte) abci.ResponseDeliverTx {
-	return abci.ResponseDeliverTx{Tags: []cmn.KVPair{}}
+func (app *testApp) DeliverTx(tx []byte) asura.ResponseDeliverTx {
+	return asura.ResponseDeliverTx{Tags: []cmn.KVPair{}}
 }
 
-func (app *testApp) CheckTx(tx []byte) abci.ResponseCheckTx {
-	return abci.ResponseCheckTx{}
+func (app *testApp) CheckTx(tx []byte) asura.ResponseCheckTx {
+	return asura.ResponseCheckTx{}
 }
 
-func (app *testApp) Commit() abci.ResponseCommit {
-	return abci.ResponseCommit{}
+func (app *testApp) Commit() asura.ResponseCommit {
+	return asura.ResponseCommit{}
 }
 
-func (app *testApp) Query(reqQuery abci.RequestQuery) (resQuery abci.ResponseQuery) {
+func (app *testApp) Query(reqQuery asura.RequestQuery) (resQuery asura.ResponseQuery) {
 	return
 }

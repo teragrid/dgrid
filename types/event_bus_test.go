@@ -10,10 +10,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	abci "github.com/tendermint/abci/types"
-	cmn "github.com/tendermint/tmlibs/common"
-	tmpubsub "github.com/tendermint/tmlibs/pubsub"
-	tmquery "github.com/tendermint/tmlibs/pubsub/query"
+	asura "github.com/teragrid/asura/types"
+	cmn "github.com/teragrid/teralibs/common"
+	tmpubsub "github.com/teragrid/teralibs/pubsub"
+	tmquery "github.com/teragrid/teralibs/pubsub/query"
 )
 
 func TestEventBusPublishEventTx(t *testing.T) {
@@ -23,7 +23,7 @@ func TestEventBusPublishEventTx(t *testing.T) {
 	defer eventBus.Stop()
 
 	tx := Tx("foo")
-	result := abci.ResponseDeliverTx{Data: []byte("bar"), Tags: []cmn.KVPair{}, Fee: cmn.KI64Pair{Key: []uint8{}, Value: 0}}
+	result := asura.ResponseDeliverTx{Data: []byte("bar"), Tags: []cmn.KVPair{}, Fee: cmn.KI64Pair{Key: []uint8{}, Value: 0}}
 
 	txEventsCh := make(chan interface{})
 

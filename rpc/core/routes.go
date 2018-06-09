@@ -1,7 +1,7 @@
 package core
 
 import (
-	rpc "github.com/tendermint/tendermint/rpc/lib/server"
+	rpc "github.com/teragrid/teragrid/rpc/lib/server"
 )
 
 // TODO: better system than "unsafe" prefix
@@ -33,9 +33,9 @@ var Routes = map[string]*rpc.RPCFunc{
 	"broadcast_tx_sync":   rpc.NewRPCFunc(BroadcastTxSync, "tx"),
 	"broadcast_tx_async":  rpc.NewRPCFunc(BroadcastTxAsync, "tx"),
 
-	// abci API
-	"abci_query": rpc.NewRPCFunc(ABCIQuery, "path,data,height,prove"),
-	"abci_info":  rpc.NewRPCFunc(ABCIInfo, ""),
+	// asura API
+	"asura_query": rpc.NewRPCFunc(asuraQuery, "path,data,height,prove"),
+	"asura_info":  rpc.NewRPCFunc(asuraInfo, ""),
 }
 
 func AddUnsafeRoutes() {

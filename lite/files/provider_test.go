@@ -10,9 +10,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/tendermint/tendermint/lite"
-	liteErr "github.com/tendermint/tendermint/lite/errors"
-	"github.com/tendermint/tendermint/lite/files"
+	"github.com/teragrid/teragrid/lite"
+	liteErr "github.com/teragrid/teragrid/lite/errors"
+	"github.com/teragrid/teragrid/lite/files"
 )
 
 func checkEqual(stored, loaded lite.FullCommit, chainID string) error {

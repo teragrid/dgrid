@@ -15,19 +15,19 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/tendermint/abci/example/kvstore"
-	abci "github.com/tendermint/abci/types"
-	"github.com/tendermint/go-crypto"
-	auto "github.com/tendermint/tmlibs/autofile"
-	cmn "github.com/tendermint/tmlibs/common"
-	dbm "github.com/tendermint/tmlibs/db"
+	"github.com/teragrid/asura/example/kvstore"
+	asura "github.com/teragrid/asura/types"
+	"github.com/teragrid/go-crypto"
+	auto "github.com/teragrid/teralibs/autofile"
+	cmn "github.com/teragrid/teralibs/common"
+	dbm "github.com/teragrid/teralibs/db"
 
-	cfg "github.com/tendermint/tendermint/config"
-	"github.com/tendermint/tendermint/proxy"
-	sm "github.com/tendermint/tendermint/state"
-	"github.com/tendermint/tendermint/types"
-	pvm "github.com/tendermint/tendermint/types/priv_validator"
-	"github.com/tendermint/tmlibs/log"
+	cfg "github.com/teragrid/teragrid/config"
+	"github.com/teragrid/teragrid/proxy"
+	sm "github.com/teragrid/teragrid/state"
+	"github.com/teragrid/teragrid/types"
+	pvm "github.com/teragrid/teragrid/types/priv_validator"
+	"github.com/teragrid/teralibs/log"
 )
 
 var consensusReplayConfig *cfg.Config
@@ -346,7 +346,7 @@ func testHandshakeReplay(t *testing.T, nBlocks int, mode uint) {
 	store.chain = chain
 	store.commits = commits
 
-	// run the chain through state.ApplyBlock to build up the tendermint state
+	// run the chain through state.ApplyBlock to build up the teragrid state
 	state = buildTMStateFromChain(config, stateDB, state, chain, mode)
 	latestAppHash := state.AppHash
 
@@ -355,7 +355,7 @@ func testHandshakeReplay(t *testing.T, nBlocks int, mode uint) {
 	clientCreator2 := proxy.NewLocalClientCreator(kvstoreApp)
 	if nBlocks > 0 {
 		// run nBlocks against a new client to build up the app state.
-		// use a throwaway tendermint state
+		// use a throwaway teragrid state
 		proxyApp := proxy.NewAppConns(clientCreator2, nil)
 		stateDB, state, _ := stateAndStore(config, privVal.GetPubKey())
 		buildAppStateFromChain(proxyApp, stateDB, state, chain, nBlocks, mode)
@@ -370,7 +370,7 @@ func testHandshakeReplay(t *testing.T, nBlocks int, mode uint) {
 	defer proxyApp.Stop()
 
 	// get the latest app hash from the app
-	res, err := proxyApp.Query().InfoSync(abci.RequestInfo{""})
+	res, err := proxyApp.Query().InfoSync(asura.RequestInfo{""})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -412,10 +412,10 @@ func buildAppStateFromChain(proxyApp proxy.AppConns, stateDB dbm.DB,
 	}
 	defer proxyApp.Stop()
 
-	// TODO: get the genesis bytes (https://github.com/tendermint/tendermint/issues/1224)
+	// TODO: get the genesis bytes (https://github.com/teragrid/teragrid/issues/1224)
 	var genesisBytes []byte
 	validators := types.TM2PB.Validators(state.Validators)
-	if _, err := proxyApp.Consensus().InitChainSync(abci.RequestInitChain{validators, genesisBytes}); err != nil {
+	if _, err := proxyApp.Consensus().InitChainSync(asura.RequestInitChain{validators, genesisBytes}); err != nil {
 		panic(err)
 	}
 
@@ -441,7 +441,7 @@ func buildAppStateFromChain(proxyApp proxy.AppConns, stateDB dbm.DB,
 }
 
 func buildTMStateFromChain(config *cfg.Config, stateDB dbm.DB, state sm.State, chain []*types.Block, mode uint) sm.State {
-	// run the whole chain against this client to build up the tendermint state
+	// run the whole chain against this client to build up the teragrid state
 	clientCreator := proxy.NewLocalClientCreator(kvstore.NewPersistentKVStoreApplication(path.Join(config.DBDir(), "1")))
 	proxyApp := proxy.NewAppConns(clientCreator, nil) // sm.NewHandshaker(config, state, store, ReplayLastBlock))
 	if err := proxyApp.Start(); err != nil {
@@ -449,10 +449,10 @@ func buildTMStateFromChain(config *cfg.Config, stateDB dbm.DB, state sm.State, c
 	}
 	defer proxyApp.Stop()
 
-	// TODO: get the genesis bytes (https://github.com/tendermint/tendermint/issues/1224)
+	// TODO: get the genesis bytes (https://github.com/teragrid/teragrid/issues/1224)
 	var genesisBytes []byte
 	validators := types.TM2PB.Validators(state.Validators)
-	if _, err := proxyApp.Consensus().InitChainSync(abci.RequestInitChain{validators, genesisBytes}); err != nil {
+	if _, err := proxyApp.Consensus().InitChainSync(asura.RequestInitChain{validators, genesisBytes}); err != nil {
 		panic(err)
 	}
 

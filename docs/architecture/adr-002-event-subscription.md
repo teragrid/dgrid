@@ -10,7 +10,7 @@ some filter** (rather than fetching all the blocks). For example, I want to get
 all transactions for a particular account in the last two weeks (`tx's block
 time >= '2017-06-05'`).
 
-Now you can't even subscribe to "all txs" in Tendermint.
+Now you can't even subscribe to "all txs" in teragrid.
 
 The goal is a simple and easy to use API for doing that.
 
@@ -18,7 +18,7 @@ The goal is a simple and easy to use API for doing that.
 
 ## Decision
 
-ABCI app return tags with a `DeliverTx` response inside the `data` field (_for
+asura app return tags with a `DeliverTx` response inside the `data` field (_for
 now, later we may create a separate field_). Tags is a list of key-value pairs,
 protobuf encoded.
 
@@ -26,29 +26,29 @@ Example data:
 
 ```json
 {
-  "abci.account.name": "Igor",
-  "abci.account.address": "0xdeadbeef",
+  "asura.account.name": "Igor",
+  "asura.account.address": "0xdeadbeef",
   "tx.gas": 7
 }
 ```
 
 ### Subscribing for transactions events
 
-If the user wants to receive only a subset of transactions, ABCI-app must
+If the user wants to receive only a subset of transactions, asura-app must
 return a list of tags with a `DeliverTx` response. These tags will be parsed and
 matched with the current queries (subscribers). If the query matches the tags,
 subscriber will get the transaction event.
 
 ```
-/subscribe?query="tm.event = Tx AND tx.hash = AB0023433CF0334223212243BDD AND abci.account.invoice.number = 22"
+/subscribe?query="tm.event = Tx AND tx.hash = AB0023433CF0334223212243BDD AND asura.account.invoice.number = 22"
 ```
 
 A new package must be developed to replace the current `events` package. It
 will allow clients to subscribe to a different types of events in the future:
 
 ```
-/subscribe?query="abci.account.invoice.number = 22"
-/subscribe?query="abci.account.invoice.owner CONTAINS Igor"
+/subscribe?query="asura.account.invoice.number = 22"
+/subscribe?query="asura.account.invoice.owner CONTAINS Igor"
 ```
 
 ### Fetching transactions
@@ -58,18 +58,18 @@ which have a different API b) we don't know whenever tags will be sufficient
 for the most apps (I guess we'll see).
 
 ```
-/txs/search?query="tx.hash = AB0023433CF0334223212243BDD AND abci.account.owner CONTAINS Igor"
-/txs/search?query="abci.account.owner = Igor"
+/txs/search?query="tx.hash = AB0023433CF0334223212243BDD AND asura.account.owner CONTAINS Igor"
+/txs/search?query="asura.account.owner = Igor"
 ```
 
 For historic queries we will need a indexing storage (Postgres, SQLite, ...).
 
 ### Issues
 
-- https://github.com/tendermint/basecoin/issues/91
-- https://github.com/tendermint/tendermint/issues/376
-- https://github.com/tendermint/tendermint/issues/287
-- https://github.com/tendermint/tendermint/issues/525 (related)
+- https://github.com/teragrid/basecoin/issues/91
+- https://github.com/teragrid/teragrid/issues/376
+- https://github.com/teragrid/teragrid/issues/287
+- https://github.com/teragrid/teragrid/issues/525 (related)
 
 ## Status
 

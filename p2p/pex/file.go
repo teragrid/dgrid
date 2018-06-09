@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"os"
 
-	cmn "github.com/tendermint/tmlibs/common"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 /* Loading & Saving */

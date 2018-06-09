@@ -3,13 +3,13 @@ package proxy
 import (
 	"github.com/pkg/errors"
 
-	cmn "github.com/tendermint/tmlibs/common"
+	cmn "github.com/teragrid/teralibs/common"
 
-	"github.com/tendermint/tendermint/lite"
-	"github.com/tendermint/tendermint/lite/client"
-	certerr "github.com/tendermint/tendermint/lite/errors"
-	rpcclient "github.com/tendermint/tendermint/rpc/client"
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
+	"github.com/teragrid/teragrid/lite"
+	"github.com/teragrid/teragrid/lite/client"
+	certerr "github.com/teragrid/teragrid/lite/errors"
+	rpcclient "github.com/teragrid/teragrid/rpc/client"
+	ctypes "github.com/teragrid/teragrid/rpc/core/types"
 )
 
 // KeyProof represents a proof of existence or absence of a single key.
@@ -42,7 +42,7 @@ func GetWithProof(key []byte, reqHeight int64, node rpcclient.Client,
 	}
 
 	_resp, proof, err := GetWithProofOptions("/key", key,
-		rpcclient.ABCIQueryOptions{Height: int64(reqHeight)},
+		rpcclient.asuraQueryOptions{Height: int64(reqHeight)},
 		node, cert)
 	if _resp != nil {
 		resp := _resp.Response
@@ -51,12 +51,12 @@ func GetWithProof(key []byte, reqHeight int64, node rpcclient.Client,
 	return val, height, proof, err
 }
 
-// GetWithProofOptions is useful if you want full access to the ABCIQueryOptions
-func GetWithProofOptions(path string, key []byte, opts rpcclient.ABCIQueryOptions,
+// GetWithProofOptions is useful if you want full access to the asuraQueryOptions
+func GetWithProofOptions(path string, key []byte, opts rpcclient.asuraQueryOptions,
 	node rpcclient.Client, cert lite.Certifier) (
-	*ctypes.ResultABCIQuery, KeyProof, error) {
+	*ctypes.ResultasuraQuery, KeyProof, error) {
 
-	_resp, err := node.ABCIQueryWithOptions(path, key, opts)
+	_resp, err := node.asuraQueryWithOptions(path, key, opts)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -81,10 +81,10 @@ func GetWithProofOptions(path string, key []byte, opts rpcclient.ABCIQueryOption
 	}
 
 	_ = commit
-	return &ctypes.ResultABCIQuery{Response: resp}, nil, nil
+	return &ctypes.ResultasuraQuery{Response: resp}, nil, nil
 
-	/* // TODO refactor so iavl stuff is not in tendermint core
-	   // https://github.com/tendermint/tendermint/issues/1183
+	/* // TODO refactor so iavl stuff is not in teragrid core
+	   // https://github.com/teragrid/teragrid/issues/1183
 	if len(resp.Value) > 0 {
 		// The key was found, construct a proof of existence.
 		proof, err := iavl.ReadKeyProof(resp.Proof)
@@ -102,7 +102,7 @@ func GetWithProofOptions(path string, key []byte, opts rpcclient.ABCIQueryOption
 		if err != nil {
 			return nil, nil, errors.Wrap(err, "Couldn't verify proof")
 		}
-		return &ctypes.ResultABCIQuery{Response: resp}, eproof, nil
+		return &ctypes.ResultasuraQuery{Response: resp}, eproof, nil
 	}
 
 	// The key wasn't found, construct a proof of non-existence.
@@ -121,7 +121,7 @@ func GetWithProofOptions(path string, key []byte, opts rpcclient.ABCIQueryOption
 	if err != nil {
 		return nil, nil, errors.Wrap(err, "Couldn't verify proof")
 	}
-	return &ctypes.ResultABCIQuery{Response: resp}, aproof, ErrNoData()
+	return &ctypes.ResultasuraQuery{Response: resp}, aproof, ErrNoData()
 	*/
 }
 
@@ -130,7 +130,7 @@ func GetWithProofOptions(path string, key []byte, opts rpcclient.ABCIQueryOption
 func GetCertifiedCommit(h int64, node rpcclient.Client, cert lite.Certifier) (lite.Commit, error) {
 
 	// FIXME: cannot use cert.GetByHeight for now, as it also requires
-	// Validators and will fail on querying tendermint for non-current height.
+	// Validators and will fail on querying teragrid for non-current height.
 	// When this is supported, we should use it instead...
 	rpcclient.WaitForHeight(node, h, nil)
 	cresp, err := node.Commit(&h)

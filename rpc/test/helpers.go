@@ -8,18 +8,18 @@ import (
 	"strings"
 	"time"
 
-	"github.com/tendermint/tmlibs/log"
+	"github.com/teragrid/teralibs/log"
 
-	abci "github.com/tendermint/abci/types"
-	cmn "github.com/tendermint/tmlibs/common"
+	asura "github.com/teragrid/asura/types"
+	cmn "github.com/teragrid/teralibs/common"
 
-	cfg "github.com/tendermint/tendermint/config"
-	nm "github.com/tendermint/tendermint/node"
-	"github.com/tendermint/tendermint/proxy"
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
-	core_grpc "github.com/tendermint/tendermint/rpc/grpc"
-	rpcclient "github.com/tendermint/tendermint/rpc/lib/client"
-	pvm "github.com/tendermint/tendermint/types/priv_validator"
+	cfg "github.com/teragrid/teragrid/config"
+	nm "github.com/teragrid/teragrid/node"
+	"github.com/teragrid/teragrid/proxy"
+	ctypes "github.com/teragrid/teragrid/rpc/core/types"
+	core_grpc "github.com/teragrid/teragrid/rpc/grpc"
+	rpcclient "github.com/teragrid/teragrid/rpc/lib/client"
+	pvm "github.com/teragrid/teragrid/types/priv_validator"
 )
 
 var globalConfig *cfg.Config
@@ -94,9 +94,9 @@ func GetGRPCClient() core_grpc.BroadcastAPIClient {
 	return core_grpc.StartGRPCClient(grpcAddr)
 }
 
-// StartTendermint starts a test tendermint server in a go routine and returns when it is initialized
-func StartTendermint(app abci.Application) *nm.Node {
-	node := NewTendermint(app)
+// Startteragrid starts a test teragrid server in a go routine and returns when it is initialized
+func Startteragrid(app asura.Application) *nm.Node {
+	node := Newteragrid(app)
 	err := node.Start()
 	if err != nil {
 		panic(err)
@@ -106,13 +106,13 @@ func StartTendermint(app abci.Application) *nm.Node {
 	waitForRPC()
 	waitForGRPC()
 
-	fmt.Println("Tendermint running!")
+	fmt.Println("teragrid running!")
 
 	return node
 }
 
-// NewTendermint creates a new tendermint server and sleeps forever
-func NewTendermint(app abci.Application) *nm.Node {
+// Newteragrid creates a new teragrid server and sleeps forever
+func Newteragrid(app asura.Application) *nm.Node {
 	// Create & start node
 	config := GetConfig()
 	logger := log.NewTMLogger(log.NewSyncWriter(os.Stdout))

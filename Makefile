@@ -2,8 +2,9 @@ GOTOOLS = \
 	github.com/golang/dep/cmd/dep \
 	gopkg.in/alecthomas/gometalinter.v2
 PACKAGES=$(shell go list ./... | grep -v '/vendor/')
-BUILD_TAGS?=tendermint
-BUILD_FLAGS = -ldflags "-X github.com/tendermint/tendermint/version.GitCommit=`git rev-parse --short=8 HEAD`"
+BUILD_TAGS?=teragrid
+BUILD := `git rev-parse --short=8 HEAD`
+BUILD_FLAGS = -ldflags "-X github.com/teragrid/teragrid/version.GitCommit=$(BUILD)"
 
 all: check build test install
 
@@ -14,13 +15,13 @@ check: check_tools ensure_deps
 ### Build
 
 build:
-	CGO_ENABLED=0 go build $(BUILD_FLAGS) -tags '$(BUILD_TAGS)' -o build/tendermint ./cmd/tendermint/
+	CGO_ENABLED=0 go build $(BUILD_FLAGS) -tags '$(BUILD_TAGS)' -o build/teragrid ./cmd/teragrid/
 
 build_race:
-	CGO_ENABLED=0 go build -race $(BUILD_FLAGS) -tags '$(BUILD_TAGS)' -o build/tendermint ./cmd/tendermint
+	CGO_ENABLED=0 go build -race $(BUILD_FLAGS) -tags '$(BUILD_TAGS)' -o build/teragrid ./cmd/teragrid
 
 install:
-	CGO_ENABLED=0 go install $(BUILD_FLAGS) -tags '$(BUILD_TAGS)' ./cmd/tendermint
+	CGO_ENABLED=0 go install $(BUILD_FLAGS) -tags '$(BUILD_TAGS)' ./cmd/teragrid
 
 ########################################
 ### Distribution
@@ -62,11 +63,11 @@ ensure_deps:
 draw_deps:
 	@# requires brew install graphviz or apt-get install graphviz
 	go get github.com/RobotsAndPencils/goviz
-	@goviz -i github.com/tendermint/tendermint/cmd/tendermint -d 3 | dot -Tpng -o dependency-graph.png
+	@goviz -i github.com/teragrid/teragrid/cmd/teragrid -d 3 | dot -Tpng -o dependency-graph.png
 
 get_deps_bin_size:
 	@# Copy of build recipe with additional flags to perform binary size analysis
-	$(eval $(shell go build -work -a $(BUILD_FLAGS) -tags '$(BUILD_TAGS)' -o build/tendermint ./cmd/tendermint/ 2>&1))
+	$(eval $(shell go build -work -a $(BUILD_FLAGS) -tags '$(BUILD_TAGS)' -o build/teragrid ./cmd/teragrid/ 2>&1))
 	@find $(WORK) -type f -name "*.a" | xargs -I{} du -hxs "{}" | sort -rh | sed -e s:${WORK}/::g > deps_bin_size.log
 	@echo "Results can be found here: $(CURDIR)/deps_bin_size.log"
 
@@ -84,12 +85,12 @@ test_cover:
 
 test_apps:
 	# run the app tests using bash
-	# requires `abci-cli` and `tendermint` binaries installed
+	# requires `asura-cli` and `teragrid` binaries installed
 	bash test/app/test.sh
 
 test_persistence:
 	# run the persistence tests using bash
-	# requires `abci-cli` installed
+	# requires `asura-cli` installed
 	docker run --name run_persistence -t tester bash test/persist/test_failure_indices.sh
 
 	# TODO undockerize
@@ -105,15 +106,15 @@ test_p2p:
 	# requires 'tester' the image from above
 	bash test/p2p/test.sh tester
 
-need_abci:
-	bash scripts/install_abci_apps.sh
+need_asura:
+	bash scripts/install_asura_apps.sh
 
 test_integrations:
 	make build_docker_test_image
 	make get_tools
 	make get_vendor_deps
 	make install
-	make need_abci
+	make need_asura
 	make test_cover
 	make test_apps
 	make test_persistence
@@ -188,7 +189,7 @@ build-linux:
 # Run a 4-node testnet locally
 docker-start:
 	@echo "Wait until 'Attaching to node0, node1, node2, node3' message appears"
-	@if ! [ -f build/node0/config/genesis.json ]; then docker run --rm -v `pwd`/build:/tendermint:Z tendermint/localnode testnet --v 4 --o . --populate-persistent-peers --starting-ip-address 192.167.10.2 ; fi
+	@if ! [ -f build/node0/config/genesis.json ]; then docker run --rm -v `pwd`/build:/teragrid:Z teragrid/localnode testnet --v 4 --o . --populate-persistent-peers --starting-ip-address 192.167.10.2 ; fi
 	docker-compose up
 
 # Stop testnet
@@ -199,4 +200,3 @@ docker-stop:
 # unless there is a reason not to.
 # https://www.gnu.org/software/make/manual/html_node/Phony-Targets.html
 .PHONY: check build build_race dist install check_tools get_tools update_tools get_vendor_deps draw_deps test_cover test_apps test_persistence test_p2p test test_race test_integrations test_release test100 vagrant_test fmt build-linux docker-start docker-stop
-

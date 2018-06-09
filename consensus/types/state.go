@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/tendermint/tendermint/types"
+	"github.com/teragrid/teragrid/types"
 )
 
 //-----------------------------------------------------------------------------

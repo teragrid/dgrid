@@ -7,9 +7,9 @@ import (
 	"sync"
 	"time"
 
-	cfg "github.com/tendermint/tendermint/config"
-	"github.com/tendermint/tendermint/p2p/conn"
-	cmn "github.com/tendermint/tmlibs/common"
+	cfg "github.com/teragrid/teragrid/config"
+	"github.com/teragrid/teragrid/p2p/conn"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 const (
@@ -493,7 +493,7 @@ func (sw *Switch) addOutboundPeerWithConfig(addr *NetAddress, config *PeerConfig
 	return nil
 }
 
-// addPeer performs the Tendermint P2P handshake with a peer
+// addPeer performs the teragrid P2P handshake with a peer
 // that already has a SecretConnection. If all goes well,
 // it starts the peer and adds it to the switch.
 // NOTE: This performs a blocking handshake before the peer is added.

@@ -3,8 +3,8 @@ package types
 import (
 	"time"
 
-	"github.com/tendermint/go-amino"
-	cmn "github.com/tendermint/tmlibs/common"
+	"github.com/teragrid/go-amino"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 // Canonical json is amino's json for structs with fields in alphabetical order

@@ -1,4 +1,4 @@
-// Modified for Tendermint
+// Modified for teragrid
 // Originally Copyright (c) 2013-2014 Conformal Systems LLC.
 // https://github.com/conformal/btcd/blob/master/LICENSE
 
@@ -13,9 +13,9 @@ import (
 	"sync"
 	"time"
 
-	crypto "github.com/tendermint/go-crypto"
-	"github.com/tendermint/tendermint/p2p"
-	cmn "github.com/tendermint/tmlibs/common"
+	crypto "github.com/teragrid/go-crypto"
+	"github.com/teragrid/teragrid/p2p"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 const (

@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	cmn "github.com/tendermint/tmlibs/common"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 func BenchmarkFileWrite(b *testing.B) {

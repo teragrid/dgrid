@@ -3,10 +3,10 @@ package state
 import (
 	"fmt"
 
-	abci "github.com/tendermint/abci/types"
-	"github.com/tendermint/tendermint/types"
-	cmn "github.com/tendermint/tmlibs/common"
-	dbm "github.com/tendermint/tmlibs/db"
+	asura "github.com/teragrid/asura/types"
+	"github.com/teragrid/teragrid/types"
+	cmn "github.com/teragrid/teralibs/common"
+	dbm "github.com/teragrid/teralibs/db"
 )
 
 //------------------------------------------------------------------------
@@ -19,8 +19,8 @@ func calcConsensusParamsKey(height int64) []byte {
 	return []byte(cmn.Fmt("consensusParamsKey:%v", height))
 }
 
-func calcABCIResponsesKey(height int64) []byte {
-	return []byte(cmn.Fmt("abciResponsesKey:%v", height))
+func calcasuraResponsesKey(height int64) []byte {
+	return []byte(cmn.Fmt("asuraResponsesKey:%v", height))
 }
 
 // LoadStateFromDBOrGenesisFile loads the most recent state from the database,
@@ -93,62 +93,62 @@ func saveState(db dbm.DB, s State, key []byte) {
 
 //------------------------------------------------------------------------
 
-// ABCIResponses retains the responses
-// of the various ABCI calls during block processing.
+// asuraResponses retains the responses
+// of the various asura calls during block processing.
 // It is persisted to disk for each height before calling Commit.
-type ABCIResponses struct {
-	DeliverTx []*abci.ResponseDeliverTx
-	EndBlock  *abci.ResponseEndBlock
+type asuraResponses struct {
+	DeliverTx []*asura.ResponseDeliverTx
+	EndBlock  *asura.ResponseEndBlock
 }
 
-// NewABCIResponses returns a new ABCIResponses
-func NewABCIResponses(block *types.Block) *ABCIResponses {
-	resDeliverTxs := make([]*abci.ResponseDeliverTx, block.NumTxs)
+// NewasuraResponses returns a new asuraResponses
+func NewasuraResponses(block *types.Block) *asuraResponses {
+	resDeliverTxs := make([]*asura.ResponseDeliverTx, block.NumTxs)
 	if block.NumTxs == 0 {
 		// This makes Amino encoding/decoding consistent.
 		resDeliverTxs = nil
 	}
-	return &ABCIResponses{
+	return &asuraResponses{
 		DeliverTx: resDeliverTxs,
 	}
 }
 
-// Bytes serializes the ABCIResponse using go-amino.
-func (arz *ABCIResponses) Bytes() []byte {
+// Bytes serializes the asuraResponse using go-amino.
+func (arz *asuraResponses) Bytes() []byte {
 	return cdc.MustMarshalBinaryBare(arz)
 }
 
-func (arz *ABCIResponses) ResultsHash() []byte {
+func (arz *asuraResponses) ResultsHash() []byte {
 	results := types.NewResults(arz.DeliverTx)
 	return results.Hash()
 }
 
-// LoadABCIResponses loads the ABCIResponses for the given height from the database.
+// LoadasuraResponses loads the asuraResponses for the given height from the database.
 // This is useful for recovering from crashes where we called app.Commit and before we called
 // s.Save(). It can also be used to produce Merkle proofs of the result of txs.
-func LoadABCIResponses(db dbm.DB, height int64) (*ABCIResponses, error) {
-	buf := db.Get(calcABCIResponsesKey(height))
+func LoadasuraResponses(db dbm.DB, height int64) (*asuraResponses, error) {
+	buf := db.Get(calcasuraResponsesKey(height))
 	if len(buf) == 0 {
-		return nil, ErrNoABCIResponsesForHeight{height}
+		return nil, ErrNoasuraResponsesForHeight{height}
 	}
 
-	abciResponses := new(ABCIResponses)
-	err := cdc.UnmarshalBinaryBare(buf, abciResponses)
+	asuraResponses := new(asuraResponses)
+	err := cdc.UnmarshalBinaryBare(buf, asuraResponses)
 	if err != nil {
 		// DATA HAS BEEN CORRUPTED OR THE SPEC HAS CHANGED
-		cmn.Exit(cmn.Fmt(`LoadABCIResponses: Data has been corrupted or its spec has
+		cmn.Exit(cmn.Fmt(`LoadasuraResponses: Data has been corrupted or its spec has
                 changed: %v\n`, err))
 	}
 	// TODO: ensure that buf is completely read.
 
-	return abciResponses, nil
+	return asuraResponses, nil
 }
 
-// SaveABCIResponses persists the ABCIResponses to the database.
+// SaveasuraResponses persists the asuraResponses to the database.
 // This is useful in case we crash after app.Commit and before s.Save().
 // Responses are indexed by height so they can also be loaded later to produce Merkle proofs.
-func saveABCIResponses(db dbm.DB, height int64, abciResponses *ABCIResponses) {
-	db.SetSync(calcABCIResponsesKey(height), abciResponses.Bytes())
+func saveasuraResponses(db dbm.DB, height int64, asuraResponses *asuraResponses) {
+	db.SetSync(calcasuraResponsesKey(height), asuraResponses.Bytes())
 }
 
 //-----------------------------------------------------------------------------

@@ -5,11 +5,11 @@ import (
 	"testing"
 	"time"
 
-	cmn "github.com/tendermint/tmlibs/common"
-	"github.com/tendermint/tmlibs/log"
+	cmn "github.com/teragrid/teralibs/common"
+	"github.com/teragrid/teralibs/log"
 
-	"github.com/tendermint/tendermint/p2p"
-	"github.com/tendermint/tendermint/types"
+	"github.com/teragrid/teragrid/p2p"
+	"github.com/teragrid/teragrid/types"
 )
 
 func init() {

@@ -97,7 +97,7 @@ Each route is available as a GET request, as a JSONRPCv2 POST request, and via J
 
 # Examples
 
-* [Tendermint](https://github.com/tendermint/tendermint/blob/master/rpc/core/routes.go)
-* [tm-monitor](https://github.com/tendermint/tools/blob/master/tm-monitor/rpc.go)
+* [teragrid](https://github.com/teragrid/teragrid/blob/master/rpc/core/routes.go)
+* [tm-monitor](https://github.com/teragrid/tools/blob/master/tm-monitor/rpc.go)
 */
 package rpc

@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/tendermint/tendermint/p2p"
+	"github.com/teragrid/teragrid/p2p"
 
 )
 

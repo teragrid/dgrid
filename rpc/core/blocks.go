@@ -3,10 +3,10 @@ package core
 import (
 	"fmt"
 
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
-	sm "github.com/tendermint/tendermint/state"
-	"github.com/tendermint/tendermint/types"
-	cmn "github.com/tendermint/tmlibs/common"
+	ctypes "github.com/teragrid/teragrid/rpc/core/types"
+	sm "github.com/teragrid/teragrid/state"
+	"github.com/teragrid/teragrid/types"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 // Get block headers for minHeight <= height <= maxHeight.
@@ -296,7 +296,7 @@ func Commit(heightPtr *int64) (*ctypes.ResultCommit, error) {
 	return ctypes.NewResultCommit(header, commit, true), nil
 }
 
-// BlockResults gets ABCIResults at a given height.
+// BlockResults gets asuraResults at a given height.
 // If no height is provided, it will fetch results for the latest block.
 //
 // Results are for the height of the block containing the txs.
@@ -337,7 +337,7 @@ func BlockResults(heightPtr *int64) (*ctypes.ResultBlockResults, error) {
 	}
 
 	// load the results
-	results, err := sm.LoadABCIResponses(stateDB, height)
+	results, err := sm.LoadasuraResponses(stateDB, height)
 	if err != nil {
 		return nil, err
 	}

@@ -9,8 +9,8 @@ import (
 
 	"golang.org/x/crypto/ripemd160"
 
-	cmn "github.com/tendermint/tmlibs/common"
-	"github.com/tendermint/tmlibs/merkle"
+	cmn "github.com/teragrid/teralibs/common"
+	"github.com/teragrid/teralibs/merkle"
 )
 
 var (

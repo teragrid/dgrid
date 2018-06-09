@@ -8,8 +8,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tendermint/go-amino"
-	"github.com/tendermint/tmlibs/log"
+	"github.com/teragrid/go-amino"
+	"github.com/teragrid/teralibs/log"
 )
 
 func createTestMConnection(conn net.Conn) *MConnection {
@@ -223,7 +223,7 @@ func TestMConnectionMultiplePings(t *testing.T) {
 	defer mconn.Stop()
 
 	// sending 3 pings in a row (abuse)
-	// see https://github.com/tendermint/tendermint/issues/1190
+	// see https://github.com/teragrid/teragrid/issues/1190
 	_, err = server.Write(cdc.MustMarshalBinary(PacketPing{}))
 	require.Nil(t, err)
 	var pkt PacketPong

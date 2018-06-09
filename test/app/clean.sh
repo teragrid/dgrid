@@ -1,3 +1,3 @@
-killall tendermint
-killall abci-cli
-rm -rf ~/.tendermint_app
+killall teragrid
+killall asura-cli
+rm -rf ~/.teragrid_app

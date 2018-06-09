@@ -1,12 +1,12 @@
 /*
 package client provides a general purpose interface (Client) for connecting
-to a tendermint node, as well as higher-level functionality.
+to a teragrid node, as well as higher-level functionality.
 
 The main implementation for production code is client.HTTP, which
-connects via http to the jsonrpc interface of the tendermint node.
+connects via http to the jsonrpc interface of the teragrid node.
 
 For connecting to a node running in the same process (eg. when
-compiling the abci app in the same process), you can use the client.Local
+compiling the asura app in the same process), you can use the client.Local
 implementation.
 
 For mocking out server responses during testing to see behavior for
@@ -20,22 +20,22 @@ implementation.
 package client
 
 import (
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
-	"github.com/tendermint/tendermint/types"
-	cmn "github.com/tendermint/tmlibs/common"
+	ctypes "github.com/teragrid/teragrid/rpc/core/types"
+	"github.com/teragrid/teragrid/types"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
-// ABCIClient groups together the functionality that principally
-// affects the ABCI app. In many cases this will be all we want,
+// asuraClient groups together the functionality that principally
+// affects the asura app. In many cases this will be all we want,
 // so we can accept an interface which is easier to mock
-type ABCIClient interface {
-	// reading from abci app
-	ABCIInfo() (*ctypes.ResultABCIInfo, error)
-	ABCIQuery(path string, data cmn.HexBytes) (*ctypes.ResultABCIQuery, error)
-	ABCIQueryWithOptions(path string, data cmn.HexBytes,
-		opts ABCIQueryOptions) (*ctypes.ResultABCIQuery, error)
+type asuraClient interface {
+	// reading from asura app
+	asuraInfo() (*ctypes.ResultasuraInfo, error)
+	asuraQuery(path string, data cmn.HexBytes) (*ctypes.ResultasuraQuery, error)
+	asuraQueryWithOptions(path string, data cmn.HexBytes,
+		opts asuraQueryOptions) (*ctypes.ResultasuraQuery, error)
 
-	// writing to abci app
+	// writing to asura app
 	BroadcastTxCommit(tx types.Tx) (*ctypes.ResultBroadcastTxCommit, error)
 	BroadcastTxAsync(tx types.Tx) (*ctypes.ResultBroadcastTx, error)
 	BroadcastTxSync(tx types.Tx) (*ctypes.ResultBroadcastTx, error)
@@ -68,7 +68,7 @@ type StatusClient interface {
 // implements events.EventSwitch
 type Client interface {
 	cmn.Service
-	ABCIClient
+	asuraClient
 	SignClient
 	HistoryClient
 	StatusClient
@@ -87,7 +87,7 @@ type NetworkClient interface {
 }
 
 // EventsClient is reactive, you can subscribe to any message, given the proper
-// string. see tendermint/types/events.go
+// string. see teragrid/types/events.go
 type EventsClient interface {
 	types.EventBusSubscriber
 }

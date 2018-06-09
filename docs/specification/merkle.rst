@@ -4,7 +4,7 @@ Merkle
 For an overview of Merkle trees, see
 `wikipedia <https://en.wikipedia.org/wiki/Merkle_tree>`__.
 
-There are two types of Merkle trees used in Tendermint.
+There are two types of Merkle trees used in teragrid.
 
 -  **IAVL+ Tree**: An immutable self-balancing binary
    tree for persistent application state

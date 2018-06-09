@@ -6,8 +6,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	cmn "github.com/tendermint/tmlibs/common"
-	ctest "github.com/tendermint/tmlibs/test"
+	cmn "github.com/teragrid/teralibs/common"
+	ctest "github.com/teragrid/teralibs/test"
 )
 
 func makeTxs(cnt, size int) Txs {

@@ -1,15 +1,15 @@
-Install Tendermint
+Install teragrid
 ==================
 
 From Binary
 -----------
 
-To download pre-built binaries, see the `Download page <https://tendermint.com/downloads>`__.
+To download pre-built binaries, see the `Download page <https://teragrid.com/downloads>`__.
 
 From Source
 -----------
 
-You'll need ``go``, maybe `dep <https://github.com/golang/dep>`__, and the Tendermint source code.
+You'll need ``go``, maybe `dep <https://github.com/golang/dep>`__, and the teragrid source code.
 
 Install Go
 ^^^^^^^^^^
@@ -24,20 +24,20 @@ You should be able to install the latest with a simple
 
 ::
 
-    go get github.com/tendermint/tendermint/cmd/tendermint
+    go get github.com/teragrid/teragrid/cmd/teragrid
 
-Run ``tendermint --help`` and ``tendermint version`` to ensure your
+Run ``teragrid --help`` and ``teragrid version`` to ensure your
 installation worked.
 
 If the installation failed, a dependency may have been updated and become
-incompatible with the latest Tendermint master branch. We solve this
+incompatible with the latest teragrid master branch. We solve this
 using the ``dep`` tool for dependency management.
 
 First, install ``dep``:
 
 ::
 
-    cd $GOPATH/src/github.com/tendermint/tendermint
+    cd $GOPATH/src/github.com/teragrid/teragrid
     make get_tools
 
 Now we can fetch the correct versions of each dependency by running:
@@ -50,28 +50,28 @@ Now we can fetch the correct versions of each dependency by running:
 Note that even though ``go get`` originally failed, the repository was
 still cloned to the correct location in the ``$GOPATH``.
 
-The latest Tendermint Core version is now installed.
+The latest teragrid Core version is now installed.
 
 Reinstall
 ---------
 
-If you already have Tendermint installed, and you make updates, simply
+If you already have teragrid installed, and you make updates, simply
 
 ::
 
-    cd $GOPATH/src/github.com/tendermint/tendermint
+    cd $GOPATH/src/github.com/teragrid/teragrid
     make install
 
 To upgrade, there are a few options:
 
 -  set a new ``$GOPATH`` and run
-   ``go get github.com/tendermint/tendermint/cmd/tendermint``. This
+   ``go get github.com/teragrid/teragrid/cmd/teragrid``. This
    makes a fresh copy of everything for the new version.
--  run ``go get -u github.com/tendermint/tendermint/cmd/tendermint``,
+-  run ``go get -u github.com/teragrid/teragrid/cmd/teragrid``,
    where the ``-u`` fetches the latest updates for the repository and
    its dependencies
 -  fetch and checkout the latest master branch in
-   ``$GOPATH/src/github.com/tendermint/tendermint``, and then run
+   ``$GOPATH/src/github.com/teragrid/teragrid``, and then run
    ``make get_vendor_deps && make install`` as above.
 
 Note the first two options should usually work, but may fail. If they
@@ -79,7 +79,7 @@ do, use ``dep``, as above:
 
 ::
 
-    cd $GOPATH/src/github.com/tendermint/tendermint
+    cd $GOPATH/src/github.com/teragrid/teragrid
     make get_vendor_deps
     make install
 
@@ -93,9 +93,9 @@ If ``go get`` failing bothers you, fetch the code using ``git``:
 
 ::
 
-    mkdir -p $GOPATH/src/github.com/tendermint
-    git clone https://github.com/tendermint/tendermint $GOPATH/src/github.com/tendermint/tendermint
-    cd $GOPATH/src/github.com/tendermint/tendermint
+    mkdir -p $GOPATH/src/github.com/teragrid
+    git clone https://github.com/teragrid/teragrid $GOPATH/src/github.com/teragrid/teragrid
+    cd $GOPATH/src/github.com/teragrid/teragrid
     make get_tools
     make get_vendor_deps
     make install
@@ -107,5 +107,5 @@ To start a one-node blockchain with a simple in-process application:
 
 ::
 
-    tendermint init
-    tendermint node --proxy_app=kvstore
+    teragrid init
+    teragrid node --proxy_app=kvstore

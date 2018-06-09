@@ -4,12 +4,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/tendermint/go-amino"
-	"github.com/tendermint/go-crypto"
+	"github.com/teragrid/go-amino"
+	"github.com/teragrid/go-crypto"
 
-	proto "github.com/tendermint/tendermint/benchmarks/proto"
-	"github.com/tendermint/tendermint/p2p"
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
+	proto "github.com/teragrid/teragrid/benchmarks/proto"
+	"github.com/teragrid/teragrid/p2p"
+	ctypes "github.com/teragrid/teragrid/rpc/core/types"
 )
 
 func BenchmarkEncodeStatusWire(b *testing.B) {

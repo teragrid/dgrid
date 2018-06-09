@@ -7,11 +7,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/tendermint/go-amino"
-	cmn "github.com/tendermint/tmlibs/common"
+	"github.com/teragrid/go-amino"
+	cmn "github.com/teragrid/teralibs/common"
 
-	"github.com/tendermint/tendermint/p2p"
-	"github.com/tendermint/tendermint/p2p/conn"
+	"github.com/teragrid/teragrid/p2p"
+	"github.com/teragrid/teragrid/p2p/conn"
 )
 
 type Peer = p2p.Peer
@@ -609,8 +609,8 @@ type PexMessage interface{}
 
 func RegisterPexMessage(cdc *amino.Codec) {
 	cdc.RegisterInterface((*PexMessage)(nil), nil)
-	cdc.RegisterConcrete(&pexRequestMessage{}, "tendermint/p2p/PexRequestMessage", nil)
-	cdc.RegisterConcrete(&pexAddrsMessage{}, "tendermint/p2p/PexAddrsMessage", nil)
+	cdc.RegisterConcrete(&pexRequestMessage{}, "teragrid/p2p/PexRequestMessage", nil)
+	cdc.RegisterConcrete(&pexAddrsMessage{}, "teragrid/p2p/PexAddrsMessage", nil)
 }
 
 // DecodeMessage implements interface registered above.

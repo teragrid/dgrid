@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"time"
 
-	"github.com/tendermint/tendermint/types"
+	"github.com/teragrid/teragrid/types"
 )
 
 // database keys
@@ -16,7 +16,7 @@ var (
 
 //-----------------------------------------------------------------------------
 
-// State is a short description of the latest committed block of the Tendermint consensus.
+// State is a short description of the latest committed block of the teragrid consensus.
 // It keeps all information necessary to validate new blocks,
 // including the last validator set and the consensus params.
 // All fields are exposed so the struct can be easily serialized,
@@ -50,7 +50,7 @@ type State struct {
 	// Merkle root of the results from executing prev block
 	LastResultsHash []byte
 
-	// The latest AppHash we've received from calling abci.Commit()
+	// The latest AppHash we've received from calling asura.Commit()
 	AppHash []byte
 }
 

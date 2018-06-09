@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"fmt"
 
-	"github.com/tendermint/go-amino"
-	"github.com/tendermint/go-crypto"
-	"github.com/tendermint/tmlibs/merkle"
+	"github.com/teragrid/go-amino"
+	"github.com/teragrid/go-crypto"
+	"github.com/teragrid/teralibs/merkle"
 )
 
 // ErrEvidenceInvalid wraps a piece of evidence and the error denoting how or why it is invalid.
@@ -40,7 +40,7 @@ type Evidence interface {
 
 func RegisterEvidences(cdc *amino.Codec) {
 	cdc.RegisterInterface((*Evidence)(nil), nil)
-	cdc.RegisterConcrete(&DuplicateVoteEvidence{}, "tendermint/DuplicateVoteEvidence", nil)
+	cdc.RegisterConcrete(&DuplicateVoteEvidence{}, "teragrid/DuplicateVoteEvidence", nil)
 }
 
 //-------------------------------------------
@@ -180,7 +180,7 @@ type EvidenceList []Evidence
 // Hash returns the simple merkle root hash of the EvidenceList.
 func (evl EvidenceList) Hash() []byte {
 	// Recursive impl.
-	// Copied from tmlibs/merkle to avoid allocations
+	// Copied from teralibs/merkle to avoid allocations
 	switch len(evl) {
 	case 0:
 		return nil

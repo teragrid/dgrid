@@ -13,9 +13,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	cfg "github.com/tendermint/tendermint/config"
-	"github.com/tendermint/tmlibs/cli"
-	cmn "github.com/tendermint/tmlibs/common"
+	cfg "github.com/teragrid/teragrid/config"
+	"github.com/teragrid/teralibs/cli"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 var (

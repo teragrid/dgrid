@@ -4,13 +4,13 @@ import (
 	"bytes"
 	"time"
 
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
-	sm "github.com/tendermint/tendermint/state"
-	"github.com/tendermint/tendermint/types"
-	cmn "github.com/tendermint/tmlibs/common"
+	ctypes "github.com/teragrid/teragrid/rpc/core/types"
+	sm "github.com/teragrid/teragrid/state"
+	"github.com/teragrid/teragrid/types"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
-// Get Tendermint status including node info, pubkey, latest block
+// Get teragrid status including node info, pubkey, latest block
 // hash, app hash, block height and time.
 //
 // ```shell

@@ -10,8 +10,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	crypto "github.com/tendermint/go-crypto"
-	cmn "github.com/tendermint/tmlibs/common"
+	crypto "github.com/teragrid/go-crypto"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 func TestCopy(t *testing.T) {

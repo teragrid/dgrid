@@ -10,10 +10,10 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tendermint/tmlibs/db"
-	"github.com/tendermint/tmlibs/log"
+	"github.com/teragrid/teralibs/db"
+	"github.com/teragrid/teralibs/log"
 
-	"github.com/tendermint/tendermint/types"
+	"github.com/teragrid/teragrid/types"
 )
 
 func TestLoadBlockStoreStateJSON(t *testing.T) {
@@ -284,7 +284,7 @@ func TestLoadBlockPart(t *testing.T) {
 	require.Nil(t, res, "a non-existent block part should return nil")
 
 	// 2. Next save a corrupted block then try to load it
-	db.Set(calcBlockPartKey(height, index), []byte("Tendermint"))
+	db.Set(calcBlockPartKey(height, index), []byte("teragrid"))
 	res, _, panicErr = doFn(loadPart)
 	require.NotNil(t, panicErr, "expecting a non-nil panic")
 	require.Contains(t, panicErr.Error(), "Error reading block part")
@@ -313,7 +313,7 @@ func TestLoadBlockMeta(t *testing.T) {
 	require.Nil(t, res, "a non-existent blockMeta should return nil")
 
 	// 2. Next save a corrupted blockMeta then try to load it
-	db.Set(calcBlockMetaKey(height), []byte("Tendermint-Meta"))
+	db.Set(calcBlockMetaKey(height), []byte("teragrid-Meta"))
 	res, _, panicErr = doFn(loadMeta)
 	require.NotNil(t, panicErr, "expecting a non-nil panic")
 	require.Contains(t, panicErr.Error(), "Error reading block meta")

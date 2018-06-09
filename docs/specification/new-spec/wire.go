@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	wire "github.com/tendermint/go-wire"
+	wire "github.com/teragrid/go-wire"
 )
 
 func main() {

@@ -1,9 +1,9 @@
 package lite
 
 import (
-	"github.com/tendermint/tendermint/types"
+	"github.com/teragrid/teragrid/types"
 
-	liteErr "github.com/tendermint/tendermint/lite/errors"
+	liteErr "github.com/teragrid/teragrid/lite/errors"
 )
 
 var _ Certifier = (*DynamicCertifier)(nil)

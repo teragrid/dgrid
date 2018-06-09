@@ -5,9 +5,9 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/tendermint/tendermint/lite"
-	certerr "github.com/tendermint/tendermint/lite/errors"
-	"github.com/tendermint/tendermint/types"
+	"github.com/teragrid/teragrid/lite"
+	certerr "github.com/teragrid/teragrid/lite/errors"
+	"github.com/teragrid/teragrid/types"
 )
 
 func ValidateBlockMeta(meta *types.BlockMeta, check lite.Commit) error {

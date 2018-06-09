@@ -2,7 +2,7 @@
 
 ## Context
 
-Tendermint is required to monitor peer quality in order to inform its peer dialing and peer exchange strategies.
+teragrid is required to monitor peer quality in order to inform its peer dialing and peer exchange strategies.
 
 When a node first connects to the network, it is important that it can quickly find good peers.
 Thus, while a node has fewer connections, it should prioritize connecting to higher quality peers.
@@ -29,7 +29,7 @@ Some useful information about the inner workings of the trust metric:
 
 ## Decision
 
-The trust metric capability is now available, yet, it still leaves the question of how should it be applied throughout Tendermint in order to properly track the quality of peers?
+The trust metric capability is now available, yet, it still leaves the question of how should it be applied throughout teragrid in order to properly track the quality of peers?
 
 ### Proposed Process
 

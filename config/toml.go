@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"text/template"
 
-	cmn "github.com/tendermint/tmlibs/common"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 var configTemplate *template.Template
@@ -41,7 +41,7 @@ func EnsureRoot(rootDir string) {
 	}
 }
 
-// XXX: this func should probably be called by cmd/tendermint/commands/init.go
+// XXX: this func should probably be called by cmd/teragrid/commands/init.go
 // alongside the writing of the genesis.json and priv_validator.json
 func writeDefaultCondigFile(configFilePath string) {
 	WriteConfigFile(configFilePath, DefaultConfig())
@@ -65,8 +65,8 @@ const defaultConfigTemplate = `# This is a TOML config file.
 
 ##### main base config options #####
 
-# TCP or UNIX socket address of the ABCI application,
-# or the name of an ABCI application compiled in with the Tendermint binary
+# TCP or UNIX socket address of the asura application,
+# or the name of an asura application compiled in with the teragrid binary
 proxy_app = "{{ .BaseConfig.ProxyApp }}"
 
 # A custom human readable name for this node
@@ -97,13 +97,13 @@ priv_validator_file = "{{ .BaseConfig.PrivValidator }}"
 # Path to the JSON file containing the private key to use for node authentication in the p2p protocol
 node_key_file = "{{ .BaseConfig.NodeKey}}"
 
-# Mechanism to connect to the ABCI application: socket | grpc
-abci = "{{ .BaseConfig.ABCI }}"
+# Mechanism to connect to the asura application: socket | grpc
+asura = "{{ .BaseConfig.asura }}"
 
 # TCP or UNIX socket address for the profiling server to listen on
 prof_laddr = "{{ .BaseConfig.ProfListenAddress }}"
 
-# If true, query the ABCI app on connecting to a new peer
+# If true, query the asura app on connecting to a new peer
 # so the app can decide if we should keep the connection or not
 filter_peers = {{ .BaseConfig.FilterPeers }}
 
@@ -235,15 +235,15 @@ index_all_tags = {{ .TxIndex.IndexAllTags }}
 /****** these are for test settings ***********/
 
 func ResetTestRoot(testName string) *Config {
-	rootDir := os.ExpandEnv("$HOME/.tendermint_test")
+	rootDir := os.ExpandEnv("$HOME/.teragrid_test")
 	rootDir = filepath.Join(rootDir, testName)
-	// Remove ~/.tendermint_test_bak
+	// Remove ~/.teragrid_test_bak
 	if cmn.FileExists(rootDir + "_bak") {
 		if err := os.RemoveAll(rootDir + "_bak"); err != nil {
 			cmn.PanicSanity(err.Error())
 		}
 	}
-	// Move ~/.tendermint_test to ~/.tendermint_test_bak
+	// Move ~/.teragrid_test to ~/.teragrid_test_bak
 	if cmn.FileExists(rootDir) {
 		if err := os.Rename(rootDir, rootDir+"_bak"); err != nil {
 			cmn.PanicSanity(err.Error())
@@ -281,7 +281,7 @@ func ResetTestRoot(testName string) *Config {
 
 var testGenesis = `{
   "genesis_time": "0001-01-01T00:00:00.000Z",
-  "chain_id": "tendermint_test",
+  "chain_id": "teragrid_test",
   "validators": [
     {
       "pub_key": {

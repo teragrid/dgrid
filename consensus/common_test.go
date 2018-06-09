@@ -12,22 +12,22 @@ import (
 	"testing"
 	"time"
 
-	abcicli "github.com/tendermint/abci/client"
-	abci "github.com/tendermint/abci/types"
-	bc "github.com/tendermint/tendermint/blockchain"
-	cfg "github.com/tendermint/tendermint/config"
-	cstypes "github.com/tendermint/tendermint/consensus/types"
-	mempl "github.com/tendermint/tendermint/mempool"
-	"github.com/tendermint/tendermint/p2p"
-	sm "github.com/tendermint/tendermint/state"
-	"github.com/tendermint/tendermint/types"
-	pvm "github.com/tendermint/tendermint/types/priv_validator"
-	cmn "github.com/tendermint/tmlibs/common"
-	dbm "github.com/tendermint/tmlibs/db"
-	"github.com/tendermint/tmlibs/log"
+	asuracli "github.com/teragrid/asura/client"
+	asura "github.com/teragrid/asura/types"
+	bc "github.com/teragrid/teragrid/blockchain"
+	cfg "github.com/teragrid/teragrid/config"
+	cstypes "github.com/teragrid/teragrid/consensus/types"
+	mempl "github.com/teragrid/teragrid/mempool"
+	"github.com/teragrid/teragrid/p2p"
+	sm "github.com/teragrid/teragrid/state"
+	"github.com/teragrid/teragrid/types"
+	pvm "github.com/teragrid/teragrid/types/priv_validator"
+	cmn "github.com/teragrid/teralibs/common"
+	dbm "github.com/teragrid/teralibs/db"
+	"github.com/teragrid/teralibs/log"
 
-	"github.com/tendermint/abci/example/counter"
-	"github.com/tendermint/abci/example/kvstore"
+	"github.com/teragrid/asura/example/counter"
+	"github.com/teragrid/asura/example/kvstore"
 
 	"github.com/go-kit/kit/log/term"
 )
@@ -236,23 +236,23 @@ func subscribeToVoter(cs *ConsensusState, addr []byte) chan interface{} {
 //-------------------------------------------------------------------------------
 // consensus states
 
-func newConsensusState(state sm.State, pv types.PrivValidator, app abci.Application) *ConsensusState {
+func newConsensusState(state sm.State, pv types.PrivValidator, app asura.Application) *ConsensusState {
 	return newConsensusStateWithConfig(config, state, pv, app)
 }
 
-func newConsensusStateWithConfig(thisConfig *cfg.Config, state sm.State, pv types.PrivValidator, app abci.Application) *ConsensusState {
+func newConsensusStateWithConfig(thisConfig *cfg.Config, state sm.State, pv types.PrivValidator, app asura.Application) *ConsensusState {
 	blockDB := dbm.NewMemDB()
 	return newConsensusStateWithConfigAndBlockStore(thisConfig, state, pv, app, blockDB)
 }
 
-func newConsensusStateWithConfigAndBlockStore(thisConfig *cfg.Config, state sm.State, pv types.PrivValidator, app abci.Application, blockDB dbm.DB) *ConsensusState {
+func newConsensusStateWithConfigAndBlockStore(thisConfig *cfg.Config, state sm.State, pv types.PrivValidator, app asura.Application, blockDB dbm.DB) *ConsensusState {
 	// Get BlockStore
 	blockStore := bc.NewBlockStore(blockDB)
 
 	// one for mempool, one for consensus
 	mtx := new(sync.Mutex)
-	proxyAppConnMem := abcicli.NewLocalClient(mtx, app)
-	proxyAppConnCon := abcicli.NewLocalClient(mtx, app)
+	proxyAppConnMem := asuracli.NewLocalClient(mtx, app)
+	proxyAppConnCon := asuracli.NewLocalClient(mtx, app)
 
 	// Make Mempool
 	mempool := mempl.NewMempool(thisConfig.Mempool, proxyAppConnMem, 0)
@@ -341,7 +341,7 @@ func consensusLogger() log.Logger {
 	}).With("module", "consensus")
 }
 
-func randConsensusNet(nValidators int, testName string, tickerFunc func() TimeoutTicker, appFunc func() abci.Application, configOpts ...func(*cfg.Config)) []*ConsensusState {
+func randConsensusNet(nValidators int, testName string, tickerFunc func() TimeoutTicker, appFunc func() asura.Application, configOpts ...func(*cfg.Config)) []*ConsensusState {
 	genDoc, privVals := randGenesisDoc(nValidators, false, 30)
 	css := make([]*ConsensusState, nValidators)
 	logger := consensusLogger()
@@ -355,7 +355,7 @@ func randConsensusNet(nValidators int, testName string, tickerFunc func() Timeou
 		ensureDir(path.Dir(thisConfig.Consensus.WalFile()), 0700) // dir for wal
 		app := appFunc()
 		vals := types.TM2PB.Validators(state.Validators)
-		app.InitChain(abci.RequestInitChain{Validators: vals})
+		app.InitChain(asura.RequestInitChain{Validators: vals})
 
 		css[i] = newConsensusStateWithConfig(thisConfig, state, privVals[i], app)
 		css[i].SetTimeoutTicker(tickerFunc())
@@ -365,7 +365,7 @@ func randConsensusNet(nValidators int, testName string, tickerFunc func() Timeou
 }
 
 // nPeers = nValidators + nNotValidator
-func randConsensusNetWithPeers(nValidators, nPeers int, testName string, tickerFunc func() TimeoutTicker, appFunc func() abci.Application) []*ConsensusState {
+func randConsensusNetWithPeers(nValidators, nPeers int, testName string, tickerFunc func() TimeoutTicker, appFunc func() asura.Application) []*ConsensusState {
 	genDoc, privVals := randGenesisDoc(nValidators, false, testMinPower)
 	css := make([]*ConsensusState, nPeers)
 	logger := consensusLogger()
@@ -384,7 +384,7 @@ func randConsensusNetWithPeers(nValidators, nPeers int, testName string, tickerF
 
 		app := appFunc()
 		vals := types.TM2PB.Validators(state.Validators)
-		app.InitChain(abci.RequestInitChain{Validators: vals})
+		app.InitChain(asura.RequestInitChain{Validators: vals})
 
 		css[i] = newConsensusStateWithConfig(thisConfig, state, privVal, app)
 		css[i].SetTimeoutTicker(tickerFunc())
@@ -485,11 +485,11 @@ func (mockTicker) SetLogger(log.Logger) {
 
 //------------------------------------
 
-func newCounter() abci.Application {
+func newCounter() asura.Application {
 	return counter.NewCounterApplication(true)
 }
 
-func newPersistentKVStore() abci.Application {
+func newPersistentKVStore() asura.Application {
 	dir, _ := ioutil.TempDir("/tmp", "persistent-kvstore")
 	return kvstore.NewPersistentKVStoreApplication(dir)
 }

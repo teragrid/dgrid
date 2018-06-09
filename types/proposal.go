@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/tendermint/go-crypto"
+	"github.com/teragrid/go-crypto"
 )
 
 var (

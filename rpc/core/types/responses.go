@@ -5,13 +5,13 @@ import (
 	"strings"
 	"time"
 
-	abci "github.com/tendermint/abci/types"
-	crypto "github.com/tendermint/go-crypto"
-	cmn "github.com/tendermint/tmlibs/common"
+	asura "github.com/teragrid/asura/types"
+	crypto "github.com/teragrid/go-crypto"
+	cmn "github.com/teragrid/teralibs/common"
 
-	"github.com/tendermint/tendermint/p2p"
-	"github.com/tendermint/tendermint/state"
-	"github.com/tendermint/tendermint/types"
+	"github.com/teragrid/teragrid/p2p"
+	"github.com/teragrid/teragrid/state"
+	"github.com/teragrid/teragrid/types"
 )
 
 type ResultBlockchainInfo struct {
@@ -37,7 +37,7 @@ type ResultCommit struct {
 
 type ResultBlockResults struct {
 	Height  int64                `json:"height"`
-	Results *state.ABCIResponses `json:"results"`
+	Results *state.asuraResponses `json:"results"`
 }
 
 // NewResultCommit is a helper to initialize the ResultCommit with
@@ -125,8 +125,8 @@ type ResultBroadcastTx struct {
 }
 
 type ResultBroadcastTxCommit struct {
-	CheckTx   abci.ResponseCheckTx   `json:"check_tx"`
-	DeliverTx abci.ResponseDeliverTx `json:"deliver_tx"`
+	CheckTx   asura.ResponseCheckTx   `json:"check_tx"`
+	DeliverTx asura.ResponseDeliverTx `json:"deliver_tx"`
 	Hash      cmn.HexBytes           `json:"hash"`
 	Height    int64                  `json:"height"`
 }
@@ -135,7 +135,7 @@ type ResultTx struct {
 	Hash     cmn.HexBytes           `json:"hash"`
 	Height   int64                  `json:"height"`
 	Index    uint32                 `json:"index"`
-	TxResult abci.ResponseDeliverTx `json:"tx_result"`
+	TxResult asura.ResponseDeliverTx `json:"tx_result"`
 	Tx       types.Tx               `json:"tx"`
 	Proof    types.TxProof          `json:"proof,omitempty"`
 }
@@ -145,12 +145,12 @@ type ResultUnconfirmedTxs struct {
 	Txs []types.Tx `json:"txs"`
 }
 
-type ResultABCIInfo struct {
-	Response abci.ResponseInfo `json:"response"`
+type ResultasuraInfo struct {
+	Response asura.ResponseInfo `json:"response"`
 }
 
-type ResultABCIQuery struct {
-	Response abci.ResponseQuery `json:"response"`
+type ResultasuraQuery struct {
+	Response asura.ResponseQuery `json:"response"`
 }
 
 type ResultUnsafeFlushMempool struct{}

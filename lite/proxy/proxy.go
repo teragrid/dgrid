@@ -3,13 +3,13 @@ package proxy
 import (
 	"net/http"
 
-	"github.com/tendermint/go-amino"
-	"github.com/tendermint/tmlibs/log"
+	"github.com/teragrid/go-amino"
+	"github.com/teragrid/teralibs/log"
 
-	rpcclient "github.com/tendermint/tendermint/rpc/client"
-	"github.com/tendermint/tendermint/rpc/core"
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
-	rpc "github.com/tendermint/tendermint/rpc/lib/server"
+	rpcclient "github.com/teragrid/teragrid/rpc/client"
+	"github.com/teragrid/teragrid/rpc/core"
+	ctypes "github.com/teragrid/teragrid/rpc/core/types"
+	rpc "github.com/teragrid/teragrid/rpc/lib/server"
 )
 
 const (
@@ -44,14 +44,14 @@ func StartProxy(c rpcclient.Client, listenAddr string, logger log.Logger) error 
 }
 
 // RPCRoutes just routes everything to the given client, as if it were
-// a tendermint fullnode.
+// a teragrid fullnode.
 //
 // if we want security, the client must implement it as a secure client
 func RPCRoutes(c rpcclient.Client) map[string]*rpc.RPCFunc {
 
 	return map[string]*rpc.RPCFunc{
 		// Subscribe/unsubscribe are reserved for websocket events.
-		// We can just use the core tendermint impl, which uses the
+		// We can just use the core teragrid impl, which uses the
 		// EventSwitch we registered in NewWebsocketManager above
 		"subscribe":   rpc.NewWSRPCFunc(core.Subscribe, "query"),
 		"unsubscribe": rpc.NewWSRPCFunc(core.Unsubscribe, "query"),
@@ -70,8 +70,8 @@ func RPCRoutes(c rpcclient.Client) map[string]*rpc.RPCFunc {
 		"broadcast_tx_sync":   rpc.NewRPCFunc(c.BroadcastTxSync, "tx"),
 		"broadcast_tx_async":  rpc.NewRPCFunc(c.BroadcastTxAsync, "tx"),
 
-		// abci API
-		"abci_query": rpc.NewRPCFunc(c.ABCIQuery, "path,data,prove"),
-		"abci_info":  rpc.NewRPCFunc(c.ABCIInfo, ""),
+		// asura API
+		"asura_query": rpc.NewRPCFunc(c.asuraQuery, "path,data,prove"),
+		"asura_info":  rpc.NewRPCFunc(c.asuraInfo, ""),
 	}
 }

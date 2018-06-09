@@ -3,9 +3,9 @@ package null
 import (
 	"errors"
 
-	"github.com/tendermint/tendermint/state/txindex"
-	"github.com/tendermint/tendermint/types"
-	"github.com/tendermint/tmlibs/pubsub/query"
+	"github.com/teragrid/teragrid/state/txindex"
+	"github.com/teragrid/teragrid/types"
+	"github.com/teragrid/teralibs/pubsub/query"
 )
 
 var _ txindex.TxIndexer = (*TxIndex)(nil)

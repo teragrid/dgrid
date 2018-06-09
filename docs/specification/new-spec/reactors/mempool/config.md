@@ -54,6 +54,6 @@ transactions if the node crashes.
 
 If the directory passed in is an absolute path, the wal file is
 created there. If the directory is a relative path, the path is
-appended to home directory of the tendermint process to
+appended to home directory of the teragrid process to
 generate an absolute path to the wal directory
-(default `$HOME/.tendermint` or set via `TM_HOME` or `--home``)
+(default `$HOME/.teragrid` or set via `TM_HOME` or `--home``)

@@ -9,6 +9,6 @@ to build the docs locally then open the file `_build/html/index.html` in your br
 
 **WARNING:** This documentation is intended to be viewed at:
 
-https://tendermint.readthedocs.io
+https://teragrid.readthedocs.io
 
 and may contain broken internal links when viewed from Github.

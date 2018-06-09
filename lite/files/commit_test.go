@@ -8,9 +8,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	cmn "github.com/tendermint/tmlibs/common"
+	cmn "github.com/teragrid/teralibs/common"
 
-	"github.com/tendermint/tendermint/lite"
+	"github.com/teragrid/teragrid/lite"
 )
 
 func tmpFile() string {

@@ -40,7 +40,7 @@ A vetted peer can only be in one bucket. An unvetted peer can be in multiple buc
 
 When a peer is first added, it is unvetted.
 Marking a peer as vetted is outside the scope of the `p2p` package.
-For Tendermint, a Peer becomes vetted once it has contributed sufficiently
+For teragrid, a Peer becomes vetted once it has contributed sufficiently
 at the consensus layer; ie. once it has sent us valid and not-yet-known
 votes and/or block parts for `NumBlocksForVetted` blocks.
 Other users of the p2p package can determine their own conditions for when a peer is marked vetted.

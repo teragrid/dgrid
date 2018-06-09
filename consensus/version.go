@@ -1,7 +1,7 @@
 package consensus
 
 import (
-	cmn "github.com/tendermint/tmlibs/common"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 // kind of arbitrary

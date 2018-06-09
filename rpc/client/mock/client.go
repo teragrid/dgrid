@@ -8,7 +8,7 @@ the server response you want to mock (eg. error handling),
 or if you just want to record the calls to verify in your tests.
 
 For real clients, you probably want the "http" package.  If you
-want to directly call a tendermint node in process, you can use the
+want to directly call a teragrid node in process, you can use the
 "local" package.
 */
 package mock
@@ -16,11 +16,11 @@ package mock
 import (
 	"reflect"
 
-	"github.com/tendermint/tendermint/rpc/client"
-	"github.com/tendermint/tendermint/rpc/core"
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
-	"github.com/tendermint/tendermint/types"
-	cmn "github.com/tendermint/tmlibs/common"
+	"github.com/teragrid/teragrid/rpc/client"
+	"github.com/teragrid/teragrid/rpc/core"
+	ctypes "github.com/teragrid/teragrid/rpc/core/types"
+	"github.com/teragrid/teragrid/types"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 // Client wraps arbitrary implementations of the various interfaces.
@@ -29,7 +29,7 @@ import (
 // Nothing hidden here, so no New function, just construct it from
 // some parts, and swap them out them during the tests.
 type Client struct {
-	client.ABCIClient
+	client.asuraClient
 	client.SignClient
 	client.HistoryClient
 	client.StatusClient
@@ -78,16 +78,16 @@ func (c Client) Status() (*ctypes.ResultStatus, error) {
 	return core.Status()
 }
 
-func (c Client) ABCIInfo() (*ctypes.ResultABCIInfo, error) {
-	return core.ABCIInfo()
+func (c Client) asuraInfo() (*ctypes.ResultasuraInfo, error) {
+	return core.asuraInfo()
 }
 
-func (c Client) ABCIQuery(path string, data cmn.HexBytes) (*ctypes.ResultABCIQuery, error) {
-	return c.ABCIQueryWithOptions(path, data, client.DefaultABCIQueryOptions)
+func (c Client) asuraQuery(path string, data cmn.HexBytes) (*ctypes.ResultasuraQuery, error) {
+	return c.asuraQueryWithOptions(path, data, client.DefaultasuraQueryOptions)
 }
 
-func (c Client) ABCIQueryWithOptions(path string, data cmn.HexBytes, opts client.ABCIQueryOptions) (*ctypes.ResultABCIQuery, error) {
-	return core.ABCIQuery(path, data, opts.Height, opts.Trusted)
+func (c Client) asuraQueryWithOptions(path string, data cmn.HexBytes, opts client.asuraQueryOptions) (*ctypes.ResultasuraQuery, error) {
+	return core.asuraQuery(path, data, opts.Height, opts.Trusted)
 }
 
 func (c Client) BroadcastTxCommit(tx types.Tx) (*ctypes.ResultBroadcastTxCommit, error) {

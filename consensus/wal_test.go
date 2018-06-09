@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/tendermint/tendermint/consensus/types"
-	tmtypes "github.com/tendermint/tendermint/types"
-	cmn "github.com/tendermint/tmlibs/common"
+	"github.com/teragrid/teragrid/consensus/types"
+	tmtypes "github.com/teragrid/teragrid/types"
+	cmn "github.com/teragrid/teralibs/common"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

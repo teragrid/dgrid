@@ -7,8 +7,8 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
-	"github.com/tendermint/go-amino"
-	tmpubsub "github.com/tendermint/tmlibs/pubsub"
+	"github.com/teragrid/go-amino"
+	tmpubsub "github.com/teragrid/teralibs/pubsub"
 )
 
 //----------------------------------------
@@ -157,7 +157,7 @@ type WSRPCConnection interface {
 	Codec() *amino.Codec
 }
 
-// EventSubscriber mirros tendermint/tendermint/types.EventBusSubscriber
+// EventSubscriber mirros teragrid/teragrid/types.EventBusSubscriber
 type EventSubscriber interface {
 	Subscribe(ctx context.Context, subscriber string, query tmpubsub.Query, out chan<- interface{}) error
 	Unsubscribe(ctx context.Context, subscriber string, query tmpubsub.Query) error

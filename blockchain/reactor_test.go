@@ -3,15 +3,15 @@ package blockchain
 import (
 	"testing"
 
-	cmn "github.com/tendermint/tmlibs/common"
-	dbm "github.com/tendermint/tmlibs/db"
-	"github.com/tendermint/tmlibs/log"
+	cmn "github.com/teragrid/teralibs/common"
+	dbm "github.com/teragrid/teralibs/db"
+	"github.com/teragrid/teralibs/log"
 
-	cfg "github.com/tendermint/tendermint/config"
-	"github.com/tendermint/tendermint/p2p"
-	"github.com/tendermint/tendermint/proxy"
-	sm "github.com/tendermint/tendermint/state"
-	"github.com/tendermint/tendermint/types"
+	cfg "github.com/teragrid/teragrid/config"
+	"github.com/teragrid/teragrid/p2p"
+	"github.com/teragrid/teragrid/proxy"
+	sm "github.com/teragrid/teragrid/state"
+	"github.com/teragrid/teragrid/types"
 )
 
 func makeStateAndBlockStore(logger log.Logger) (sm.State, *BlockStore) {

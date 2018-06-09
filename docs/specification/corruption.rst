@@ -4,7 +4,7 @@ Corruption
 Important step
 --------------
 
-Make sure you have a backup of the Tendermint data directory.
+Make sure you have a backup of the teragrid data directory.
 
 Possible causes
 ---------------
@@ -21,10 +21,10 @@ Other causes can be:
 
 - Database systems configured with fsync=off and an OS crash or power loss
 - Filesystems configured to use write barriers plus a storage layer that ignores write barriers. LVM is a particular culprit.
-- Tendermint bugs
+- teragrid bugs
 - Operating system bugs
 - Admin error
-  - directly modifying Tendermint data-directory contents
+  - directly modifying teragrid data-directory contents
 
 (Source: https://wiki.postgresql.org/wiki/Corruption)
 
@@ -32,11 +32,11 @@ WAL Corruption
 --------------
 
 If consensus WAL is corrupted at the lastest height and you are trying to start
-Tendermint, replay will fail with panic.
+teragrid, replay will fail with panic.
 
 Recovering from data corruption can be hard and time-consuming. Here are two approaches you can take:
 
-1) Delete the WAL file and restart Tendermint. It will attempt to sync with other peers.
+1) Delete the WAL file and restart teragrid. It will attempt to sync with other peers.
 2) Try to repair the WAL file manually:
   1. Create a backup of the corrupted WAL file:
 
@@ -56,7 +56,7 @@ Recovering from data corruption can be hard and time-consuming. Here are two app
        messages are marked as corrupted too (this may happen if length header
        got corrupted or some writes did not make it to the WAL ~ truncation),
        then remove all the lines starting from the corrupted one and restart
-       Tendermint.
+       teragrid.
 
   .. code:: bash
 

@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/tendermint/tendermint/lite"
+	"github.com/teragrid/teragrid/lite"
 )
 
 func TestInquirerValidPath(t *testing.T) {

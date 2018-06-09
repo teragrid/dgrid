@@ -1,7 +1,7 @@
 # Consensus Reactor
 
 Consensus Reactor defines a reactor for the consensus service. It contains the ConsensusState service that 
-manages the state of the Tendermint consensus internal state machine. 
+manages the state of the teragrid consensus internal state machine. 
 When Consensus Reactor is started, it starts Broadcast Routine which starts ConsensusState service. 
 Furthermore, for each peer that is added to the Consensus Reactor, it creates (and manages) the known peer state 
 (that is used extensively in gossip routines) and starts the following three routines for the peer p: 
@@ -14,7 +14,7 @@ that are part of the Consensus Reactor.
 
 ## ConsensusState service
 
-Consensus State handles execution of the Tendermint BFT consensus algorithm. It processes votes and proposals, 
+Consensus State handles execution of the teragrid BFT consensus algorithm. It processes votes and proposals, 
 and upon reaching agreement, commits blocks to the chain and executes them against the application.
 The internal state machine receives input from peers, the internal validator and from a timer.
 

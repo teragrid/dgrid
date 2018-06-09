@@ -8,13 +8,13 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/tendermint/go-amino"
-	crypto "github.com/tendermint/go-crypto"
-	cmn "github.com/tendermint/tmlibs/common"
+	"github.com/teragrid/go-amino"
+	crypto "github.com/teragrid/go-crypto"
+	cmn "github.com/teragrid/teralibs/common"
 
-	"github.com/tendermint/tendermint/p2p"
-	"github.com/tendermint/tendermint/types"
-	priv_val "github.com/tendermint/tendermint/types/priv_validator"
+	"github.com/teragrid/teragrid/p2p"
+	"github.com/teragrid/teragrid/types"
+	priv_val "github.com/teragrid/teragrid/types/priv_validator"
 )
 
 type GenesisValidator struct {

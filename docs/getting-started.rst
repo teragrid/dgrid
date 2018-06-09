@@ -1,17 +1,17 @@
-First Tendermint App
+First teragrid App
 ====================
 
-As a general purpose blockchain engine, Tendermint is agnostic to the
+As a general purpose blockchain engine, teragrid is agnostic to the
 application you want to run. So, to run a complete blockchain that does
-something useful, you must start two programs: one is Tendermint Core,
+something useful, you must start two programs: one is teragrid Core,
 the other is your application, which can be written in any programming
-language. Recall from `the intro to ABCI <introduction.html#ABCI-Overview>`__ that
-Tendermint Core handles all the p2p and consensus stuff, and just
+language. Recall from `the intro to asura <introduction.html#asura-Overview>`__ that
+teragrid Core handles all the p2p and consensus stuff, and just
 forwards transactions to the application when they need to be validated,
 or when they're ready to be committed to a block.
 
 In this guide, we show you some examples of how to run an application
-using Tendermint.
+using teragrid.
 
 Install
 -------
@@ -19,25 +19,25 @@ Install
 The first apps we will work with are written in Go. To install them, you
 need to `install Go <https://golang.org/doc/install>`__ and put
 ``$GOPATH/bin`` in your
-``$PATH``; see `here <https://github.com/tendermint/tendermint/wiki/Setting-GOPATH>`__ for more info.
+``$PATH``; see `here <https://github.com/teragrid/teragrid/wiki/Setting-GOPATH>`__ for more info.
 
 Then run
 
 ::
 
-    go get -u github.com/tendermint/abci/cmd/abci-cli
+    go get -u github.com/teragrid/asura/cmd/asura-cli
 
 If there is an error, install and run the `dep <https://github.com/golang/dep>`__ tool to pin the
 dependencies:
 
 ::
 
-    cd $GOPATH/src/github.com/tendermint/abci
+    cd $GOPATH/src/github.com/teragrid/asura
     make get_tools
     make get_vendor_deps
     make install
 
-Now you should have the ``abci-cli`` installed; you'll see
+Now you should have the ``asura-cli`` installed; you'll see
 a couple of commands (``counter`` and ``kvstore``) that are
 example applications written in Go. See below for an application
 written in JavaScript.
@@ -58,24 +58,24 @@ Let's start a kvstore application.
 
 ::
 
-    abci-cli kvstore
+    asura-cli kvstore
 
-In another terminal, we can start Tendermint. If you have never run
-Tendermint before, use:
+In another terminal, we can start teragrid. If you have never run
+teragrid before, use:
 
 ::
 
-    tendermint init
-    tendermint node
+    teragrid init
+    teragrid node
 
-If you have used Tendermint, you may want to reset the data for a new
-blockchain by running ``tendermint unsafe_reset_all``. Then you can run
-``tendermint node`` to start Tendermint, and connect to the app. For
+If you have used teragrid, you may want to reset the data for a new
+blockchain by running ``teragrid unsafe_reset_all``. Then you can run
+``teragrid node`` to start teragrid, and connect to the app. For
 more details, see `the guide on using
-Tendermint <./using-tendermint.html>`__.
+teragrid <./using-teragrid.html>`__.
 
-You should see Tendermint making blocks! We can get the status of our
-Tendermint node as follows:
+You should see teragrid making blocks! We can get the status of our
+teragrid node as follows:
 
 ::
 
@@ -128,7 +128,7 @@ querying the app:
 
 ::
 
-    curl -s 'localhost:46657/abci_query?data="abcd"'
+    curl -s 'localhost:46657/asura_query?data="abcd"'
 
 The result should look like:
 
@@ -150,7 +150,7 @@ The result should look like:
 Note the ``value`` in the result (``YWJjZA==``); this is the
 base64-encoding of the ASCII of ``abcd``. You can verify this in
 a python 2 shell by running ``"61626364".decode('base64')`` or in python 3 shell by running ``import codecs; codecs.decode("61626364", 'base64').decode('ascii')``. Stay
-tuned for a future release that `makes this output more human-readable <https://github.com/tendermint/abci/issues/32>`__.
+tuned for a future release that `makes this output more human-readable <https://github.com/teragrid/asura/issues/32>`__.
 
 Now let's try setting a different key and value:
 
@@ -163,7 +163,7 @@ Now if we query for ``name``, we should get ``satoshi``, or
 
 ::
 
-    curl -s 'localhost:46657/abci_query?data="name"'
+    curl -s 'localhost:46657/asura_query?data="name"'
 
 Try some other transactions and queries to make sure everything is
 working!
@@ -186,7 +186,7 @@ If ``serial=off``, there are no restrictions on transactions.
 
 In a live blockchain, transactions collect in memory before they are
 committed into blocks. To avoid wasting resources on invalid
-transactions, ABCI provides the ``CheckTx`` message, which application
+transactions, asura provides the ``CheckTx`` message, which application
 developers can use to accept or reject transactions, before they are
 stored in memory or gossipped to other peers.
 
@@ -194,20 +194,20 @@ In this instance of the counter app, with ``serial=on``, ``CheckTx``
 only allows transactions whose integer is greater than the last
 committed one.
 
-Let's kill the previous instance of ``tendermint`` and the ``kvstore``
+Let's kill the previous instance of ``teragrid`` and the ``kvstore``
 application, and start the counter app. We can enable ``serial=on`` with
 a flag:
 
 ::
 
-    abci-cli counter --serial
+    asura-cli counter --serial
 
-In another window, reset then start Tendermint:
+In another window, reset then start teragrid:
 
 ::
 
-    tendermint unsafe_reset_all
-    tendermint node
+    teragrid unsafe_reset_all
+    teragrid node
 
 Once again, you can see the blocks streaming by. Let's send some
 transactions. Since we have set ``serial=on``, the first transaction
@@ -261,7 +261,7 @@ But if we send a ``1``, it works again:
     }
 
 For more details on the ``broadcast_tx`` API, see `the guide on using
-Tendermint <./using-tendermint.html>`__.
+teragrid <./using-teragrid.html>`__.
 
 CounterJS - Example in Another Language
 ---------------------------------------
@@ -270,29 +270,29 @@ We also want to run applications in another language - in this case,
 we'll run a Javascript version of the ``counter``. To run it, you'll
 need to `install node <https://nodejs.org/en/download/>`__.
 
-You'll also need to fetch the relevant repository, from `here <https://github.com/tendermint/js-abci>`__ then install it. As go devs, we
+You'll also need to fetch the relevant repository, from `here <https://github.com/teragrid/js-asura>`__ then install it. As go devs, we
 keep all our code under the ``$GOPATH``, so run:
 
 ::
 
-    go get github.com/tendermint/js-abci &> /dev/null
-    cd $GOPATH/src/github.com/tendermint/js-abci/example
+    go get github.com/teragrid/js-asura &> /dev/null
+    cd $GOPATH/src/github.com/teragrid/js-asura/example
     npm install
     cd ..
 
-Kill the previous ``counter`` and ``tendermint`` processes. Now run the
+Kill the previous ``counter`` and ``teragrid`` processes. Now run the
 app:
 
 ::
 
     node example/app.js
 
-In another window, reset and start ``tendermint``:
+In another window, reset and start ``teragrid``:
 
 ::
 
-    tendermint unsafe_reset_all
-    tendermint node
+    teragrid unsafe_reset_all
+    teragrid node
 
 Once again, you should see blocks streaming by - but now, our
 application is written in javascript! Try sending some transactions, and
@@ -316,10 +316,10 @@ that supports inter-blockchain communication (IBC). For more details on how
 basecoin works and how to use it, see our `basecoin
 guide <http://cosmos-sdk.readthedocs.io/en/latest/basecoin-basics.html>`__
 
-In this tutorial you learned how to run applications using Tendermint
+In this tutorial you learned how to run applications using teragrid
 on a single node. You saw how applications could be written in different
 languages, and how to send transactions and query for the latest state.
-But the true power of Tendermint comes from its ability to securely and
+But the true power of teragrid comes from its ability to securely and
 efficiently run an application across a distributed network of nodes,
 while keeping them all in sync using its state-of-the-art consensus
-protocol. Next, we show you how to deploy Tendermint testnets.
+protocol. Next, we show you how to deploy teragrid testnets.

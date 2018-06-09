@@ -11,16 +11,16 @@ import (
 	//"strings"
 	"time"
 
-	abci "github.com/tendermint/abci/types"
-	//auto "github.com/tendermint/tmlibs/autofile"
-	cmn "github.com/tendermint/tmlibs/common"
-	dbm "github.com/tendermint/tmlibs/db"
-	"github.com/tendermint/tmlibs/log"
+	asura "github.com/teragrid/asura/types"
+	//auto "github.com/teragrid/teralibs/autofile"
+	cmn "github.com/teragrid/teralibs/common"
+	dbm "github.com/teragrid/teralibs/db"
+	"github.com/teragrid/teralibs/log"
 
-	"github.com/tendermint/tendermint/proxy"
-	sm "github.com/tendermint/tendermint/state"
-	"github.com/tendermint/tendermint/types"
-	"github.com/tendermint/tendermint/version"
+	"github.com/teragrid/teragrid/proxy"
+	sm "github.com/teragrid/teragrid/state"
+	"github.com/teragrid/teragrid/types"
+	"github.com/teragrid/teragrid/version"
 )
 
 var crc32c = crc32.MakeTable(crc32.Castagnoli)
@@ -221,7 +221,7 @@ func (h *Handshaker) NBlocks() int {
 // TODO: retry the handshake/replay if it fails ?
 func (h *Handshaker) Handshake(proxyApp proxy.AppConns) error {
 	// handshake is done via info request on the query conn
-	res, err := proxyApp.Query().InfoSync(abci.RequestInfo{version.Version})
+	res, err := proxyApp.Query().InfoSync(asura.RequestInfo{version.Version})
 	if err != nil {
 		return fmt.Errorf("Error calling Info: %v", err)
 	}
@@ -232,7 +232,7 @@ func (h *Handshaker) Handshake(proxyApp proxy.AppConns) error {
 	}
 	appHash := res.LastBlockAppHash
 
-	h.logger.Info("ABCI Handshake", "appHeight", blockHeight, "appHash", fmt.Sprintf("%X", appHash))
+	h.logger.Info("asura Handshake", "appHeight", blockHeight, "appHash", fmt.Sprintf("%X", appHash))
 
 	// TODO: check version
 
@@ -242,7 +242,7 @@ func (h *Handshaker) Handshake(proxyApp proxy.AppConns) error {
 		return fmt.Errorf("Error on replay: %v", err)
 	}
 
-	h.logger.Info("Completed ABCI Handshake - Tendermint and App are synced", "appHeight", blockHeight, "appHash", fmt.Sprintf("%X", appHash))
+	h.logger.Info("Completed asura Handshake - teragrid and App are synced", "appHeight", blockHeight, "appHash", fmt.Sprintf("%X", appHash))
 
 	// TODO: (on restart) replay mempool
 
@@ -255,12 +255,12 @@ func (h *Handshaker) ReplayBlocks(state sm.State, appHash []byte, appBlockHeight
 
 	storeBlockHeight := h.store.Height()
 	stateBlockHeight := state.LastBlockHeight
-	h.logger.Info("ABCI Replay Blocks", "appHeight", appBlockHeight, "storeHeight", storeBlockHeight, "stateHeight", stateBlockHeight)
+	h.logger.Info("asura Replay Blocks", "appHeight", appBlockHeight, "storeHeight", storeBlockHeight, "stateHeight", stateBlockHeight)
 
 	// If appBlockHeight == 0 it means that we are at genesis and hence should send InitChain
 	if appBlockHeight == 0 {
 		validators := types.TM2PB.Validators(state.Validators)
-		req := abci.RequestInitChain{
+		req := asura.RequestInitChain{
 			Validators:    validators,
 			AppStateBytes: h.appState,
 		}
@@ -279,11 +279,11 @@ func (h *Handshaker) ReplayBlocks(state sm.State, appHash []byte, appBlockHeight
 		return appHash, sm.ErrAppBlockHeightTooHigh{storeBlockHeight, appBlockHeight}
 
 	} else if storeBlockHeight < stateBlockHeight {
-		// the state should never be ahead of the store (this is under tendermint's control)
+		// the state should never be ahead of the store (this is under teragrid's control)
 		cmn.PanicSanity(cmn.Fmt("StateBlockHeight (%d) > StoreBlockHeight (%d)", stateBlockHeight, storeBlockHeight))
 
 	} else if storeBlockHeight > stateBlockHeight+1 {
-		// store should be at most one ahead of the state (this is under tendermint's control)
+		// store should be at most one ahead of the state (this is under teragrid's control)
 		cmn.PanicSanity(cmn.Fmt("StoreBlockHeight (%d) > StateBlockHeight + 1 (%d)", storeBlockHeight, stateBlockHeight+1))
 	}
 
@@ -291,7 +291,7 @@ func (h *Handshaker) ReplayBlocks(state sm.State, appHash []byte, appBlockHeight
 	// Now either store is equal to state, or one ahead.
 	// For each, consider all cases of where the app could be, given app <= store
 	if storeBlockHeight == stateBlockHeight {
-		// Tendermint ran Commit and saved the state.
+		// teragrid ran Commit and saved the state.
 		// Either the app is asking for replay, or we're all synced up.
 		if appBlockHeight < storeBlockHeight {
 			// the app is behind, so replay blocks, but no need to go through WAL (state is already synced to store)
@@ -321,11 +321,11 @@ func (h *Handshaker) ReplayBlocks(state sm.State, appHash []byte, appBlockHeight
 
 		} else if appBlockHeight == storeBlockHeight {
 			// We ran Commit, but didn't save the state, so replayBlock with mock app
-			abciResponses, err := sm.LoadABCIResponses(h.stateDB, storeBlockHeight)
+			asuraResponses, err := sm.LoadasuraResponses(h.stateDB, storeBlockHeight)
 			if err != nil {
 				return nil, err
 			}
-			mockApp := newMockProxyApp(appHash, abciResponses)
+			mockApp := newMockProxyApp(appHash, asuraResponses)
 			h.logger.Info("Replay last block using mock app")
 			state, err = h.replayBlock(state, storeBlockHeight, mockApp)
 			return state.AppHash, err
@@ -397,21 +397,21 @@ func (h *Handshaker) replayBlock(state sm.State, height int64, proxyApp proxy.Ap
 
 func checkAppHash(state sm.State, appHash []byte) error {
 	if !bytes.Equal(state.AppHash, appHash) {
-		panic(fmt.Errorf("Tendermint state.AppHash does not match AppHash after replay. Got %X, expected %X", appHash, state.AppHash).Error())
+		panic(fmt.Errorf("teragrid state.AppHash does not match AppHash after replay. Got %X, expected %X", appHash, state.AppHash).Error())
 	}
 	return nil
 }
 
 //--------------------------------------------------------------------------------
-// mockProxyApp uses ABCIResponses to give the right results
+// mockProxyApp uses asuraResponses to give the right results
 // Useful because we don't want to call Commit() twice for the same block on the real app.
 
-func newMockProxyApp(appHash []byte, abciResponses *sm.ABCIResponses) proxy.AppConnConsensus {
+func newMockProxyApp(appHash []byte, asuraResponses *sm.asuraResponses) proxy.AppConnConsensus {
 	clientCreator := proxy.NewLocalClientCreator(&mockProxyApp{
 		appHash:       appHash,
-		abciResponses: abciResponses,
+		asuraResponses: asuraResponses,
 	})
-	cli, _ := clientCreator.NewABCIClient()
+	cli, _ := clientCreator.NewasuraClient()
 	err := cli.Start()
 	if err != nil {
 		panic(err)
@@ -420,24 +420,24 @@ func newMockProxyApp(appHash []byte, abciResponses *sm.ABCIResponses) proxy.AppC
 }
 
 type mockProxyApp struct {
-	abci.BaseApplication
+	asura.BaseApplication
 
 	appHash       []byte
 	txCount       int
-	abciResponses *sm.ABCIResponses
+	asuraResponses *sm.asuraResponses
 }
 
-func (mock *mockProxyApp) DeliverTx(tx []byte) abci.ResponseDeliverTx {
-	r := mock.abciResponses.DeliverTx[mock.txCount]
+func (mock *mockProxyApp) DeliverTx(tx []byte) asura.ResponseDeliverTx {
+	r := mock.asuraResponses.DeliverTx[mock.txCount]
 	mock.txCount++
 	return *r
 }
 
-func (mock *mockProxyApp) EndBlock(req abci.RequestEndBlock) abci.ResponseEndBlock {
+func (mock *mockProxyApp) EndBlock(req asura.RequestEndBlock) asura.ResponseEndBlock {
 	mock.txCount = 0
-	return *mock.abciResponses.EndBlock
+	return *mock.asuraResponses.EndBlock
 }
 
-func (mock *mockProxyApp) Commit() abci.ResponseCommit {
-	return abci.ResponseCommit{Data: mock.appHash}
+func (mock *mockProxyApp) Commit() asura.ResponseCommit {
+	return asura.ResponseCommit{Data: mock.appHash}
 }

@@ -7,8 +7,8 @@ import (
 	"sort"
 	"strings"
 
-	cmn "github.com/tendermint/tmlibs/common"
-	"github.com/tendermint/tmlibs/merkle"
+	cmn "github.com/teragrid/teralibs/common"
+	"github.com/teragrid/teralibs/merkle"
 )
 
 // ValidatorSet represent a set of *Validator at a given height.

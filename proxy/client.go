@@ -5,14 +5,14 @@ import (
 
 	"github.com/pkg/errors"
 
-	abcicli "github.com/tendermint/abci/client"
-	"github.com/tendermint/abci/example/kvstore"
-	"github.com/tendermint/abci/types"
+	asuracli "github.com/teragrid/asura/client"
+	"github.com/teragrid/asura/example/kvstore"
+	"github.com/teragrid/asura/types"
 )
 
-// NewABCIClient returns newly connected client
+// NewasuraClient returns newly connected client
 type ClientCreator interface {
-	NewABCIClient() (abcicli.Client, error)
+	NewasuraClient() (asuracli.Client, error)
 }
 
 //----------------------------------------------------
@@ -30,8 +30,8 @@ func NewLocalClientCreator(app types.Application) ClientCreator {
 	}
 }
 
-func (l *localClientCreator) NewABCIClient() (abcicli.Client, error) {
-	return abcicli.NewLocalClient(l.mtx, l.app), nil
+func (l *localClientCreator) NewasuraClient() (asuracli.Client, error) {
+	return asuracli.NewLocalClient(l.mtx, l.app), nil
 }
 
 //---------------------------------------------------------------
@@ -51,8 +51,8 @@ func NewRemoteClientCreator(addr, transport string, mustConnect bool) ClientCrea
 	}
 }
 
-func (r *remoteClientCreator) NewABCIClient() (abcicli.Client, error) {
-	remoteApp, err := abcicli.NewClient(r.addr, r.transport, r.mustConnect)
+func (r *remoteClientCreator) NewasuraClient() (asuracli.Client, error) {
+	remoteApp, err := asuracli.NewClient(r.addr, r.transport, r.mustConnect)
 	if err != nil {
 		return nil, errors.Wrap(err, "Failed to connect to proxy")
 	}

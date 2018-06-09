@@ -2,9 +2,9 @@
 
 ## Context
 
-Current logging system in Tendermint is very static and not flexible enough.
+Current logging system in teragrid is very static and not flexible enough.
 
-Issues: [358](https://github.com/tendermint/tendermint/issues/358), [375](https://github.com/tendermint/tendermint/issues/375).
+Issues: [358](https://github.com/teragrid/teragrid/issues/358), [375](https://github.com/teragrid/teragrid/issues/375).
 
 What we want from the new system:
 
@@ -19,7 +19,7 @@ What we want from the new system:
 
 ### 1) An interface
 
-First, we will need an interface for all of our libraries (`tmlibs`, Tendermint, etc.). My personal preference is go-kit `Logger` interface (see Appendix A.), but that is too much a bigger change. Plus we will still need levels.
+First, we will need an interface for all of our libraries (`teralibs`, teragrid, etc.). My personal preference is go-kit `Logger` interface (see Appendix A.), but that is too much a bigger change. Plus we will still need levels.
 
 ```go
 # log.go
@@ -35,7 +35,7 @@ type Logger interface {
 On a side note: difference between `Info` and `Notice` is subtle. We probably
 could do without `Notice`. Don't think we need `Panic` or `Fatal` as a part of
 the interface. These funcs could be implemented as helpers. In fact, we already
-have some in `tmlibs/common`.
+have some in `teralibs/common`.
 
 - `Debug` - extended output for devs
 - `Info` - all that is useful for a user
@@ -43,22 +43,22 @@ have some in `tmlibs/common`.
 
 `Notice` should become `Info`, `Warn` either `Error` or `Debug` depending on the message, `Crit` -> `Error`.
 
-This interface should go into `tmlibs/log`. All libraries which are part of the core (tendermint/tendermint) should obey it.
+This interface should go into `teralibs/log`. All libraries which are part of the core (teragrid/teragrid) should obey it.
 
 ### 2) Logger with our current formatting
 
-On top of this interface, we will need to implement a stdout logger, which will be used when Tendermint is configured to output logs to STDOUT.
+On top of this interface, we will need to implement a stdout logger, which will be used when teragrid is configured to output logs to STDOUT.
 
 Many people say that they like the current output, so let's stick with it.
 
 ```
-NOTE[04-25|14:45:08] ABCI Replay Blocks                       module=consensus appHeight=0 storeHeight=0 stateHeight=0
+NOTE[04-25|14:45:08] asura Replay Blocks                       module=consensus appHeight=0 storeHeight=0 stateHeight=0
 ```
 
 Couple of minor changes:
 
 ```
-I[04-25|14:45:08.322] ABCI Replay Blocks            module=consensus appHeight=0 storeHeight=0 stateHeight=0
+I[04-25|14:45:08.322] asura Replay Blocks            module=consensus appHeight=0 storeHeight=0 stateHeight=0
 ```
 
 Notice the level is encoded using only one char plus milliseconds.
@@ -120,7 +120,7 @@ node.SetLogger(log.With(logger, "node", Name))
 In the future, we may want other formatters like JSONFormatter.
 
 ```
-{ "level": "notice", "time": "2017-04-25 14:45:08.562471297 -0400 EDT", "module": "consensus", "msg": "ABCI Replay Blocks", "appHeight": 0, "storeHeight": 0, "stateHeight": 0 }
+{ "level": "notice", "time": "2017-04-25 14:45:08.562471297 -0400 EDT", "module": "consensus", "msg": "asura Replay Blocks", "appHeight": 0, "storeHeight": 0, "stateHeight": 0 }
 ```
 
 ### 3) Dynamic logger setting
@@ -155,14 +155,14 @@ Important keyvals should go first. Example:
 
 ```
 correct
-I[04-25|14:45:08.322] ABCI Replay Blocks                       module=consensus instance=1 appHeight=0 storeHeight=0 stateHeight=0
+I[04-25|14:45:08.322] asura Replay Blocks                       module=consensus instance=1 appHeight=0 storeHeight=0 stateHeight=0
 ```
 
 not
 
 ```
 wrong
-I[04-25|14:45:08.322] ABCI Replay Blocks                       module=consensus appHeight=0 storeHeight=0 stateHeight=0 instance=1
+I[04-25|14:45:08.322] asura Replay Blocks                       module=consensus appHeight=0 storeHeight=0 stateHeight=0 instance=1
 ```
 
 for that in most cases you'll need to add `instance` field to a logger upon creating, not when u log a particular message:
@@ -195,7 +195,7 @@ proposed
 
 ### Positive
 
-Dynamic logger, which could be turned off for some modules at runtime. Public interface for other projects using Tendermint libraries.
+Dynamic logger, which could be turned off for some modules at runtime. Public interface for other projects using teragrid libraries.
 
 ### Negative
 

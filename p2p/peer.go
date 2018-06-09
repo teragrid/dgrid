@@ -5,11 +5,11 @@ import (
 	"net"
 	"time"
 
-	"github.com/tendermint/go-crypto"
-	cmn "github.com/tendermint/tmlibs/common"
-	"github.com/tendermint/tmlibs/log"
+	"github.com/teragrid/go-crypto"
+	cmn "github.com/teragrid/teralibs/common"
+	"github.com/teragrid/teralibs/log"
 
-	tmconn "github.com/tendermint/tendermint/p2p/conn"
+	tmconn "github.com/teragrid/teragrid/p2p/conn"
 )
 
 // Peer is an interface representing a peer connected on a reactor.
@@ -281,7 +281,7 @@ func (pc *peerConn) CloseConn() {
 	pc.conn.Close() // nolint: errcheck
 }
 
-// HandshakeTimeout performs the Tendermint P2P handshake between a given node and the peer
+// HandshakeTimeout performs the teragrid P2P handshake between a given node and the peer
 // by exchanging their NodeInfo. It sets the received nodeInfo on the peer.
 // NOTE: blocking
 func (pc *peerConn) HandshakeTimeout(ourNodeInfo NodeInfo, timeout time.Duration) (peerNodeInfo NodeInfo, err error) {

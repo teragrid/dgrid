@@ -8,14 +8,14 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/tendermint/abci/example/kvstore"
+	"github.com/teragrid/asura/example/kvstore"
 
-	"github.com/tendermint/tendermint/lite"
-	certclient "github.com/tendermint/tendermint/lite/client"
-	nm "github.com/tendermint/tendermint/node"
-	"github.com/tendermint/tendermint/rpc/client"
-	rpctest "github.com/tendermint/tendermint/rpc/test"
-	"github.com/tendermint/tendermint/types"
+	"github.com/teragrid/teragrid/lite"
+	certclient "github.com/teragrid/teragrid/lite/client"
+	nm "github.com/teragrid/teragrid/node"
+	"github.com/teragrid/teragrid/rpc/client"
+	rpctest "github.com/teragrid/teragrid/rpc/test"
+	"github.com/teragrid/teragrid/types"
 )
 
 var node *nm.Node
@@ -25,7 +25,7 @@ var node *nm.Node
 func TestMain(m *testing.M) {
 	app := kvstore.NewKVStoreApplication()
 
-	node = rpctest.StartTendermint(app)
+	node = rpctest.Startteragrid(app)
 
 	code := m.Run()
 

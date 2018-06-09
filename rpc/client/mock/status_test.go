@@ -6,9 +6,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/tendermint/tendermint/rpc/client/mock"
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
-	cmn "github.com/tendermint/tmlibs/common"
+	"github.com/teragrid/teragrid/rpc/client/mock"
+	ctypes "github.com/teragrid/teragrid/rpc/core/types"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 func TestStatus(t *testing.T) {

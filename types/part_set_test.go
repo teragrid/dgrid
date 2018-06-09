@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"testing"
 
-	cmn "github.com/tendermint/tmlibs/common"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 const (

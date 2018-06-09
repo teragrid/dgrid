@@ -1,8 +1,8 @@
-Using ABCI-CLI
+Using asura-CLI
 ==============
 
-To facilitate testing and debugging of ABCI servers and simple apps, we
-built a CLI, the ``abci-cli``, for sending ABCI messages from the
+To facilitate testing and debugging of asura servers and simple apps, we
+built a CLI, the ``asura-cli``, for sending asura messages from the
 command line.
 
 Install
@@ -10,37 +10,37 @@ Install
 
 Make sure you `have Go installed <https://golang.org/doc/install>`__.
 
-Next, install the ``abci-cli`` tool and example applications:
+Next, install the ``asura-cli`` tool and example applications:
 
 ::
 
-    go get -u github.com/tendermint/abci/cmd/abci-cli
+    go get -u github.com/teragrid/asura/cmd/asura-cli
 
 If this fails, you may need to use `dep <https://github.com/golang/dep>`__ to get vendored
 dependencies:
 
 ::
 
-    cd $GOPATH/src/github.com/tendermint/abci
+    cd $GOPATH/src/github.com/teragrid/asura
     make get_tools
     make get_vendor_deps
     make install
 
-Now run ``abci-cli`` to see the list of commands:
+Now run ``asura-cli`` to see the list of commands:
 
 ::
 
     Usage:
-      abci-cli [command]
+      asura-cli [command]
 
     Available Commands:
-      batch       Run a batch of abci commands against an application
+      batch       Run a batch of asura commands against an application
       check_tx    Validate a tx
       commit      Commit the application state and return the Merkle root hash
-      console     Start an interactive abci console for multiple commands
-      counter     ABCI demo example
+      console     Start an interactive asura console for multiple commands
+      counter     asura demo example
       deliver_tx  Deliver a new tx to the application
-      kvstore       ABCI demo example
+      kvstore       asura demo example
       echo        Have the application echo a message
       help        Help about any command
       info        Get some info about the application
@@ -48,18 +48,18 @@ Now run ``abci-cli`` to see the list of commands:
       set_option  Set an options on the application
 
     Flags:
-          --abci string      socket or grpc (default "socket")
+          --asura string      socket or grpc (default "socket")
           --address string   address of application socket (default "tcp://127.0.0.1:46658")
-      -h, --help             help for abci-cli
+      -h, --help             help for asura-cli
       -v, --verbose          print the command and results as if it were a console session
 
-    Use "abci-cli [command] --help" for more information about a command.
+    Use "asura-cli [command] --help" for more information about a command.
 
 
 KVStore - First Example
 -----------------------
 
-The ``abci-cli`` tool lets us send ABCI messages to our application, to
+The ``asura-cli`` tool lets us send asura messages to our application, to
 help build and debug them.
 
 The most important messages are ``deliver_tx``, ``check_tx``, and
@@ -67,9 +67,9 @@ The most important messages are ``deliver_tx``, ``check_tx``, and
 information purposes.
 
 We'll start a kvstore application, which was installed at the same time as
-``abci-cli`` above. The kvstore just stores transactions in a merkle tree.
+``asura-cli`` above. The kvstore just stores transactions in a merkle tree.
 
-Its code can be found `here <https://github.com/tendermint/abci/blob/master/cmd/abci-cli/abci-cli.go>`__ and looks like:
+Its code can be found `here <https://github.com/teragrid/asura/blob/master/cmd/asura-cli/asura-cli.go>`__ and looks like:
 
 .. container:: toggle
 
@@ -92,11 +92,11 @@ Its code can be found `here <https://github.com/tendermint/abci/blob/master/cmd/
         	}
         
         	// Start the listener
-        	srv, err := server.NewServer(flagAddrD, flagAbci, app)
+        	srv, err := server.NewServer(flagAddrD, flagasura, app)
         	if err != nil {
         		return err
         	}
-        	srv.SetLogger(logger.With("module", "abci-server"))
+        	srv.SetLogger(logger.With("module", "asura-server"))
         	if err := srv.Start(); err != nil {
         		return err
         	}
@@ -113,14 +113,14 @@ Start by running:
 
 ::
 
-    abci-cli kvstore
+    asura-cli kvstore
 
 And in another terminal, run
 
 ::
 
-    abci-cli echo hello
-    abci-cli info
+    asura-cli echo hello
+    asura-cli info
 
 You'll see something like:
 
@@ -136,36 +136,36 @@ and:
     -> data: {"size":0}
     -> data.hex: 7B2273697A65223A307D
 
-An ABCI application must provide two things:
+An asura application must provide two things:
 
 -  a socket server
--  a handler for ABCI messages
+-  a handler for asura messages
 
-When we run the ``abci-cli`` tool we open a new connection to the
-application's socket server, send the given ABCI message, and wait for a
+When we run the ``asura-cli`` tool we open a new connection to the
+application's socket server, send the given asura message, and wait for a
 response.
 
 The server may be generic for a particular language, and we provide a
 `reference implementation in
-Golang <https://github.com/tendermint/abci/tree/master/server>`__. See
-the `list of other ABCI
+Golang <https://github.com/teragrid/asura/tree/master/server>`__. See
+the `list of other asura
 implementations <./ecosystem.html>`__ for servers in
 other languages.
 
 The handler is specific to the application, and may be arbitrary, so
-long as it is deterministic and conforms to the ABCI interface
+long as it is deterministic and conforms to the asura interface
 specification.
 
-So when we run ``abci-cli info``, we open a new connection to the ABCI
+So when we run ``asura-cli info``, we open a new connection to the asura
 server, which calls the ``Info()`` method on the application, which
 tells us the number of transactions in our Merkle tree.
 
 Now, since every command opens a new connection, we provide the
-``abci-cli console`` and ``abci-cli batch`` commands, to allow multiple
-ABCI messages to be sent over a single connection.
+``asura-cli console`` and ``asura-cli batch`` commands, to allow multiple
+asura messages to be sent over a single connection.
 
-Running ``abci-cli console`` should drop you in an interactive console
-for speaking ABCI messages to your application.
+Running ``asura-cli console`` should drop you in an interactive console
+for speaking asura messages to your application.
 
 Try running these commands:
 
@@ -221,7 +221,7 @@ Note that if we do ``deliver_tx "abc"`` it will store ``(abc, abc)``,
 but if we do ``deliver_tx "abc=efg"`` it will store ``(abc, efg)``.
 
 Similarly, you could put the commands in a file and run
-``abci-cli --verbose batch < myfile``.
+``asura-cli --verbose batch < myfile``.
 
 Counter - Another Example
 -------------------------
@@ -229,7 +229,7 @@ Counter - Another Example
 Now that we've got the hang of it, let's try another application, the
 "counter" app.
 
-Like the kvstore app, its code can be found `here <https://github.com/tendermint/abci/blob/master/cmd/abci-cli/abci-cli.go>`__ and looks like:
+Like the kvstore app, its code can be found `here <https://github.com/teragrid/asura/blob/master/cmd/asura-cli/asura-cli.go>`__ and looks like:
 
 .. container:: toggle
 
@@ -246,11 +246,11 @@ Like the kvstore app, its code can be found `here <https://github.com/tendermint
         	logger := log.NewTMLogger(log.NewSyncWriter(os.Stdout))
         
         	// Start the listener
-        	srv, err := server.NewServer(flagAddrC, flagAbci, app)
+        	srv, err := server.NewServer(flagAddrC, flagasura, app)
         	if err != nil {
         		return err
         	}
-        	srv.SetLogger(logger.With("module", "abci-server"))
+        	srv.SetLogger(logger.With("module", "asura-server"))
         	if err := srv.Start(); err != nil {
         		return err
         	}
@@ -275,12 +275,12 @@ incrementing integer, starting at 0.
 
 If ``serial=off``, there are no restrictions on transactions.
 
-We can toggle the value of ``serial`` using the ``set_option`` ABCI
+We can toggle the value of ``serial`` using the ``set_option`` asura
 message.
 
 When ``serial=on``, some transactions are invalid. In a live blockchain,
 transactions collect in memory before they are committed into blocks. To
-avoid wasting resources on invalid transactions, ABCI provides the
+avoid wasting resources on invalid transactions, asura provides the
 ``check_tx`` message, which application developers can use to accept or
 reject transactions, before they are stored in memory or gossipped to
 other peers.
@@ -293,9 +293,9 @@ app:
 
 ::
 
-    abci-cli counter
+    asura-cli counter
 
-In another window, start the ``abci-cli console``:
+In another window, start the ``asura-cli console``:
 
 ::
 
@@ -329,8 +329,8 @@ In another window, start the ``abci-cli console``:
 
 This is a very simple application, but between ``counter`` and
 ``kvstore``, its easy to see how you can build out arbitrary application
-states on top of the ABCI. `Hyperledger's
-Burrow <https://github.com/hyperledger/burrow>`__ also runs atop ABCI,
+states on top of the asura. `Hyperledger's
+Burrow <https://github.com/hyperledger/burrow>`__ also runs atop asura,
 bringing with it Ethereum-like accounts, the Ethereum virtual-machine,
 Monax's permissioning scheme, and native contracts extensions.
 
@@ -338,7 +338,7 @@ But the ultimate flexibility comes from being able to write the
 application easily in any language.
 
 We have implemented the counter in a number of languages (see the
-`example directory <https://github.com/tendermint/abci/tree/master/example`__).
+`example directory <https://github.com/teragrid/asura/tree/master/example`__).
 
 To run the Node JS version, ``cd`` to ``example/js`` and run
 
@@ -347,23 +347,23 @@ To run the Node JS version, ``cd`` to ``example/js`` and run
     node app.js
 
 (you'll have to kill the other counter application process). In another
-window, run the console and those previous ABCI commands. You should get
+window, run the console and those previous asura commands. You should get
 the same results as for the Go version.
 
 Bounties
 --------
 
 Want to write the counter app in your favorite language?! We'd be happy
-to add you to our `ecosystem <https://tendermint.com/ecosystem>`__!
-We're also offering `bounties <https://tendermint.com/bounties>`__ for
+to add you to our `ecosystem <https://teragrid.com/ecosystem>`__!
+We're also offering `bounties <https://teragrid.com/bounties>`__ for
 implementations in new languages!
 
-The ``abci-cli`` is designed strictly for testing and debugging. In a
-real deployment, the role of sending messages is taken by Tendermint,
+The ``asura-cli`` is designed strictly for testing and debugging. In a
+real deployment, the role of sending messages is taken by teragrid,
 which connects to the app using three separate connections, each with
 its own pattern of messages.
 
 For more information, see the `application developers
-guide <./app-development.html>`__. For examples of running an ABCI
-app with Tendermint, see the `getting started
-guide <./getting-started.html>`__. Next is the ABCI specification.
+guide <./app-development.html>`__. For examples of running an asura
+app with teragrid, see the `getting started
+guide <./getting-started.html>`__. Next is the asura specification.

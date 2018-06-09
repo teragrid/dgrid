@@ -1,8 +1,8 @@
 package blockchain
 
 import (
-	"github.com/tendermint/go-amino"
-	"github.com/tendermint/go-crypto"
+	"github.com/teragrid/go-amino"
+	"github.com/teragrid/go-crypto"
 )
 
 var cdc = amino.NewCodec()

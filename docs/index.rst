@@ -1,9 +1,9 @@
-.. Tendermint documentation master file, created by
+.. teragrid documentation master file, created by
    sphinx-quickstart on Mon Aug  7 04:55:09 2017.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Tendermint!
+Welcome to teragrid!
 ======================
 
 
@@ -12,7 +12,7 @@ Welcome to Tendermint!
    :width: 200px
    :align: center
 
-Tendermint 101
+teragrid 101
 --------------
 
 .. toctree::
@@ -21,9 +21,9 @@ Tendermint 101
    introduction.rst
    install.rst
    getting-started.rst
-   using-tendermint.rst
+   using-teragrid.rst
 
-Tendermint Ecosystem
+teragrid Ecosystem
 --------------------
 
 .. toctree::
@@ -31,7 +31,7 @@ Tendermint Ecosystem
 
    ecosystem.rst
 
-Tendermint Tools
+teragrid Tools
 ----------------
 
 .. the tools/ files are pulled in from the tools repo
@@ -47,19 +47,19 @@ Tendermint Tools
    tools/benchmarking.rst
    tools/monitoring.rst
 
-Tendermint 102
+teragrid 102
 --------------
 
 .. toctree::
    :maxdepth: 2
 
-   abci-cli.rst
-   abci-spec.rst
+   asura-cli.rst
+   asura-spec.rst
    app-architecture.rst
    app-development.rst
    how-to-read-logs.rst
 
-Tendermint 201
+teragrid 201
 --------------
 
 .. toctree::
@@ -69,8 +69,8 @@ Tendermint 201
    determinism.rst
 
 * For a deeper dive, see `this thesis <https://atrium.lib.uoguelph.ca/xmlui/handle/10214/9769>`__.
-* There is also the `original whitepaper <https://tendermint.com/static/docs/tendermint.pdf>`__, though it is now quite outdated.
-* Readers might also be interested in the `Cosmos Whitepaper <https://cosmos.network/whitepaper>`__ which describes Tendermint, ABCI, and how to build a scalable, heterogeneous, cryptocurrency network.
-* For example applications and related software built by the Tendermint team and other, see the `software ecosystem <https://tendermint.com/ecosystem>`__.
+* There is also the `original whitepaper <https://teragrid.com/static/docs/teragrid.pdf>`__, though it is now quite outdated.
+* Readers might also be interested in the `Cosmos Whitepaper <https://cosmos.network/whitepaper>`__ which describes teragrid, asura, and how to build a scalable, heterogeneous, cryptocurrency network.
+* For example applications and related software built by the teragrid team and other, see the `software ecosystem <https://teragrid.com/ecosystem>`__.
 
 Join the `community <https://cosmos.network/community>`__ to ask questions and discuss projects.

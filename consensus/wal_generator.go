@@ -10,17 +10,17 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/tendermint/abci/example/kvstore"
-	bc "github.com/tendermint/tendermint/blockchain"
-	cfg "github.com/tendermint/tendermint/config"
-	"github.com/tendermint/tendermint/proxy"
-	sm "github.com/tendermint/tendermint/state"
-	"github.com/tendermint/tendermint/types"
-	pvm "github.com/tendermint/tendermint/types/priv_validator"
-	auto "github.com/tendermint/tmlibs/autofile"
-	cmn "github.com/tendermint/tmlibs/common"
-	"github.com/tendermint/tmlibs/db"
-	"github.com/tendermint/tmlibs/log"
+	"github.com/teragrid/asura/example/kvstore"
+	bc "github.com/teragrid/teragrid/blockchain"
+	cfg "github.com/teragrid/teragrid/config"
+	"github.com/teragrid/teragrid/proxy"
+	sm "github.com/teragrid/teragrid/state"
+	"github.com/teragrid/teragrid/types"
+	pvm "github.com/teragrid/teragrid/types/priv_validator"
+	auto "github.com/teragrid/teralibs/autofile"
+	cmn "github.com/teragrid/teralibs/common"
+	"github.com/teragrid/teralibs/db"
+	"github.com/teragrid/teralibs/log"
 )
 
 // WALWithNBlocks generates a consensus WAL. It does this by spining up a
@@ -97,7 +97,7 @@ func WALWithNBlocks(numBlocks int) (data []byte, err error) {
 		return b.Bytes(), nil
 	case <-time.After(1 * time.Minute):
 		wr.Flush()
-		return b.Bytes(), fmt.Errorf("waited too long for tendermint to produce %d blocks (grep logs for `wal_generator`)", numBlocks)
+		return b.Bytes(), fmt.Errorf("waited too long for teragrid to produce %d blocks (grep logs for `wal_generator`)", numBlocks)
 	}
 }
 

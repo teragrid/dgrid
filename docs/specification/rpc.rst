@@ -3,16 +3,16 @@ RPC
 
 Coming soon: RPC docs powered by `slate <https://github.com/lord/slate>`__. Until then, read on.
 
-Tendermint supports the following RPC protocols:
+teragrid supports the following RPC protocols:
 
 -  URI over HTTP
 -  JSONRPC over HTTP
 -  JSONRPC over websockets
 
-Tendermint RPC is build using `our own RPC
-library <https://github.com/tendermint/tendermint/tree/master/rpc/lib>`__.
+teragrid RPC is build using `our own RPC
+library <https://github.com/teragrid/teragrid/tree/master/rpc/lib>`__.
 Documentation and tests for that library could be found at
-``tendermint/rpc/lib`` directory.
+``teragrid/rpc/lib`` directory.
 
 Configuration
 ~~~~~~~~~~~~~
@@ -55,7 +55,7 @@ Response:
 
 The first entry in the result-array (``96``) is the method this response
 correlates with. ``96`` refers to "ResultTypeBroadcastTx", see
-`responses.go <https://github.com/tendermint/tendermint/blob/master/rpc/core/types/responses.go>`__
+`responses.go <https://github.com/teragrid/teragrid/blob/master/rpc/core/types/responses.go>`__
 for a complete overview.
 
 JSONRPC/HTTP
@@ -92,7 +92,7 @@ An HTTP Get request to the root RPC endpoint (e.g.
 ::
 
     Available endpoints:
-    http://localhost:46657/abci_info
+    http://localhost:46657/asura_info
     http://localhost:46657/dump_consensus_state
     http://localhost:46657/genesis
     http://localhost:46657/net_info
@@ -105,7 +105,7 @@ An HTTP Get request to the root RPC endpoint (e.g.
     http://localhost:46657/validators
 
     Endpoints that require arguments:
-    http://localhost:46657/abci_query?path=_&data=_&prove=_
+    http://localhost:46657/asura_query?path=_&data=_&prove=_
     http://localhost:46657/block?height=_
     http://localhost:46657/blockchain?minHeight=_&maxHeight=_
     http://localhost:46657/broadcast_tx_async?tx=_
@@ -135,7 +135,7 @@ Returns a transaction matching the given transaction hash.
 
 -  ``proof``: the ``types.TxProof`` object
 -  ``tx``: ``[]byte`` - the transaction
--  ``tx_result``: the ``abci.Result`` object
+-  ``tx_result``: the ``asura.Result`` object
 -  ``index``: ``int`` - index of the transaction
 -  ``height``: ``int`` - height of the block where this transaction was
    in

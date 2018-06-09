@@ -1,7 +1,7 @@
 Block Structure
 ===============
 
-The tendermint consensus engine records all agreements by a
+The teragrid consensus engine records all agreements by a
 supermajority of nodes into a blockchain, which is replicated among all
 nodes. This blockchain is accessible via various rpc endpoints, mainly
 ``/block?height=`` to get the full block, as well as
@@ -12,13 +12,13 @@ Block
 ~~~~~
 
 A
-`Block <https://godoc.org/github.com/tendermint/tendermint/types#Block>`__
+`Block <https://godoc.org/github.com/teragrid/teragrid/types#Block>`__
 contains:
 
 -  a `Header <#header>`__ contains merkle hashes for various chain
    states
 -  the
-   `Data <https://godoc.org/github.com/tendermint/tendermint/types#Data>`__
+   `Data <https://godoc.org/github.com/teragrid/teragrid/types#Data>`__
    is all transactions which are to be processed
 -  the `LastCommit <#commit>`__ > 2/3 signatures for the last block
 
@@ -33,7 +33,7 @@ Header
 ~~~~~~
 
 The
-`Header <https://godoc.org/github.com/tendermint/tendermint/types#Header>`__
+`Header <https://godoc.org/github.com/teragrid/teragrid/types#Header>`__
 contains lots of information (follow link for up-to-date info). Notably,
 it maintains the ``Height``, the ``LastBlockID`` (to make it a chain),
 and hashes of the data, the app state, and the validator set. This is
@@ -42,24 +42,24 @@ important as the only item that is signed by the validators is the
 merkle hashes in the ``Header``.
 
 The ``DataHash`` can provide a nice check on the
-`Data <https://godoc.org/github.com/tendermint/tendermint/types#Data>`__
+`Data <https://godoc.org/github.com/teragrid/teragrid/types#Data>`__
 returned in this same block. If you are subscribed to new blocks, via
-tendermint RPC, in order to display or process the new transactions you
+teragrid RPC, in order to display or process the new transactions you
 should at least validate that the ``DataHash`` is valid. If it is
 important to verify autheniticity, you must wait for the ``LastCommit``
 from the next block to make sure the block header (including
 ``DataHash``) was properly signed.
 
 The ``ValidatorHash`` contains a hash of the current
-`Validators <https://godoc.org/github.com/tendermint/tendermint/types#Validator>`__.
+`Validators <https://godoc.org/github.com/teragrid/teragrid/types#Validator>`__.
 Tracking all changes in the validator set is complex, but a client can
 quickly compare this hash with the `hash of the currently known
-validators <https://godoc.org/github.com/tendermint/tendermint/types#ValidatorSet.Hash>`__
+validators <https://godoc.org/github.com/teragrid/teragrid/types#ValidatorSet.Hash>`__
 to see if there have been changes.
 
 The ``AppHash`` serves as the basis for validating any merkle proofs
-that come from the `ABCI
-application <https://github.com/tendermint/abci>`__. It represents the
+that come from the `asura
+application <https://github.com/teragrid/asura>`__. It represents the
 state of the actual application, rather that the state of the blockchain
 itself. This means it's necessary in order to perform any business
 logic, such as verifying and account balance.
@@ -78,9 +78,9 @@ Commit
 ~~~~~~
 
 The
-`Commit <https://godoc.org/github.com/tendermint/tendermint/types#Commit>`__
+`Commit <https://godoc.org/github.com/teragrid/teragrid/types#Commit>`__
 contains a set of
-`Votes <https://godoc.org/github.com/tendermint/tendermint/types#Vote>`__
+`Votes <https://godoc.org/github.com/teragrid/teragrid/types#Vote>`__
 that were made by the validator set to reach consensus on this block.
 This is the key to the security in any PoS system, and actually no data
 that cannot be traced back to a block header with a valid set of Votes
@@ -91,19 +91,19 @@ As mentioned above, in order to find the ``precommit votes`` for block
 header ``H``, we need to query block ``H+1``. Then we need to check the
 votes, make sure they really are for that block, and properly formatted.
 Much of this code is implemented in Go in the
-`light-client <https://github.com/tendermint/light-client>`__ package.
+`light-client <https://github.com/teragrid/light-client>`__ package.
 If you look at the code, you will notice that we need to provide the
 ``chainID`` of the blockchain in order to properly calculate the votes.
 This is to protect anyone from swapping votes between chains to fake (or
 frame) a validator. Also note that this ``chainID`` is in the
-``genesis.json`` from *Tendermint*, not the ``genesis.json`` from the
+``genesis.json`` from *teragrid*, not the ``genesis.json`` from the
 basecoin app (`that is a different
 chainID... <https://github.com/cosmos/cosmos-sdk/issues/32>`__).
 
 Once we have those votes, and we calculated the proper `sign
-bytes <https://godoc.org/github.com/tendermint/tendermint/types#Vote.WriteSignBytes>`__
+bytes <https://godoc.org/github.com/teragrid/teragrid/types#Vote.WriteSignBytes>`__
 using the chainID and a `nice helper
-function <https://godoc.org/github.com/tendermint/tendermint/types#SignBytes>`__,
+function <https://godoc.org/github.com/teragrid/teragrid/types#SignBytes>`__,
 we can verify them. The light client is responsible for maintaining a
 set of validators that we trust. Each vote only stores the validators
 ``Address``, as well as the ``Signature``. Assuming we have a local copy
@@ -113,7 +113,7 @@ matches the ``SignBytes`` and ``Public Key``. Then we sum up the total
 voting power of all validators, whose votes fulfilled all these
 stringent requirements. If the total number of voting power for a single
 block is greater than 2/3 of all voting power, then we can finally trust
-the block header, the AppHash, and the proof we got from the ABCI
+the block header, the AppHash, and the proof we got from the asura
 application.
 
 Vote Sign Bytes
@@ -135,7 +135,7 @@ Block Hash
 ~~~~~~~~~~
 
 The `block
-hash <https://godoc.org/github.com/tendermint/tendermint/types#Block.Hash>`__
+hash <https://godoc.org/github.com/teragrid/teragrid/types#Block.Hash>`__
 is the `Simple Tree hash <./merkle.html#simple-tree-with-dictionaries>`__
 of the fields of the block ``Header`` encoded as a list of
 ``KVPair``\ s.
@@ -144,14 +144,14 @@ Transaction
 ~~~~~~~~~~~
 
 A transaction is any sequence of bytes. It is up to your
-`ABCI <https://github.com/tendermint/abci>`__ application to accept or
+`asura <https://github.com/teragrid/asura>`__ application to accept or
 reject transactions.
 
 BlockID
 ~~~~~~~
 
 Many of these data structures refer to the
-`BlockID <https://godoc.org/github.com/tendermint/tendermint/types#BlockID>`__,
+`BlockID <https://godoc.org/github.com/teragrid/teragrid/types#BlockID>`__,
 which is the ``BlockHash`` (hash of the block header, also referred to
 by the next block) along with the ``PartSetHeader``. The
 ``PartSetHeader`` is explained below and is used internally to
@@ -162,9 +162,9 @@ PartSetHeader
 ~~~~~~~~~~~~~
 
 The
-`PartSetHeader <https://godoc.org/github.com/tendermint/tendermint/types#PartSetHeader>`__
+`PartSetHeader <https://godoc.org/github.com/teragrid/teragrid/types#PartSetHeader>`__
 contains the total number of pieces in a
-`PartSet <https://godoc.org/github.com/tendermint/tendermint/types#PartSet>`__,
+`PartSet <https://godoc.org/github.com/teragrid/teragrid/types#PartSet>`__,
 and the Merkle root hash of those pieces.
 
 PartSet

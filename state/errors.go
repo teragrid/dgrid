@@ -1,7 +1,7 @@
 package state
 
 import (
-	cmn "github.com/tendermint/tmlibs/common"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 type (
@@ -42,7 +42,7 @@ type (
 		Height int64
 	}
 
-	ErrNoABCIResponsesForHeight struct {
+	ErrNoasuraResponsesForHeight struct {
 		Height int64
 	}
 )
@@ -59,7 +59,7 @@ func (e ErrAppBlockHeightTooHigh) Error() string {
 	return cmn.Fmt("App block height (%d) is higher than core (%d)", e.AppHeight, e.CoreHeight)
 }
 func (e ErrLastStateMismatch) Error() string {
-	return cmn.Fmt("Latest tendermint block (%d) LastAppHash (%X) does not match app's AppHash (%X)", e.Height, e.Core, e.App)
+	return cmn.Fmt("Latest teragrid block (%d) LastAppHash (%X) does not match app's AppHash (%X)", e.Height, e.Core, e.App)
 }
 
 func (e ErrStateMismatch) Error() string {
@@ -74,6 +74,6 @@ func (e ErrNoConsensusParamsForHeight) Error() string {
 	return cmn.Fmt("Could not find consensus params for height #%d", e.Height)
 }
 
-func (e ErrNoABCIResponsesForHeight) Error() string {
+func (e ErrNoasuraResponsesForHeight) Error() string {
 	return cmn.Fmt("Could not find results for height #%d", e.Height)
 }

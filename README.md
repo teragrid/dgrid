@@ -10,8 +10,8 @@ https://teragrid.network/api/docs
 )](https://godoc.org/github.com/teragrid/teragrid)
 [![Go version](https://img.shields.io/badge/go-1.9.2-blue.svg)](https://github.com/moovweb/gvm)
 [![Rocket.Chat](https://demo.rocket.chat/images/join-chat.svg)](https://cosmos.rocket.chat/)
-[![license](https://img.shields.io/github/license/tendermint/tendermint.svg)](https://github.com/tendermint/tendermint/blob/master/LICENSE)
-[![](https://tokei.rs/b1/github/tendermint/tendermint?category=lines)](https://github.com/tendermint/tendermint)
+[![license](https://img.shields.io/github/license/teragrid/teragrid.svg)](https://github.com/teragrid/teragrid/blob/master/LICENSE)
+[![](https://tokei.rs/b1/github/teragrid/teragrid?category=lines)](https://github.com/teragrid/teragrid)
 
 
 Branch    | Tests | Coverage
@@ -46,7 +46,7 @@ For more details (or if it fails), [read the docs](https://teragrid.readthedocs.
 
 ### Teragrid Core
 
-All resources involving the use of, building application on, or developing for, tendermint, can be found at [Read The Docs](https://teragrid.readthedocs.io/en/master/). Additional information about some - and eventually all - of the sub-projects below, can be found at Read The Docs.
+All resources involving the use of, building application on, or developing for, teragrid, can be found at [Read The Docs](https://teragrid.readthedocs.io/en/master/). Additional information about some - and eventually all - of the sub-projects below, can be found at Read The Docs.
 
 ### Sub-projects
 
@@ -97,7 +97,7 @@ Functions, types, and values in any other package may also change at any time.
 
 In an effort to avoid accumulating technical debt prior to 1.0.0,
 we do not guarantee that breaking changes (ie. bumps in the MINOR version)
-will work with existing tendermint blockchains. In these cases you will
+will work with existing teragrid blockchains. In these cases you will
 have to start a new blockchain, or write something custom to get the old
 data into the new chain.
 

@@ -1,7 +1,7 @@
 package types
 
 import (
-	abci "github.com/tendermint/abci/types"
+	asura "github.com/teragrid/asura/types"
 )
 
 // NOTE/XXX: all type definitions in this file are considered UNSTABLE
@@ -23,7 +23,7 @@ type Mempool interface {
 	Unlock()
 
 	Size() int
-	CheckTx(Tx, func(*abci.Response)) error
+	CheckTx(Tx, func(*asura.Response)) error
 	Reap(int) Txs
 	Update(height int64, txs Txs) error
 	Flush()
@@ -41,7 +41,7 @@ type MockMempool struct {
 func (m MockMempool) Lock()                                        {}
 func (m MockMempool) Unlock()                                      {}
 func (m MockMempool) Size() int                                    { return 0 }
-func (m MockMempool) CheckTx(tx Tx, cb func(*abci.Response)) error { return nil }
+func (m MockMempool) CheckTx(tx Tx, cb func(*asura.Response)) error { return nil }
 func (m MockMempool) Reap(n int) Txs                               { return Txs{} }
 func (m MockMempool) Update(height int64, txs Txs) error           { return nil }
 func (m MockMempool) Flush()                                       {}

@@ -5,8 +5,8 @@ import (
 	"net"
 	"time"
 
-	cmn "github.com/tendermint/tmlibs/common"
-	"github.com/tendermint/tmlibs/log"
+	cmn "github.com/teragrid/teralibs/common"
+	"github.com/teragrid/teralibs/log"
 )
 
 type UPNPCapabilities struct {
@@ -27,7 +27,7 @@ func makeUPNPListener(intPort int, extPort int, logger log.Logger) (NAT, net.Lis
 	}
 	logger.Info(cmn.Fmt("External address: %v", ext))
 
-	port, err := nat.AddPortMapping("tcp", extPort, intPort, "Tendermint UPnP Probe", 0)
+	port, err := nat.AddPortMapping("tcp", extPort, intPort, "teragrid UPnP Probe", 0)
 	if err != nil {
 		return nat, nil, ext, fmt.Errorf("Port mapping error: %v", err)
 	}

@@ -5,11 +5,11 @@ import (
 
 	"github.com/spf13/cobra"
 
-	pvm "github.com/tendermint/tendermint/types/priv_validator"
-	"github.com/tendermint/tmlibs/log"
+	pvm "github.com/teragrid/teragrid/types/priv_validator"
+	"github.com/teragrid/teralibs/log"
 )
 
-// ResetAllCmd removes the database of this Tendermint core
+// ResetAllCmd removes the database of this teragrid core
 // instance.
 var ResetAllCmd = &cobra.Command{
 	Use:   "unsafe_reset_all",

@@ -5,14 +5,14 @@ import (
 	"reflect"
 	"time"
 
-	abci "github.com/tendermint/abci/types"
-	"github.com/tendermint/go-amino"
-	"github.com/tendermint/tmlibs/clist"
-	"github.com/tendermint/tmlibs/log"
+	asura "github.com/teragrid/asura/types"
+	"github.com/teragrid/go-amino"
+	"github.com/teragrid/teralibs/clist"
+	"github.com/teragrid/teralibs/log"
 
-	cfg "github.com/tendermint/tendermint/config"
-	"github.com/tendermint/tendermint/p2p"
-	"github.com/tendermint/tendermint/types"
+	cfg "github.com/teragrid/teragrid/config"
+	"github.com/teragrid/teragrid/p2p"
+	"github.com/teragrid/teragrid/types"
 )
 
 const (
@@ -91,7 +91,7 @@ func (memR *MempoolReactor) Receive(chID byte, src p2p.Peer, msgBytes []byte) {
 }
 
 // BroadcastTx is an alias for Mempool.CheckTx. Broadcasting itself happens in peer routines.
-func (memR *MempoolReactor) BroadcastTx(tx types.Tx, cb func(*abci.Response)) error {
+func (memR *MempoolReactor) BroadcastTx(tx types.Tx, cb func(*asura.Response)) error {
 	return memR.Mempool.CheckTx(tx, cb)
 }
 
@@ -162,7 +162,7 @@ type MempoolMessage interface{}
 
 func RegisterMempoolMessages(cdc *amino.Codec) {
 	cdc.RegisterInterface((*MempoolMessage)(nil), nil)
-	cdc.RegisterConcrete(&TxMessage{}, "tendermint/mempool/TxMessage", nil)
+	cdc.RegisterConcrete(&TxMessage{}, "teragrid/mempool/TxMessage", nil)
 }
 
 // DecodeMessage decodes a byte-array into a MempoolMessage.

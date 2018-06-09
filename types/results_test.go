@@ -7,13 +7,13 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestABCIResults(t *testing.T) {
-	a := ABCIResult{Code: 0, Data: nil}
-	b := ABCIResult{Code: 0, Data: []byte{}}
-	c := ABCIResult{Code: 0, Data: []byte("one")}
-	d := ABCIResult{Code: 14, Data: nil}
-	e := ABCIResult{Code: 14, Data: []byte("foo")}
-	f := ABCIResult{Code: 14, Data: []byte("bar")}
+func TestasuraResults(t *testing.T) {
+	a := asuraResult{Code: 0, Data: nil}
+	b := asuraResult{Code: 0, Data: []byte{}}
+	c := asuraResult{Code: 0, Data: []byte("one")}
+	d := asuraResult{Code: 14, Data: nil}
+	e := asuraResult{Code: 14, Data: []byte("foo")}
+	f := asuraResult{Code: 14, Data: []byte("bar")}
 
 	// Nil and []byte{} should produce the same hash.
 	require.Equal(t, a.Hash(), a.Hash())
@@ -21,7 +21,7 @@ func TestABCIResults(t *testing.T) {
 	require.Equal(t, a.Hash(), b.Hash())
 
 	// a and b should be the same, don't go in results.
-	results := ABCIResults{a, c, d, e, f}
+	results := asuraResults{a, c, d, e, f}
 
 	// Make sure each result hashes properly.
 	var last []byte

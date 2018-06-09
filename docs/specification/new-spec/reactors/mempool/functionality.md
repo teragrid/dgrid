@@ -21,14 +21,14 @@ to potentially untrusted actors.
 ## Internal functionality
 
 Internal functionality is exposed via method calls to other
-code compiled into the tendermint binary.
+code compiled into the teragrid binary.
 
 * Reap - get tx to propose in next block
 * Update - remove tx that were included in last block
-* ABCI.CheckTx - call ABCI app to validate the tx
+* asura.CheckTx - call asura app to validate the tx
 
 What does it provide the consensus reactor?
-What guarantees does it need from the ABCI app?
+What guarantees does it need from the asura app?
 (talk about interleaving processes in concurrency)
 
 ## Optimizations

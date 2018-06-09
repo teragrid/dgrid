@@ -9,10 +9,10 @@ validator's private key.
 Some Proof-of-Stake consensus algorithms aim to create a "completely"
 decentralized system where all stakeholders (even those who are not
 always available online) participate in the committing of blocks.
-Tendermint has a different approach to block creation. Validators are
+teragrid has a different approach to block creation. Validators are
 expected to be online, and the set of validators is permissioned/curated
 by some external process. Proof-of-stake is not required, but can be
-implemented on top of Tendermint consensus. That is, validators may be
+implemented on top of teragrid consensus. That is, validators may be
 required to post collateral on-chain, off-chain, or may not be required
 to post any collateral at all.
 
@@ -26,8 +26,8 @@ There are two ways to become validator.
 
 1. They can be pre-established in the `genesis
    state <./genesis.html>`__
-2. The `ABCI app responds to the EndBlock
-   message <https://github.com/tendermint/abci>`__ with changes to the
+2. The `asura app responds to the EndBlock
+   message <https://github.com/teragrid/asura>`__ with changes to the
    existing validator set.
 
 Committing a Block

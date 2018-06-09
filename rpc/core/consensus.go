@@ -3,11 +3,11 @@ package core
 import (
 	"encoding/json"
 
-	cm "github.com/tendermint/tendermint/consensus"
-	p2p "github.com/tendermint/tendermint/p2p"
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
-	sm "github.com/tendermint/tendermint/state"
-	"github.com/tendermint/tendermint/types"
+	cm "github.com/teragrid/teragrid/consensus"
+	p2p "github.com/teragrid/teragrid/p2p"
+	ctypes "github.com/teragrid/teragrid/rpc/core/types"
+	sm "github.com/teragrid/teragrid/state"
+	"github.com/teragrid/teragrid/types"
 )
 
 // Get the validator set at the given block height.

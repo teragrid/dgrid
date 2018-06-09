@@ -6,21 +6,21 @@ import (
 
 	"github.com/pkg/errors"
 
-	amino "github.com/tendermint/go-amino"
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
-	rpcclient "github.com/tendermint/tendermint/rpc/lib/client"
-	"github.com/tendermint/tendermint/types"
-	cmn "github.com/tendermint/tmlibs/common"
-	tmpubsub "github.com/tendermint/tmlibs/pubsub"
+	amino "github.com/teragrid/go-amino"
+	ctypes "github.com/teragrid/teragrid/rpc/core/types"
+	rpcclient "github.com/teragrid/teragrid/rpc/lib/client"
+	"github.com/teragrid/teragrid/types"
+	cmn "github.com/teragrid/teralibs/common"
+	tmpubsub "github.com/teragrid/teralibs/pubsub"
 )
 
 /*
 HTTP is a Client implementation that communicates
-with a tendermint node over json rpc and websockets.
+with a teragrid node over json rpc and websockets.
 
 This is the main implementation you probably want to use in
 production code.  There are other implementations when calling
-the tendermint node in-process (local), or when you want to mock
+the teragrid node in-process (local), or when you want to mock
 out the server for test code (mock).
 */
 type HTTP struct {
@@ -58,26 +58,26 @@ func (c *HTTP) Status() (*ctypes.ResultStatus, error) {
 	return result, nil
 }
 
-func (c *HTTP) ABCIInfo() (*ctypes.ResultABCIInfo, error) {
-	result := new(ctypes.ResultABCIInfo)
-	_, err := c.rpc.Call("abci_info", map[string]interface{}{}, result)
+func (c *HTTP) asuraInfo() (*ctypes.ResultasuraInfo, error) {
+	result := new(ctypes.ResultasuraInfo)
+	_, err := c.rpc.Call("asura_info", map[string]interface{}{}, result)
 	if err != nil {
-		return nil, errors.Wrap(err, "ABCIInfo")
+		return nil, errors.Wrap(err, "asuraInfo")
 	}
 	return result, nil
 }
 
-func (c *HTTP) ABCIQuery(path string, data cmn.HexBytes) (*ctypes.ResultABCIQuery, error) {
-	return c.ABCIQueryWithOptions(path, data, DefaultABCIQueryOptions)
+func (c *HTTP) asuraQuery(path string, data cmn.HexBytes) (*ctypes.ResultasuraQuery, error) {
+	return c.asuraQueryWithOptions(path, data, DefaultasuraQueryOptions)
 }
 
-func (c *HTTP) ABCIQueryWithOptions(path string, data cmn.HexBytes, opts ABCIQueryOptions) (*ctypes.ResultABCIQuery, error) {
-	result := new(ctypes.ResultABCIQuery)
-	_, err := c.rpc.Call("abci_query",
+func (c *HTTP) asuraQueryWithOptions(path string, data cmn.HexBytes, opts asuraQueryOptions) (*ctypes.ResultasuraQuery, error) {
+	result := new(ctypes.ResultasuraQuery)
+	_, err := c.rpc.Call("asura_query",
 		map[string]interface{}{"path": path, "data": data, "height": opts.Height, "trusted": opts.Trusted},
 		result)
 	if err != nil {
-		return nil, errors.Wrap(err, "ABCIQuery")
+		return nil, errors.Wrap(err, "asuraQuery")
 	}
 	return result, nil
 }
@@ -274,7 +274,7 @@ func (w *WSEvents) Subscribe(ctx context.Context, subscriber string, query tmpub
 	}
 
 	w.mtx.Lock()
-	// subscriber param is ignored because Tendermint will override it with
+	// subscriber param is ignored because teragrid will override it with
 	// remote IP anyway.
 	w.subscriptions[q] = out
 	w.mtx.Unlock()

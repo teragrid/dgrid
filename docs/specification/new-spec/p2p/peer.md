@@ -1,12 +1,12 @@
-# Tendermint Peers
+# teragrid Peers
 
-This document explains how Tendermint Peers are identified and how they connect to one another.
+This document explains how teragrid Peers are identified and how they connect to one another.
 
 For details on peer discovery, see the [peer exchange (PEX) reactor doc](pex.md).
 
 ## Peer Identity
 
-Tendermint peers are expected to maintain long-term persistent identities in the form of a public key.
+teragrid peers are expected to maintain long-term persistent identities in the form of a public key.
 Each peer has an ID defined as `peer.ID == peer.PubKey.Address()`, where `Address` uses the scheme defined in go-crypto.
 
 A single peer ID can have multiple IP addresses associated with it.
@@ -18,19 +18,19 @@ via authenticated encryption, that it is in possession of the private key
 corresponding to `<ID>`. This prevents man-in-the-middle attacks on the peer layer.
 
 Peers can also be connected to without specifying an ID, ie. just `<IP>:<PORT>`.
-In this case, the peer must be authenticated out-of-band of Tendermint,
+In this case, the peer must be authenticated out-of-band of teragrid,
 for instance via VPN.
 
 ## Connections
 
 All p2p connections use TCP.
 Upon establishing a successful TCP connection with a peer,
-two handhsakes are performed: one for authenticated encryption, and one for Tendermint versioning.
+two handhsakes are performed: one for authenticated encryption, and one for teragrid versioning.
 Both handshakes have configurable timeouts (they should complete quickly).
 
 ### Authenticated Encryption Handshake
 
-Tendermint implements the Station-to-Station protocol
+teragrid implements the Station-to-Station protocol
 using ED25519 keys for Diffie-Helman key-exchange and NACL SecretBox for encryption.
 It goes as follows:
 - generate an emphemeral ED25519 keypair
@@ -72,14 +72,14 @@ Before continuing, we check if the new peer has the same ID as ourselves or
 an existing peer. If so, we disconnect.
 
 We also check the peer's address and public key against
-an optional whitelist which can be managed through the ABCI app -
+an optional whitelist which can be managed through the asura app -
 if the whitelist is enabled and the peer does not qualify, the connection is
 terminated.
 
 
-### Tendermint Version Handshake
+### teragrid Version Handshake
 
-The Tendermint Version Handshake allows the peers to exchange their NodeInfo:
+The teragrid Version Handshake allows the peers to exchange their NodeInfo:
 
 ```golang
 type NodeInfo struct {

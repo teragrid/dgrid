@@ -1,9 +1,9 @@
 Genesis
 =======
 
-The genesis.json file in ``$TMHOME/config`` defines the initial TendermintCore
+The genesis.json file in ``$TMHOME/config`` defines the initial teragridCore
 state upon genesis of the blockchain (`see
-definition <https://github.com/tendermint/tendermint/blob/master/types/genesis.go>`__).
+definition <https://github.com/teragrid/teragrid/blob/master/types/genesis.go>`__).
 
 Fields
 ~~~~~~
@@ -18,7 +18,7 @@ Fields
 -  ``power``: The validator's voting power.
 -  ``name``: Name of the validator (optional).
 -  ``app_hash``: The expected application hash (as returned by the
-   ``Commit`` ABCI message) upon genesis. If the app's hash does not
+   ``Commit`` asura message) upon genesis. If the app's hash does not
    match, a warning message is printed.
 -  ``app_state``: The application state (e.g. initial distribution of tokens).
 

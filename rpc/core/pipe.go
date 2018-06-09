@@ -3,15 +3,15 @@ package core
 import (
 	"time"
 
-	crypto "github.com/tendermint/go-crypto"
-	"github.com/tendermint/tendermint/consensus"
-	"github.com/tendermint/tendermint/p2p"
-	"github.com/tendermint/tendermint/proxy"
-	sm "github.com/tendermint/tendermint/state"
-	"github.com/tendermint/tendermint/state/txindex"
-	"github.com/tendermint/tendermint/types"
-	dbm "github.com/tendermint/tmlibs/db"
-	"github.com/tendermint/tmlibs/log"
+	crypto "github.com/teragrid/go-crypto"
+	"github.com/teragrid/teragrid/consensus"
+	"github.com/teragrid/teragrid/p2p"
+	"github.com/teragrid/teragrid/proxy"
+	sm "github.com/teragrid/teragrid/state"
+	"github.com/teragrid/teragrid/state/txindex"
+	"github.com/teragrid/teragrid/types"
+	dbm "github.com/teragrid/teralibs/db"
+	"github.com/teragrid/teralibs/log"
 )
 
 var subscribeTimeout = 5 * time.Second

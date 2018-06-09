@@ -3,12 +3,12 @@ package client
 import (
 	"context"
 
-	nm "github.com/tendermint/tendermint/node"
-	"github.com/tendermint/tendermint/rpc/core"
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
-	"github.com/tendermint/tendermint/types"
-	cmn "github.com/tendermint/tmlibs/common"
-	tmpubsub "github.com/tendermint/tmlibs/pubsub"
+	nm "github.com/teragrid/teragrid/node"
+	"github.com/teragrid/teragrid/rpc/core"
+	ctypes "github.com/teragrid/teragrid/rpc/core/types"
+	"github.com/teragrid/teragrid/types"
+	cmn "github.com/teragrid/teralibs/common"
+	tmpubsub "github.com/teragrid/teralibs/pubsub"
 )
 
 /*
@@ -19,7 +19,7 @@ This implementation is useful for:
 
 * Running tests against a node in-process without the overhead
 of going through an http server
-* Communication between an ABCI app and Tendermint core when they
+* Communication between an asura app and teragrid core when they
 are compiled in process.
 
 For real clients, you probably want to use client.HTTP.  For more
@@ -52,16 +52,16 @@ func (Local) Status() (*ctypes.ResultStatus, error) {
 	return core.Status()
 }
 
-func (Local) ABCIInfo() (*ctypes.ResultABCIInfo, error) {
-	return core.ABCIInfo()
+func (Local) asuraInfo() (*ctypes.ResultasuraInfo, error) {
+	return core.asuraInfo()
 }
 
-func (c *Local) ABCIQuery(path string, data cmn.HexBytes) (*ctypes.ResultABCIQuery, error) {
-	return c.ABCIQueryWithOptions(path, data, DefaultABCIQueryOptions)
+func (c *Local) asuraQuery(path string, data cmn.HexBytes) (*ctypes.ResultasuraQuery, error) {
+	return c.asuraQueryWithOptions(path, data, DefaultasuraQueryOptions)
 }
 
-func (Local) ABCIQueryWithOptions(path string, data cmn.HexBytes, opts ABCIQueryOptions) (*ctypes.ResultABCIQuery, error) {
-	return core.ABCIQuery(path, data, opts.Height, opts.Trusted)
+func (Local) asuraQueryWithOptions(path string, data cmn.HexBytes, opts asuraQueryOptions) (*ctypes.ResultasuraQuery, error) {
+	return core.asuraQuery(path, data, opts.Height, opts.Trusted)
 }
 
 func (Local) BroadcastTxCommit(tx types.Tx) (*ctypes.ResultBroadcastTxCommit, error) {

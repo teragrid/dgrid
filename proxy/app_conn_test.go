@@ -4,31 +4,31 @@ import (
 	"strings"
 	"testing"
 
-	abcicli "github.com/tendermint/abci/client"
-	"github.com/tendermint/abci/example/kvstore"
-	"github.com/tendermint/abci/server"
-	"github.com/tendermint/abci/types"
-	cmn "github.com/tendermint/tmlibs/common"
-	"github.com/tendermint/tmlibs/log"
+	asuracli "github.com/teragrid/asura/client"
+	"github.com/teragrid/asura/example/kvstore"
+	"github.com/teragrid/asura/server"
+	"github.com/teragrid/asura/types"
+	cmn "github.com/teragrid/teralibs/common"
+	"github.com/teragrid/teralibs/log"
 )
 
 //----------------------------------------
 
 type AppConnTest interface {
-	EchoAsync(string) *abcicli.ReqRes
+	EchoAsync(string) *asuracli.ReqRes
 	FlushSync() error
 	InfoSync(types.RequestInfo) (*types.ResponseInfo, error)
 }
 
 type appConnTest struct {
-	appConn abcicli.Client
+	appConn asuracli.Client
 }
 
-func NewAppConnTest(appConn abcicli.Client) AppConnTest {
+func NewAppConnTest(appConn asuracli.Client) AppConnTest {
 	return &appConnTest{appConn}
 }
 
-func (app *appConnTest) EchoAsync(msg string) *abcicli.ReqRes {
+func (app *appConnTest) EchoAsync(msg string) *asuracli.ReqRes {
 	return app.appConn.EchoAsync(msg)
 }
 
@@ -50,20 +50,20 @@ func TestEcho(t *testing.T) {
 
 	// Start server
 	s := server.NewSocketServer(sockPath, kvstore.NewKVStoreApplication())
-	s.SetLogger(log.TestingLogger().With("module", "abci-server"))
+	s.SetLogger(log.TestingLogger().With("module", "asura-server"))
 	if err := s.Start(); err != nil {
 		t.Fatalf("Error starting socket server: %v", err.Error())
 	}
 	defer s.Stop()
 
 	// Start client
-	cli, err := clientCreator.NewABCIClient()
+	cli, err := clientCreator.NewasuraClient()
 	if err != nil {
-		t.Fatalf("Error creating ABCI client: %v", err.Error())
+		t.Fatalf("Error creating asura client: %v", err.Error())
 	}
-	cli.SetLogger(log.TestingLogger().With("module", "abci-client"))
+	cli.SetLogger(log.TestingLogger().With("module", "asura-client"))
 	if err := cli.Start(); err != nil {
-		t.Fatalf("Error starting ABCI client: %v", err.Error())
+		t.Fatalf("Error starting asura client: %v", err.Error())
 	}
 
 	proxy := NewAppConnTest(cli)
@@ -84,20 +84,20 @@ func BenchmarkEcho(b *testing.B) {
 
 	// Start server
 	s := server.NewSocketServer(sockPath, kvstore.NewKVStoreApplication())
-	s.SetLogger(log.TestingLogger().With("module", "abci-server"))
+	s.SetLogger(log.TestingLogger().With("module", "asura-server"))
 	if err := s.Start(); err != nil {
 		b.Fatalf("Error starting socket server: %v", err.Error())
 	}
 	defer s.Stop()
 
 	// Start client
-	cli, err := clientCreator.NewABCIClient()
+	cli, err := clientCreator.NewasuraClient()
 	if err != nil {
-		b.Fatalf("Error creating ABCI client: %v", err.Error())
+		b.Fatalf("Error creating asura client: %v", err.Error())
 	}
-	cli.SetLogger(log.TestingLogger().With("module", "abci-client"))
+	cli.SetLogger(log.TestingLogger().With("module", "asura-client"))
 	if err := cli.Start(); err != nil {
-		b.Fatalf("Error starting ABCI client: %v", err.Error())
+		b.Fatalf("Error starting asura client: %v", err.Error())
 	}
 
 	proxy := NewAppConnTest(cli)
@@ -123,20 +123,20 @@ func TestInfo(t *testing.T) {
 
 	// Start server
 	s := server.NewSocketServer(sockPath, kvstore.NewKVStoreApplication())
-	s.SetLogger(log.TestingLogger().With("module", "abci-server"))
+	s.SetLogger(log.TestingLogger().With("module", "asura-server"))
 	if err := s.Start(); err != nil {
 		t.Fatalf("Error starting socket server: %v", err.Error())
 	}
 	defer s.Stop()
 
 	// Start client
-	cli, err := clientCreator.NewABCIClient()
+	cli, err := clientCreator.NewasuraClient()
 	if err != nil {
-		t.Fatalf("Error creating ABCI client: %v", err.Error())
+		t.Fatalf("Error creating asura client: %v", err.Error())
 	}
-	cli.SetLogger(log.TestingLogger().With("module", "abci-client"))
+	cli.SetLogger(log.TestingLogger().With("module", "asura-client"))
 	if err := cli.Start(); err != nil {
-		t.Fatalf("Error starting ABCI client: %v", err.Error())
+		t.Fatalf("Error starting asura client: %v", err.Error())
 	}
 
 	proxy := NewAppConnTest(cli)

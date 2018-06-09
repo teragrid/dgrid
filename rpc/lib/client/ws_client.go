@@ -13,9 +13,9 @@ import (
 	"github.com/pkg/errors"
 	metrics "github.com/rcrowley/go-metrics"
 
-	"github.com/tendermint/go-amino"
-	types "github.com/tendermint/tendermint/rpc/lib/types"
-	cmn "github.com/tendermint/tmlibs/common"
+	"github.com/teragrid/go-amino"
+	types "github.com/teragrid/teragrid/rpc/lib/types"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 const (

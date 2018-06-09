@@ -11,15 +11,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/tendermint/abci/example/counter"
-	"github.com/tendermint/abci/example/kvstore"
-	abci "github.com/tendermint/abci/types"
-	cmn "github.com/tendermint/tmlibs/common"
-	"github.com/tendermint/tmlibs/log"
+	"github.com/teragrid/asura/example/counter"
+	"github.com/teragrid/asura/example/kvstore"
+	asura "github.com/teragrid/asura/types"
+	cmn "github.com/teragrid/teralibs/common"
+	"github.com/teragrid/teralibs/log"
 
-	cfg "github.com/tendermint/tendermint/config"
-	"github.com/tendermint/tendermint/proxy"
-	"github.com/tendermint/tendermint/types"
+	cfg "github.com/teragrid/teragrid/config"
+	"github.com/teragrid/teragrid/proxy"
+	"github.com/teragrid/teragrid/types"
 
 	"github.com/stretchr/testify/require"
 )
@@ -27,8 +27,8 @@ import (
 func newMempoolWithApp(cc proxy.ClientCreator) *Mempool {
 	config := cfg.ResetTestRoot("mempool_test")
 
-	appConnMem, _ := cc.NewABCIClient()
-	appConnMem.SetLogger(log.TestingLogger().With("module", "abci-client", "connection", "mempool"))
+	appConnMem, _ := cc.NewasuraClient()
+	appConnMem.SetLogger(log.TestingLogger().With("module", "asura-client", "connection", "mempool"))
 	err := appConnMem.Start()
 	if err != nil {
 		panic(err)
@@ -117,12 +117,12 @@ func TestTxsAvailable(t *testing.T) {
 
 func TestSerialReap(t *testing.T) {
 	app := counter.NewCounterApplication(true)
-	app.SetOption(abci.RequestSetOption{"serial", "on"})
+	app.SetOption(asura.RequestSetOption{"serial", "on"})
 	cc := proxy.NewLocalClientCreator(app)
 
 	mempool := newMempoolWithApp(cc)
-	appConnCon, _ := cc.NewABCIClient()
-	appConnCon.SetLogger(log.TestingLogger().With("module", "abci-client", "connection", "consensus"))
+	appConnCon, _ := cc.NewasuraClient()
+	appConnCon.SetLogger(log.TestingLogger().With("module", "asura-client", "connection", "consensus"))
 	err := appConnCon.Start()
 	require.Nil(t, err)
 
@@ -240,7 +240,7 @@ func TestMempoolCloseWAL(t *testing.T) {
 	wcfg.RootDir = rootDir
 	app := kvstore.NewKVStoreApplication()
 	cc := proxy.NewLocalClientCreator(app)
-	appConnMem, _ := cc.NewABCIClient()
+	appConnMem, _ := cc.NewasuraClient()
 	mempool := NewMempool(wcfg, appConnMem, 10)
 	mempool.InitWAL()
 

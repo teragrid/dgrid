@@ -5,9 +5,9 @@ import (
 	"errors"
 	"fmt"
 
-	abci "github.com/tendermint/abci/types"
-	cmn "github.com/tendermint/tmlibs/common"
-	"github.com/tendermint/tmlibs/merkle"
+	asura "github.com/teragrid/asura/types"
+	cmn "github.com/teragrid/teralibs/common"
+	"github.com/teragrid/teralibs/merkle"
 )
 
 // Tx is an arbitrary byte array.
@@ -32,7 +32,7 @@ type Txs []Tx
 // Hash returns the simple Merkle root hash of the transactions.
 func (txs Txs) Hash() []byte {
 	// Recursive impl.
-	// Copied from tmlibs/merkle to avoid allocations
+	// Copied from teralibs/merkle to avoid allocations
 	switch len(txs) {
 	case 0:
 		return nil
@@ -124,5 +124,5 @@ type TxResult struct {
 	Height int64                  `json:"height"`
 	Index  uint32                 `json:"index"`
 	Tx     Tx                     `json:"tx"`
-	Result abci.ResponseDeliverTx `json:"result"`
+	Result asura.ResponseDeliverTx `json:"result"`
 }

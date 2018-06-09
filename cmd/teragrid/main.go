@@ -4,11 +4,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/tendermint/tmlibs/cli"
+	"github.com/teragrid/teralibs/cli"
 
-	cmd "github.com/tendermint/tendermint/cmd/tendermint/commands"
-	cfg "github.com/tendermint/tendermint/config"
-	nm "github.com/tendermint/tendermint/node"
+	cmd "github.com/teragrid/teragrid/cmd/teragrid/commands"
+	cfg "github.com/teragrid/teragrid/config"
+	nm "github.com/teragrid/teragrid/node"
 )
 
 func main() {
@@ -31,7 +31,7 @@ func main() {
 	// NOTE:
 	// Users wishing to:
 	//	* Use an external signer for their validators
-	//	* Supply an in-proc abci app
+	//	* Supply an in-proc asura app
 	//	* Supply a genesis doc file from another source
 	//	* Provide their own DB implementation
 	// can copy this file and use something other than the
@@ -41,7 +41,7 @@ func main() {
 	// Create & start node
 	rootCmd.AddCommand(cmd.NewRunNodeCmd(nodeFunc))
 
-	cmd := cli.PrepareBaseCmd(rootCmd, "TM", os.ExpandEnv(filepath.Join("$HOME", cfg.DefaultTendermintDir)))
+	cmd := cli.PrepareBaseCmd(rootCmd, "TM", os.ExpandEnv(filepath.Join("$HOME", cfg.DefaultteragridDir)))
 	if err := cmd.Execute(); err != nil {
 		panic(err)
 	}

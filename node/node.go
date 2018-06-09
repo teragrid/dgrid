@@ -7,34 +7,34 @@ import (
 	"net"
 	"net/http"
 
-	abci "github.com/tendermint/abci/types"
-	amino "github.com/tendermint/go-amino"
-	crypto "github.com/tendermint/go-crypto"
-	cmn "github.com/tendermint/tmlibs/common"
-	dbm "github.com/tendermint/tmlibs/db"
-	"github.com/tendermint/tmlibs/log"
+	asura "github.com/teragrid/asura/types"
+	amino "github.com/teragrid/go-amino"
+	crypto "github.com/teragrid/go-crypto"
+	cmn "github.com/teragrid/teralibs/common"
+	dbm "github.com/teragrid/teralibs/db"
+	"github.com/teragrid/teralibs/log"
 
-	bc "github.com/tendermint/tendermint/blockchain"
-	cfg "github.com/tendermint/tendermint/config"
-	cs "github.com/tendermint/tendermint/consensus"
-	"github.com/tendermint/tendermint/evidence"
-	mempl "github.com/tendermint/tendermint/mempool"
-	"github.com/tendermint/tendermint/p2p"
-	"github.com/tendermint/tendermint/p2p/pex"
-	"github.com/tendermint/tendermint/p2p/trust"
-	"github.com/tendermint/tendermint/proxy"
-	rpccore "github.com/tendermint/tendermint/rpc/core"
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
-	grpccore "github.com/tendermint/tendermint/rpc/grpc"
-	rpc "github.com/tendermint/tendermint/rpc/lib"
-	rpcserver "github.com/tendermint/tendermint/rpc/lib/server"
-	sm "github.com/tendermint/tendermint/state"
-	"github.com/tendermint/tendermint/state/txindex"
-	"github.com/tendermint/tendermint/state/txindex/kv"
-	"github.com/tendermint/tendermint/state/txindex/null"
-	"github.com/tendermint/tendermint/types"
-	pvm "github.com/tendermint/tendermint/types/priv_validator"
-	"github.com/tendermint/tendermint/version"
+	bc "github.com/teragrid/teragrid/blockchain"
+	cfg "github.com/teragrid/teragrid/config"
+	cs "github.com/teragrid/teragrid/consensus"
+	"github.com/teragrid/teragrid/evidence"
+	mempl "github.com/teragrid/teragrid/mempool"
+	"github.com/teragrid/teragrid/p2p"
+	"github.com/teragrid/teragrid/p2p/pex"
+	"github.com/teragrid/teragrid/p2p/trust"
+	"github.com/teragrid/teragrid/proxy"
+	rpccore "github.com/teragrid/teragrid/rpc/core"
+	ctypes "github.com/teragrid/teragrid/rpc/core/types"
+	grpccore "github.com/teragrid/teragrid/rpc/grpc"
+	rpc "github.com/teragrid/teragrid/rpc/lib"
+	rpcserver "github.com/teragrid/teragrid/rpc/lib/server"
+	sm "github.com/teragrid/teragrid/state"
+	"github.com/teragrid/teragrid/state/txindex"
+	"github.com/teragrid/teragrid/state/txindex/kv"
+	"github.com/teragrid/teragrid/state/txindex/null"
+	"github.com/teragrid/teragrid/types"
+	pvm "github.com/teragrid/teragrid/types/priv_validator"
+	"github.com/teragrid/teragrid/version"
 
 	_ "net/http/pprof"
 )
@@ -73,13 +73,13 @@ func DefaultGenesisDocProviderFunc(config *cfg.Config) GenesisDocProvider {
 // NodeProvider takes a config and a logger and returns a ready to go Node.
 type NodeProvider func(*cfg.Config, log.Logger) (*Node, error)
 
-// DefaultNewNode returns a Tendermint node with default settings for the
+// DefaultNewNode returns a teragrid node with default settings for the
 // PrivValidator, ClientCreator, GenesisDoc, and DBProvider.
 // It implements NodeProvider.
 func DefaultNewNode(config *cfg.Config, logger log.Logger) (*Node, error) {
 	return NewNode(config,
 		pvm.LoadOrGenFilePV(config.PrivValidatorFile()),
-		proxy.DefaultClientCreator(config.ProxyApp, config.ABCI, config.DBDir()),
+		proxy.DefaultClientCreator(config.ProxyApp, config.asura, config.DBDir()),
 		DefaultGenesisDocProviderFunc(config),
 		DefaultDBProvider,
 		logger,
@@ -88,7 +88,7 @@ func DefaultNewNode(config *cfg.Config, logger log.Logger) (*Node, error) {
 
 //------------------------------------------------------------------------------
 
-// Node is the highest level interface to a full Tendermint node.
+// Node is the highest level interface to a full teragrid node.
 // It includes all configuration information and running services.
 type Node struct {
 	cmn.BaseService
@@ -118,7 +118,7 @@ type Node struct {
 	indexerService   *txindex.IndexerService
 }
 
-// NewNode returns a new, ready to go, Tendermint Node.
+// NewNode returns a new, ready to go, teragrid Node.
 func NewNode(config *cfg.Config,
 	privValidator types.PrivValidator,
 	clientCreator proxy.ClientCreator,
@@ -158,7 +158,7 @@ func NewNode(config *cfg.Config,
 	}
 
 	// Create the proxyApp, which manages connections (consensus, mempool, query)
-	// and sync tendermint and the app by performing a handshake
+	// and sync teragrid and the app by performing a handshake
 	// and replaying any necessary blocks
 	consensusLogger := logger.With("module", "consensus")
 	handshaker := cs.NewHandshaker(stateDB, state, blockStore, genDoc.AppState())
@@ -287,28 +287,28 @@ func NewNode(config *cfg.Config,
 
 	sw.SetAddrBook(addrBook)
 
-	// Filter peers by addr or pubkey with an ABCI query.
+	// Filter peers by addr or pubkey with an asura query.
 	// If the query return code is OK, add peer.
 	// XXX: Query format subject to change
 	if config.FilterPeers {
 		// NOTE: addr is ip:port
 		sw.SetAddrFilter(func(addr net.Addr) error {
-			resQuery, err := proxyApp.Query().QuerySync(abci.RequestQuery{Path: cmn.Fmt("/p2p/filter/addr/%s", addr.String())})
+			resQuery, err := proxyApp.Query().QuerySync(asura.RequestQuery{Path: cmn.Fmt("/p2p/filter/addr/%s", addr.String())})
 			if err != nil {
 				return err
 			}
 			if resQuery.IsErr() {
-				return fmt.Errorf("Error querying abci app: %v", resQuery)
+				return fmt.Errorf("Error querying asura app: %v", resQuery)
 			}
 			return nil
 		})
 		sw.SetIDFilter(func(id p2p.ID) error {
-			resQuery, err := proxyApp.Query().QuerySync(abci.RequestQuery{Path: cmn.Fmt("/p2p/filter/pubkey/%s", id)})
+			resQuery, err := proxyApp.Query().QuerySync(asura.RequestQuery{Path: cmn.Fmt("/p2p/filter/pubkey/%s", id)})
 			if err != nil {
 				return err
 			}
 			if resQuery.IsErr() {
-				return fmt.Errorf("Error querying abci app: %v", resQuery)
+				return fmt.Errorf("Error querying asura app: %v", resQuery)
 			}
 			return nil
 		})
@@ -574,7 +574,7 @@ func (n *Node) GenesisDoc() *types.GenesisDoc {
 	return n.genesisDoc
 }
 
-// ProxyApp returns the Node's AppConns, representing its connections to the ABCI application.
+// ProxyApp returns the Node's AppConns, representing its connections to the asura application.
 func (n *Node) ProxyApp() proxy.AppConns {
 	return n.proxyApp
 }

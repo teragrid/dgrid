@@ -3,9 +3,9 @@ package lite
 import (
 	"time"
 
-	crypto "github.com/tendermint/go-crypto"
+	crypto "github.com/teragrid/go-crypto"
 
-	"github.com/tendermint/tendermint/types"
+	"github.com/teragrid/teragrid/types"
 )
 
 // ValKeys is a helper for testing.

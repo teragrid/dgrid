@@ -7,15 +7,15 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/tendermint/abci/example/kvstore"
-	"github.com/tendermint/tendermint/rpc/grpc"
-	"github.com/tendermint/tendermint/rpc/test"
+	"github.com/teragrid/asura/example/kvstore"
+	"github.com/teragrid/teragrid/rpc/grpc"
+	"github.com/teragrid/teragrid/rpc/test"
 )
 
 func TestMain(m *testing.M) {
-	// start a tendermint node in the background to test against
+	// start a teragrid node in the background to test against
 	app := kvstore.NewKVStoreApplication()
-	node := rpctest.StartTendermint(app)
+	node := rpctest.Startteragrid(app)
 	code := m.Run()
 
 	// and shut down proper at the end

@@ -1,9 +1,9 @@
 package dummy
 
 import (
-	p2p "github.com/tendermint/tendermint/p2p"
-	tmconn "github.com/tendermint/tendermint/p2p/conn"
-	cmn "github.com/tendermint/tmlibs/common"
+	p2p "github.com/teragrid/teragrid/p2p"
+	tmconn "github.com/teragrid/teragrid/p2p/conn"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 type peer struct {

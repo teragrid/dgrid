@@ -1,9 +1,9 @@
 package types
 
 import (
-	abci "github.com/tendermint/abci/types"
-	cmn "github.com/tendermint/tmlibs/common"
-	"github.com/tendermint/tmlibs/merkle"
+	asura "github.com/teragrid/asura/types"
+	cmn "github.com/teragrid/teralibs/common"
+	"github.com/teragrid/teralibs/merkle"
 )
 
 const (
@@ -117,7 +117,7 @@ func (params *ConsensusParams) Hash() []byte {
 
 // Update returns a copy of the params with updates from the non-zero fields of p2.
 // NOTE: note: must not modify the original
-func (params ConsensusParams) Update(params2 *abci.ConsensusParams) ConsensusParams {
+func (params ConsensusParams) Update(params2 *asura.ConsensusParams) ConsensusParams {
 	res := params // explicit copy
 
 	if params2 == nil {

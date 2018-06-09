@@ -1,8 +1,8 @@
 package p2p
 
 import (
-	"github.com/tendermint/tendermint/p2p/conn"
-	cmn "github.com/tendermint/tmlibs/common"
+	"github.com/teragrid/teragrid/p2p/conn"
+	cmn "github.com/teragrid/teralibs/common"
 )
 
 type Reactor interface {

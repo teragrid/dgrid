@@ -6,10 +6,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/tendermint/tendermint/types"
+	"github.com/teragrid/teragrid/types"
 
-	"github.com/tendermint/tendermint/lite"
-	"github.com/tendermint/tendermint/lite/errors"
+	"github.com/teragrid/teragrid/lite"
+	"github.com/teragrid/teragrid/lite/errors"
 )
 
 // TestDynamicCert just makes sure it still works like StaticCert

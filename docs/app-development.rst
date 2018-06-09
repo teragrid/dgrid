@@ -1,10 +1,10 @@
 Application Development Guide
 =============================
 
-ABCI Design
+asura Design
 -----------
 
-The purpose of ABCI is to provide a clean interface between state
+The purpose of asura is to provide a clean interface between state
 transition machines on one computer and the mechanics of their
 replication across multiple computers. The former we call 'application
 logic' and the latter the 'consensus engine'. Application logic
@@ -16,7 +16,7 @@ transactions through the same application logic. In particular, we are
 interested in blockchain-style consensus engines, where transactions are
 committed in hash-linked blocks.
 
-The ABCI design has a few distinct components:
+The asura design has a few distinct components:
 
 -  message protocol
 
@@ -35,8 +35,8 @@ The ABCI design has a few distinct components:
 
 -  blockchain protocol
 
-   -  abci is connection oriented
-   -  Tendermint Core maintains three connections:
+   -  asura is connection oriented
+   -  teragrid Core maintains three connections:
 
       -  `mempool connection <#mempool-connection>`__: for checking if
          transactions should be relayed before they are committed; only
@@ -49,7 +49,7 @@ The ABCI design has a few distinct components:
          application state; only uses Query and Info
 
 The mempool and consensus logic act as clients, and each maintains an
-open ABCI connection with the application, which hosts an ABCI server.
+open asura connection with the application, which hosts an asura server.
 Shown are the request and response types sent on each connection.
 
 Message Protocol
@@ -59,7 +59,7 @@ The message protocol consists of pairs of requests and responses. Some
 messages have no fields, while others may include byte-arrays, strings,
 or integers. See the ``message Request`` and ``message Response``
 definitions in `the protobuf definition
-file <https://github.com/tendermint/abci/blob/master/types/types.proto>`__,
+file <https://github.com/teragrid/asura/blob/master/types/types.proto>`__,
 and the `protobuf
 documentation <https://developers.google.com/protocol-buffers/docs/overview>`__
 for more details.
@@ -71,23 +71,23 @@ responses.
 Server
 ------
 
-To use ABCI in your programming language of choice, there must be a ABCI
-server in that language. Tendermint supports two kinds of implementation
+To use asura in your programming language of choice, there must be a asura
+server in that language. teragrid supports two kinds of implementation
 of the server:
 
--  Asynchronous, raw socket server (Tendermint Socket Protocol, also
+-  Asynchronous, raw socket server (teragrid Socket Protocol, also
    known as TSP or Teaspoon)
 -  GRPC
 
-Both can be tested using the ``abci-cli`` by setting the ``--abci`` flag
+Both can be tested using the ``asura-cli`` by setting the ``--asura`` flag
 appropriately (ie. to ``socket`` or ``grpc``).
 
 See examples, in various stages of maintenance, in
-`Go <https://github.com/tendermint/abci/tree/master/server>`__,
-`JavaScript <https://github.com/tendermint/js-abci>`__,
-`Python <https://github.com/tendermint/abci/tree/master/example/python3/abci>`__,
+`Go <https://github.com/teragrid/asura/tree/master/server>`__,
+`JavaScript <https://github.com/teragrid/js-asura>`__,
+`Python <https://github.com/teragrid/asura/tree/master/example/python3/asura>`__,
 `C++ <https://github.com/mdyring/cpp-tmsp>`__, and
-`Java <https://github.com/jTendermint/jabci>`__.
+`Java <https://github.com/jteragrid/jasura>`__.
 
 GRPC
 ~~~~
@@ -96,21 +96,21 @@ If GRPC is available in your language, this is the easiest approach,
 though it will have significant performance overhead.
 
 To get started with GRPC, copy in the `protobuf
-file <https://github.com/tendermint/abci/blob/master/types/types.proto>`__
+file <https://github.com/teragrid/asura/blob/master/types/types.proto>`__
 and compile it using the GRPC plugin for your language. For instance,
 for golang, the command is
 ``protoc --go_out=plugins=grpc:. types.proto``. See the `grpc
 documentation for more details <http://www.grpc.io/docs/>`__. ``protoc``
-will autogenerate all the necessary code for ABCI client and server in
+will autogenerate all the necessary code for asura client and server in
 your language, including whatever interface your application must
-satisfy to be used by the ABCI server for handling requests.
+satisfy to be used by the asura server for handling requests.
 
 TSP
 ~~~
 
 If GRPC is not available in your language, or you require higher
 performance, or otherwise enjoy programming, you may implement your own
-ABCI server using the Tendermint Socket Protocol, known affectionately
+asura server using the teragrid Socket Protocol, known affectionately
 as Teaspoon. The first step is still to auto-generate the relevant data
 types and codec in your language using ``protoc``. Messages coming over
 the socket are Protobuf3 encoded, but additionally length-prefixed to
@@ -119,40 +119,40 @@ official length-prefix standard, so we use our own. The first byte in
 the prefix represents the length of the Big Endian encoded length. The
 remaining bytes in the prefix are the Big Endian encoded length.
 
-For example, if the Protobuf3 encoded ABCI message is 0xDEADBEEF (4
+For example, if the Protobuf3 encoded asura message is 0xDEADBEEF (4
 bytes), the length-prefixed message is 0x0104DEADBEEF. If the Protobuf3
-encoded ABCI message is 65535 bytes long, the length-prefixed message
+encoded asura message is 65535 bytes long, the length-prefixed message
 would be like 0x02FFFF....
 
 Note this prefixing does not apply for grpc.
 
-An ABCI server must also be able to support multiple connections, as
-Tendermint uses three connections.
+An asura server must also be able to support multiple connections, as
+teragrid uses three connections.
 
 Client
 ------
 
-There are currently two use-cases for an ABCI client. One is a testing
-tool, as in the ``abci-cli``, which allows ABCI requests to be sent via
-command line. The other is a consensus engine, such as Tendermint Core,
+There are currently two use-cases for an asura client. One is a testing
+tool, as in the ``asura-cli``, which allows asura requests to be sent via
+command line. The other is a consensus engine, such as teragrid Core,
 which makes requests to the application every time a new transaction is
 received or a block is committed.
 
 It is unlikely that you will need to implement a client. For details of
 our client, see
-`here <https://github.com/tendermint/abci/tree/master/client>`__.
+`here <https://github.com/teragrid/asura/tree/master/client>`__.
 
 Most of the examples below are from `kvstore application
-<https://github.com/tendermint/abci/blob/master/example/kvstore/kvstore.go>`__,
-which is a part of the abci repo. `persistent_kvstore application
-<https://github.com/tendermint/abci/blob/master/example/kvstore/persistent_kvstore.go>`__
+<https://github.com/teragrid/asura/blob/master/example/kvstore/kvstore.go>`__,
+which is a part of the asura repo. `persistent_kvstore application
+<https://github.com/teragrid/asura/blob/master/example/kvstore/persistent_kvstore.go>`__
 is used to show ``BeginBlock``, ``EndBlock`` and ``InitChain``
 example implementations.
 
 Blockchain Protocol
 -------------------
 
-In ABCI, a transaction is simply an arbitrary length byte-array. It is
+In asura, a transaction is simply an arbitrary length byte-array. It is
 the application's responsibility to define the transaction codec as they
 please, and to use it for both CheckTx and DeliverTx.
 
@@ -166,12 +166,12 @@ DeliverTx. In the former case, it may not be necessary to run all the
 state transitions associated with the transaction, as the transaction
 may not ultimately be committed until some much later time, when the
 result of its execution will be different. For instance, an Ethereum
-ABCI app would check signatures and amounts in CheckTx, but would not
+asura app would check signatures and amounts in CheckTx, but would not
 actually execute any contract code until the DeliverTx, so as to avoid
 executing state transitions that have not been finalized.
 
-To formalize the distinction further, two explicit ABCI connections are
-made between Tendermint Core and the application: the mempool connection
+To formalize the distinction further, two explicit asura connections are
+made between teragrid Core and the application: the mempool connection
 and the consensus connection. We also make a third connection, the query
 connection, to query the local state of the app.
 
@@ -189,7 +189,7 @@ run against a copy of the main application state which is reset after
 every block. This copy is necessary to track transitions made by a
 sequence of CheckTx requests before they are included in a block. When a
 block is committed, the application must ensure to reset the mempool
-state to the latest committed state. Tendermint Core will then filter
+state to the latest committed state. teragrid Core will then filter
 through all transactions in the mempool, removing any that were included
 in the block, and re-run the rest using CheckTx against the post-Commit
 mempool state.
@@ -239,13 +239,13 @@ EndBlock requests, and followed by a Commit.
 DeliverTx
 ^^^^^^^^^
 
-DeliverTx is the workhorse of the blockchain. Tendermint sends the
+DeliverTx is the workhorse of the blockchain. teragrid sends the
 DeliverTx requests asynchronously but in order, and relies on the
 underlying socket protocol (ie. TCP) to ensure they are received by the
 app in order. They have already been ordered in the global consensus by
-the Tendermint protocol.
+the teragrid protocol.
 
-DeliverTx returns a abci.Result, which includes a Code, Data, and Log.
+DeliverTx returns a asura.Result, which includes a Code, Data, and Log.
 The code may be non-zero (non-OK), meaning the corresponding transaction
 should have been rejected by the mempool, but may have been included in
 a block by a Byzantine proposer.
@@ -300,7 +300,7 @@ merkle root of the data returned by the DeliverTx requests, or both.
 Commit
 ^^^^^^
 
-Once all processing of the block is complete, Tendermint sends the
+Once all processing of the block is complete, teragrid sends the
 Commit request and blocks waiting for a response. While the mempool may
 run concurrently with block processing (the BeginBlock, DeliverTxs, and
 EndBlock), it is locked for the Commit request so that its state can be
@@ -353,11 +353,11 @@ BeginBlock
 ^^^^^^^^^^
 
 The BeginBlock request can be used to run some code at the beginning of
-every block. It also allows Tendermint to send the current block hash
+every block. It also allows teragrid to send the current block hash
 and header to the application, before it sends any of the transactions.
 
 The app should remember the latest height and header (ie. from which it
-has run a successful Commit) so that it can tell Tendermint where to
+has run a successful Commit) so that it can tell teragrid where to
 pick up from when it restarts. See information on the Handshake, below.
 
 .. container:: toggle
@@ -407,11 +407,11 @@ The EndBlock request can be used to run some code at the end of every block.
 Additionally, the response may contain a list of validators, which can be used
 to update the validator set. To add a new validator or update an existing one,
 simply include them in the list returned in the EndBlock response. To remove
-one, include it in the list with a ``power`` equal to ``0``. Tendermint core
+one, include it in the list with a ``power`` equal to ``0``. teragrid core
 will take care of updating the validator set. Note the change in voting power
 must be strictly less than 1/3 per block if you want a light client to be able
 to prove the transition externally. See the `light client docs
-<https://godoc.org/github.com/tendermint/tendermint/lite#hdr-How_We_Track_Validators>`__
+<https://godoc.org/github.com/teragrid/teragrid/lite#hdr-How_We_Track_Validators>`__
 for details on how it tracks validators.
 
 .. container:: toggle
@@ -452,16 +452,16 @@ Query Connection
 ~~~~~~~~~~~~~~~~
 
 This connection is used to query the application without engaging
-consensus. It's exposed over the tendermint core rpc, so clients can
+consensus. It's exposed over the teragrid core rpc, so clients can
 query the app without exposing a server on the app itself, but they must
 serialize each query as a single byte array. Additionally, certain
 "standardized" queries may be used to inform local decisions, for
 instance about which peers to connect to.
 
-Tendermint Core currently uses the Query connection to filter peers upon
+teragrid Core currently uses the Query connection to filter peers upon
 connecting, according to IP address or public key. For instance,
-returning non-OK ABCI response to either of the following queries will
-cause Tendermint to not connect to the corresponding peer:
+returning non-OK asura response to either of the following queries will
+cause teragrid to not connect to the corresponding peer:
 
 -  ``p2p/filter/addr/<addr>``, where ``<addr>`` is an IP address.
 -  ``p2p/filter/pubkey/<pubkey>``, where ``<pubkey>`` is the hex-encoded
@@ -539,18 +539,18 @@ Note: these query formats are subject to change!
 Handshake
 ~~~~~~~~~
 
-When the app or tendermint restarts, they need to sync to a common
-height. When an ABCI connection is first established, Tendermint will
+When the app or teragrid restarts, they need to sync to a common
+height. When an asura connection is first established, teragrid will
 call ``Info`` on the Query connection. The response should contain the
 LastBlockHeight and LastBlockAppHash - the former is the last block for
 which the app ran Commit successfully, the latter is the response
 from that Commit.
 
-Using this information, Tendermint will determine what needs to be
-replayed, if anything, against the app, to ensure both Tendermint and
+Using this information, teragrid will determine what needs to be
+replayed, if anything, against the app, to ensure both teragrid and
 the app are synced to the latest block height.
 
-If the app returns a LastBlockHeight of 0, Tendermint will just replay
+If the app returns a LastBlockHeight of 0, teragrid will just replay
 all blocks.
 
 .. container:: toggle

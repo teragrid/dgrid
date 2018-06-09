@@ -36,17 +36,17 @@ Vagrant.configure("2") do |config|
     echo 'export PATH=$PATH:/usr/lib/go-1.9/bin:/home/vagrant/go/bin' >> /home/vagrant/.bash_profile
     echo 'export GOPATH=/home/vagrant/go' >> /home/vagrant/.bash_profile
     echo 'export LC_ALL=en_US.UTF-8' >> /home/vagrant/.bash_profile
-    echo 'cd go/src/github.com/tendermint/tendermint' >> /home/vagrant/.bash_profile
+    echo 'cd go/src/github.com/teragrid/teragrid' >> /home/vagrant/.bash_profile
 
     mkdir -p /home/vagrant/go/bin
-    mkdir -p /home/vagrant/go/src/github.com/tendermint
-    ln -s /vagrant /home/vagrant/go/src/github.com/tendermint/tendermint
+    mkdir -p /home/vagrant/go/src/github.com/teragrid
+    ln -s /vagrant /home/vagrant/go/src/github.com/teragrid/teragrid
 
     chown -R vagrant:vagrant /home/vagrant/go
     chown vagrant:vagrant /home/vagrant/.bash_profile
 
     # get all deps and tools, ready to install/test
     su - vagrant  -c 'source /home/vagrant/.bash_profile'
-    su - vagrant -c 'cd /home/vagrant/go/src/github.com/tendermint/tendermint && make get_tools && make get_vendor_deps'
+    su - vagrant -c 'cd /home/vagrant/go/src/github.com/teragrid/teragrid && make get_tools && make get_vendor_deps'
   SHELL
 end

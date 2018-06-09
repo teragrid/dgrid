@@ -8,8 +8,8 @@ RUN apt-get update && \
   apt-get install -y --no-install-recommends \
   jq bsdmainutils vim-common psmisc netcat curl
 
-# Setup tendermint repo
-ENV REPO $GOPATH/src/github.com/tendermint/tendermint
+# Setup teragrid repo
+ENV REPO $GOPATH/src/github.com/teragrid/teragrid
 ENV GOBIN $GOPATH/bin
 WORKDIR $REPO
 
@@ -23,14 +23,14 @@ RUN make get_vendor_deps
 
 # Install the apps
 ADD scripts scripts
-RUN bash scripts/install_abci_apps.sh
+RUN bash scripts/install_asura_apps.sh
 
 # Now copy in the code
 # NOTE: this will overwrite whatever is in vendor/
 COPY . $REPO
 
 
-RUN go install ./cmd/tendermint
+RUN go install ./cmd/teragrid
 
 # expose the volume for debugging
 VOLUME $REPO

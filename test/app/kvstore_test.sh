@@ -21,13 +21,13 @@ echo ""
 
 
 ###########################
-# test using the abci-cli
+# test using the asura-cli
 ###########################
 
-echo "... testing query with abci-cli"
+echo "... testing query with asura-cli"
 
 # we should be able to look up the key
-RESPONSE=`abci-cli query \"$KEY\"`
+RESPONSE=`asura-cli query \"$KEY\"`
 
 set +e
 A=`echo $RESPONSE | grep "$VALUE"`
@@ -39,7 +39,7 @@ fi
 set -e
 
 # we should not be able to look up the value
-RESPONSE=`abci-cli query \"$VALUE\"`
+RESPONSE=`asura-cli query \"$VALUE\"`
 set +e
 A=`echo $RESPONSE | grep $VALUE`
 if [[ $? == 0 ]]; then
@@ -50,13 +50,13 @@ fi
 set -e
 
 #############################
-# test using the /abci_query
+# test using the /asura_query
 #############################
 
-echo "... testing query with /abci_query 2"
+echo "... testing query with /asura_query 2"
 
 # we should be able to look up the key
-RESPONSE=`curl -s "127.0.0.1:46657/abci_query?path=\"\"&data=$(toHex $KEY)&prove=false"`
+RESPONSE=`curl -s "127.0.0.1:46657/asura_query?path=\"\"&data=$(toHex $KEY)&prove=false"`
 RESPONSE=`echo $RESPONSE | jq .result.response.log`
 
 set +e
@@ -69,7 +69,7 @@ fi
 set -e
 
 # we should not be able to look up the value
-RESPONSE=`curl -s "127.0.0.1:46657/abci_query?path=\"\"&data=$(toHex $VALUE)&prove=false"`
+RESPONSE=`curl -s "127.0.0.1:46657/asura_query?path=\"\"&data=$(toHex $VALUE)&prove=false"`
 RESPONSE=`echo $RESPONSE | jq .result.response.log`
 set +e
 A=`echo $RESPONSE | grep 'exists'`

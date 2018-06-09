@@ -1,13 +1,13 @@
 /*
 # Introduction
 
-Tendermint supports the following RPC protocols:
+teragrid supports the following RPC protocols:
 
 * URI over HTTP
 * JSONRPC over HTTP
 * JSONRPC over websockets
 
-Tendermint RPC is built using [our own RPC library](https://github.com/tendermint/tendermint/tree/master/rpc/lib). Documentation and tests for that library could be found at `tendermint/rpc/lib` directory.
+teragrid RPC is built using [our own RPC library](https://github.com/teragrid/teragrid/tree/master/rpc/lib). Documentation and tests for that library could be found at `teragrid/rpc/lib` directory.
 
 ## Configuration
 
@@ -39,7 +39,7 @@ curl 'localhost:46657/broadcast_tx_sync?tx="abc"'
 }
 ```
 
-The first entry in the result-array (`96`) is the method this response correlates with. `96` refers to "ResultTypeBroadcastTx", see [responses.go](https://github.com/tendermint/tendermint/blob/master/rpc/core/types/responses.go) for a complete overview.
+The first entry in the result-array (`96`) is the method this response correlates with. `96` refers to "ResultTypeBroadcastTx", see [responses.go](https://github.com/teragrid/teragrid/blob/master/rpc/core/types/responses.go) for a complete overview.
 
 ## JSONRPC/HTTP
 
@@ -75,7 +75,7 @@ curl 'localhost:46657'
 
 ```plain
 Available endpoints:
-/abci_info
+/asura_info
 /dump_consensus_state
 /genesis
 /net_info
@@ -88,7 +88,7 @@ Available endpoints:
 /validators
 
 Endpoints that require arguments:
-/abci_query?path=_&data=_&prove=_
+/asura_query?path=_&data=_&prove=_
 /block?height=_
 /blockchain?minHeight=_&maxHeight=_
 /broadcast_tx_async?tx=_

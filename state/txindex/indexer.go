@@ -3,8 +3,8 @@ package txindex
 import (
 	"errors"
 
-	"github.com/tendermint/tendermint/types"
-	"github.com/tendermint/tmlibs/pubsub/query"
+	"github.com/teragrid/teragrid/types"
+	"github.com/teragrid/teralibs/pubsub/query"
 )
 
 // TxIndexer interface defines methods to index and search transactions.

@@ -4,22 +4,22 @@ import (
 	"fmt"
 
 	fail "github.com/ebuchman/fail-test"
-	abci "github.com/tendermint/abci/types"
-	crypto "github.com/tendermint/go-crypto"
-	"github.com/tendermint/tendermint/proxy"
-	"github.com/tendermint/tendermint/types"
-	dbm "github.com/tendermint/tmlibs/db"
-	"github.com/tendermint/tmlibs/log"
+	asura "github.com/teragrid/asura/types"
+	crypto "github.com/teragrid/go-crypto"
+	"github.com/teragrid/teragrid/proxy"
+	"github.com/teragrid/teragrid/types"
+	dbm "github.com/teragrid/teralibs/db"
+	"github.com/teragrid/teralibs/log"
 )
 
 //-----------------------------------------------------------------------------
 // BlockExecutor handles block execution and state updates.
-// It exposes ApplyBlock(), which validates & executes the block, updates state w/ ABCI responses,
+// It exposes ApplyBlock(), which validates & executes the block, updates state w/ asura responses,
 // then commits and updates the mempool atomically, then saves state.
 
 // BlockExecutor provides the context and accessories for properly executing a block.
 type BlockExecutor struct {
-	// save state, validators, consensus params, abci responses here
+	// save state, validators, consensus params, asura responses here
 	db dbm.DB
 
 	// execute the app against this
@@ -74,7 +74,7 @@ func (blockExec *BlockExecutor) ApplyBlock(s State, blockID types.BlockID, block
 		return s, ErrInvalidBlock(err)
 	}
 
-	abciResponses, err := execBlockOnProxyApp(blockExec.logger, blockExec.proxyApp, block)
+	asuraResponses, err := execBlockOnProxyApp(blockExec.logger, blockExec.proxyApp, block)
 	if err != nil {
 		return s, ErrProxyAppConn(err)
 	}
@@ -82,12 +82,12 @@ func (blockExec *BlockExecutor) ApplyBlock(s State, blockID types.BlockID, block
 	fail.Fail() // XXX
 
 	// save the results before we commit
-	saveABCIResponses(blockExec.db, block.Height, abciResponses)
+	saveasuraResponses(blockExec.db, block.Height, asuraResponses)
 
 	fail.Fail() // XXX
 
 	// update the state with the block and responses
-	s, err = updateState(s, blockID, block.Header, abciResponses)
+	s, err = updateState(s, blockID, block.Header, asuraResponses)
 	if err != nil {
 		return s, fmt.Errorf("Commit failed for application: %v", err)
 	}
@@ -113,13 +113,13 @@ func (blockExec *BlockExecutor) ApplyBlock(s State, blockID types.BlockID, block
 
 	// events are fired after everything else
 	// NOTE: if we crash between Commit and Save, events wont be fired during replay
-	fireEvents(blockExec.logger, blockExec.eventBus, block, abciResponses)
+	fireEvents(blockExec.logger, blockExec.eventBus, block, asuraResponses)
 
 	return s, nil
 }
 
-// Commit locks the mempool, runs the ABCI Commit message, and updates the mempool.
-// It returns the result of calling abci.Commit (the AppHash), and an error.
+// Commit locks the mempool, runs the asura Commit message, and updates the mempool.
+// It returns the result of calling asura.Commit (the AppHash), and an error.
 // The Mempool must be locked during commit and update because state is typically reset on Commit and old txs must be replayed
 // against committed state before new txs are run in the mempool, lest they be invalid.
 func (blockExec *BlockExecutor) Commit(block *types.Block) ([]byte, error) {
@@ -127,7 +127,7 @@ func (blockExec *BlockExecutor) Commit(block *types.Block) ([]byte, error) {
 	defer blockExec.mempool.Unlock()
 
 	// while mempool is Locked, flush to ensure all async requests have completed
-	// in the ABCI app before Commit.
+	// in the asura app before Commit.
 	err := blockExec.mempool.FlushAppConn()
 	if err != nil {
 		blockExec.logger.Error("Client error during mempool.FlushAppConn", "err", err)
@@ -160,27 +160,27 @@ func (blockExec *BlockExecutor) Commit(block *types.Block) ([]byte, error) {
 
 // Executes block's transactions on proxyAppConn.
 // Returns a list of transaction results and updates to the validator set
-func execBlockOnProxyApp(logger log.Logger, proxyAppConn proxy.AppConnConsensus, block *types.Block) (*ABCIResponses, error) {
+func execBlockOnProxyApp(logger log.Logger, proxyAppConn proxy.AppConnConsensus, block *types.Block) (*asuraResponses, error) {
 	var validTxs, invalidTxs = 0, 0
 
 	txIndex := 0
-	abciResponses := NewABCIResponses(block)
+	asuraResponses := NewasuraResponses(block)
 
 	// Execute transactions and get hash
-	proxyCb := func(req *abci.Request, res *abci.Response) {
+	proxyCb := func(req *asura.Request, res *asura.Response) {
 		switch r := res.Value.(type) {
-		case *abci.Response_DeliverTx:
+		case *asura.Response_DeliverTx:
 			// TODO: make use of res.Log
 			// TODO: make use of this info
 			// Blocks may include invalid txs.
 			txRes := r.DeliverTx
-			if txRes.Code == abci.CodeTypeOK {
+			if txRes.Code == asura.CodeTypeOK {
 				validTxs++
 			} else {
 				logger.Debug("Invalid tx", "code", txRes.Code, "log", txRes.Log)
 				invalidTxs++
 			}
-			abciResponses.DeliverTx[txIndex] = txRes
+			asuraResponses.DeliverTx[txIndex] = txRes
 			txIndex++
 		}
 	}
@@ -195,16 +195,16 @@ func execBlockOnProxyApp(logger log.Logger, proxyAppConn proxy.AppConnConsensus,
 	}
 
 	// TODO: determine which validators were byzantine
-	byzantineVals := make([]abci.Evidence, len(block.Evidence.Evidence))
+	byzantineVals := make([]asura.Evidence, len(block.Evidence.Evidence))
 	for i, ev := range block.Evidence.Evidence {
-		byzantineVals[i] = abci.Evidence{
+		byzantineVals[i] = asura.Evidence{
 			PubKey: ev.Address(), // XXX
 			Height: ev.Height(),
 		}
 	}
 
 	// Begin block
-	_, err := proxyAppConn.BeginBlockSync(abci.RequestBeginBlock{
+	_, err := proxyAppConn.BeginBlockSync(asura.RequestBeginBlock{
 		Hash:                block.Hash(),
 		Header:              types.TM2PB.Header(block.Header),
 		AbsentValidators:    absentVals,
@@ -224,7 +224,7 @@ func execBlockOnProxyApp(logger log.Logger, proxyAppConn proxy.AppConnConsensus,
 	}
 
 	// End block
-	abciResponses.EndBlock, err = proxyAppConn.EndBlockSync(abci.RequestEndBlock{block.Height})
+	asuraResponses.EndBlock, err = proxyAppConn.EndBlockSync(asura.RequestEndBlock{block.Height})
 	if err != nil {
 		logger.Error("Error in proxyAppConn.EndBlock", "err", err)
 		return nil, err
@@ -232,18 +232,18 @@ func execBlockOnProxyApp(logger log.Logger, proxyAppConn proxy.AppConnConsensus,
 
 	logger.Info("Executed block", "height", block.Height, "validTxs", validTxs, "invalidTxs", invalidTxs)
 
-	valUpdates := abciResponses.EndBlock.ValidatorUpdates
+	valUpdates := asuraResponses.EndBlock.ValidatorUpdates
 	if len(valUpdates) > 0 {
-		logger.Info("Updates to validators", "updates", abci.ValidatorsString(valUpdates))
+		logger.Info("Updates to validators", "updates", asura.ValidatorsString(valUpdates))
 	}
 
-	return abciResponses, nil
+	return asuraResponses, nil
 }
 
 // If more or equal than 1/3 of total voting power changed in one block, then
 // a light client could never prove the transition externally. See
 // ./lite/doc.go for details on how a light client tracks validators.
-func updateValidators(currentSet *types.ValidatorSet, updates []abci.Validator) error {
+func updateValidators(currentSet *types.ValidatorSet, updates []asura.Validator) error {
 	for _, v := range updates {
 		pubkey, err := crypto.PubKeyFromBytes(v.PubKey) // NOTE: expects go-amino encoded pubkey
 		if err != nil {
@@ -284,17 +284,17 @@ func updateValidators(currentSet *types.ValidatorSet, updates []abci.Validator) 
 
 // updateState returns a new State updated according to the header and responses.
 func updateState(s State, blockID types.BlockID, header *types.Header,
-	abciResponses *ABCIResponses) (State, error) {
+	asuraResponses *asuraResponses) (State, error) {
 
 	// copy the valset so we can apply changes from EndBlock
 	// and update s.LastValidators and s.Validators
 	prevValSet := s.Validators.Copy()
 	nextValSet := prevValSet.Copy()
 
-	// update the validator set with the latest abciResponses
+	// update the validator set with the latest asuraResponses
 	lastHeightValsChanged := s.LastHeightValidatorsChanged
-	if len(abciResponses.EndBlock.ValidatorUpdates) > 0 {
-		err := updateValidators(nextValSet, abciResponses.EndBlock.ValidatorUpdates)
+	if len(asuraResponses.EndBlock.ValidatorUpdates) > 0 {
+		err := updateValidators(nextValSet, asuraResponses.EndBlock.ValidatorUpdates)
 		if err != nil {
 			return s, fmt.Errorf("Error changing validator set: %v", err)
 		}
@@ -305,12 +305,12 @@ func updateState(s State, blockID types.BlockID, header *types.Header,
 	// Update validator accums and set state variables
 	nextValSet.IncrementAccum(1)
 
-	// update the params with the latest abciResponses
+	// update the params with the latest asuraResponses
 	nextParams := s.ConsensusParams
 	lastHeightParamsChanged := s.LastHeightConsensusParamsChanged
-	if abciResponses.EndBlock.ConsensusParamUpdates != nil {
+	if asuraResponses.EndBlock.ConsensusParamUpdates != nil {
 		// NOTE: must not mutate s.ConsensusParams
-		nextParams = s.ConsensusParams.Update(abciResponses.EndBlock.ConsensusParamUpdates)
+		nextParams = s.ConsensusParams.Update(asuraResponses.EndBlock.ConsensusParamUpdates)
 		err := nextParams.Validate()
 		if err != nil {
 			return s, fmt.Errorf("Error updating consensus params: %v", err)
@@ -332,15 +332,15 @@ func updateState(s State, blockID types.BlockID, header *types.Header,
 		LastHeightValidatorsChanged:      lastHeightValsChanged,
 		ConsensusParams:                  nextParams,
 		LastHeightConsensusParamsChanged: lastHeightParamsChanged,
-		LastResultsHash:                  abciResponses.ResultsHash(),
+		LastResultsHash:                  asuraResponses.ResultsHash(),
 		AppHash:                          nil,
 	}, nil
 }
 
 // Fire NewBlock, NewBlockHeader.
 // Fire TxEvent for every tx.
-// NOTE: if Tendermint crashes before commit, some or all of these events may be published again.
-func fireEvents(logger log.Logger, eventBus types.BlockEventPublisher, block *types.Block, abciResponses *ABCIResponses) {
+// NOTE: if teragrid crashes before commit, some or all of these events may be published again.
+func fireEvents(logger log.Logger, eventBus types.BlockEventPublisher, block *types.Block, asuraResponses *asuraResponses) {
 	// NOTE: do we still need this buffer ?
 	txEventBuffer := types.NewTxEventBuffer(eventBus, int(block.NumTxs))
 	for i, tx := range block.Data.Txs {
@@ -348,7 +348,7 @@ func fireEvents(logger log.Logger, eventBus types.BlockEventPublisher, block *ty
 			Height: block.Height,
 			Index:  uint32(i),
 			Tx:     tx,
-			Result: *(abciResponses.DeliverTx[i]),
+			Result: *(asuraResponses.DeliverTx[i]),
 		}})
 	}
 
@@ -364,7 +364,7 @@ func fireEvents(logger log.Logger, eventBus types.BlockEventPublisher, block *ty
 // Execute block without state. TODO: eliminate
 
 // ExecCommitBlock executes and commits a block on the proxyApp without validating or mutating the state.
-// It returns the application root hash (result of abci.Commit).
+// It returns the application root hash (result of asura.Commit).
 func ExecCommitBlock(appConnConsensus proxy.AppConnConsensus, block *types.Block, logger log.Logger) ([]byte, error) {
 	_, err := execBlockOnProxyApp(logger, appConnConsensus, block)
 	if err != nil {
