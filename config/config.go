@@ -108,12 +108,12 @@ type BaseConfig struct {
 	// connections from an external PrivValidator process
 	PrivValidatorListenAddr string `mapstructure:"priv_validator_laddr"`
 
-	// TCP or UNIX socket address of the asura application,
-	// or the name of an asura application compiled in with the teragrid binary
+	// TCP or UNIX socket address of the Asura application,
+	// or the name of an Asura application compiled in with the teragrid binary
 	ProxyApp string `mapstructure:"proxy_app"`
 
-	// Mechanism to connect to the asura application: socket | grpc
-	asura string `mapstructure:"asura"`
+	// Mechanism to connect to the Asura application: socket | grpc
+	Asura string `mapstructure:"Asura"`
 
 	// Output level for logging
 	LogLevel string `mapstructure:"log_level"`
@@ -126,7 +126,7 @@ type BaseConfig struct {
 	// and verifying their commits
 	FastSync bool `mapstructure:"fast_sync"`
 
-	// If true, query the asura app on connecting to a new peer
+	// If true, query the Asura app on connecting to a new peer
 	// so the app can decide if we should keep the connection or not
 	FilterPeers bool `mapstructure:"filter_peers"` // false
 
@@ -145,7 +145,7 @@ func DefaultBaseConfig() BaseConfig {
 		NodeKey:           defaultNodeKeyPath,
 		Moniker:           defaultMoniker,
 		ProxyApp:          "tcp://127.0.0.1:46658",
-		asura:              "socket",
+		Asura:              "socket",
 		LogLevel:          DefaultPackageLogLevels(),
 		ProfListenAddress: "",
 		FastSync:          true,

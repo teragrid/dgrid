@@ -296,7 +296,7 @@ func Commit(heightPtr *int64) (*ctypes.ResultCommit, error) {
 	return ctypes.NewResultCommit(header, commit, true), nil
 }
 
-// BlockResults gets asuraResults at a given height.
+// BlockResults gets AsuraResults at a given height.
 // If no height is provided, it will fetch results for the latest block.
 //
 // Results are for the height of the block containing the txs.
@@ -337,7 +337,7 @@ func BlockResults(heightPtr *int64) (*ctypes.ResultBlockResults, error) {
 	}
 
 	// load the results
-	results, err := sm.LoadasuraResponses(stateDB, height)
+	results, err := sm.LoadAsuraResponses(stateDB, height)
 	if err != nil {
 		return nil, err
 	}

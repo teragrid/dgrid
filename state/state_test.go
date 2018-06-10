@@ -63,8 +63,8 @@ func TestStateSaveLoad(t *testing.T) {
 			loadedState, state))
 }
 
-// TestasuraResponsesSaveLoad tests saving and loading asuraResponses.
-func TestasuraResponsesSaveLoad1(t *testing.T) {
+// TestAsuraResponsesSaveLoad tests saving and loading AsuraResponses.
+func TestAsuraResponsesSaveLoad1(t *testing.T) {
 	tearDown, stateDB, state := setupTestCase(t)
 	defer tearDown(t)
 	// nolint: vetshadow
@@ -74,26 +74,26 @@ func TestasuraResponsesSaveLoad1(t *testing.T) {
 
 	// build mock responses
 	block := makeBlock(state, 2)
-	asuraResponses := NewasuraResponses(block)
-	asuraResponses.DeliverTx[0] = &asura.ResponseDeliverTx{Data: []byte("foo"), Tags: nil}
-	asuraResponses.DeliverTx[1] = &asura.ResponseDeliverTx{Data: []byte("bar"), Log: "ok", Tags: nil}
-	asuraResponses.EndBlock = &asura.ResponseEndBlock{ValidatorUpdates: []asura.Validator{
+	AsuraResponses := NewAsuraResponses(block)
+	AsuraResponses.DeliverTx[0] = &asura.ResponseDeliverTx{Data: []byte("foo"), Tags: nil}
+	AsuraResponses.DeliverTx[1] = &asura.ResponseDeliverTx{Data: []byte("bar"), Log: "ok", Tags: nil}
+	AsuraResponses.EndBlock = &asura.ResponseEndBlock{ValidatorUpdates: []asura.Validator{
 		{
 			PubKey: crypto.GenPrivKeyEd25519().PubKey().Bytes(),
 			Power:  10,
 		},
 	}}
 
-	saveasuraResponses(stateDB, block.Height, asuraResponses)
-	loadedasuraResponses, err := LoadasuraResponses(stateDB, block.Height)
+	saveAsuraResponses(stateDB, block.Height, AsuraResponses)
+	loadedAsuraResponses, err := LoadAsuraResponses(stateDB, block.Height)
 	assert.Nil(err)
-	assert.Equal(asuraResponses, loadedasuraResponses,
-		cmn.Fmt("asuraResponses don't match:\ngot:       %v\nexpected: %v\n",
-			loadedasuraResponses, asuraResponses))
+	assert.Equal(AsuraResponses, loadedAsuraResponses,
+		cmn.Fmt("AsuraResponses don't match:\ngot:       %v\nexpected: %v\n",
+			loadedAsuraResponses, AsuraResponses))
 }
 
 // TestResultsSaveLoad tests saving and loading asura results.
-func TestasuraResponsesSaveLoad2(t *testing.T) {
+func TestAsuraResponsesSaveLoad2(t *testing.T) {
 	tearDown, stateDB, _ := setupTestCase(t)
 	defer tearDown(t)
 	// nolint: vetshadow
@@ -103,7 +103,7 @@ func TestasuraResponsesSaveLoad2(t *testing.T) {
 		// height is implied index+2
 		// as block 1 is created from genesis
 		added    []*asura.ResponseDeliverTx
-		expected types.asuraResults
+		expected types.AsuraResults
 	}{
 		0: {
 			nil,
@@ -113,7 +113,7 @@ func TestasuraResponsesSaveLoad2(t *testing.T) {
 			[]*asura.ResponseDeliverTx{
 				{Code: 32, Data: []byte("Hello"), Log: "Huh?"},
 			},
-			types.asuraResults{
+			types.AsuraResults{
 				{32, []byte("Hello")},
 			}},
 		2: {
@@ -125,7 +125,7 @@ func TestasuraResponsesSaveLoad2(t *testing.T) {
 						cmn.KVPair{[]byte("build"), []byte("stuff")},
 					}},
 			},
-			types.asuraResults{
+			types.AsuraResults{
 				{383, nil},
 				{0, []byte("Gotcha!")},
 			}},
@@ -138,24 +138,24 @@ func TestasuraResponsesSaveLoad2(t *testing.T) {
 	// query all before, should return error
 	for i := range cases {
 		h := int64(i + 1)
-		res, err := LoadasuraResponses(stateDB, h)
+		res, err := LoadAsuraResponses(stateDB, h)
 		assert.Error(err, "%d: %#v", i, res)
 	}
 
 	// add all cases
 	for i, tc := range cases {
 		h := int64(i + 1) // last block height, one below what we save
-		responses := &asuraResponses{
+		responses := &AsuraResponses{
 			DeliverTx: tc.added,
 			EndBlock:  &asura.ResponseEndBlock{},
 		}
-		saveasuraResponses(stateDB, h, responses)
+		saveAsuraResponses(stateDB, h, responses)
 	}
 
 	// query all before, should return expected value
 	for i, tc := range cases {
 		h := int64(i + 1)
-		res, err := LoadasuraResponses(stateDB, h)
+		res, err := LoadAsuraResponses(stateDB, h)
 		assert.NoError(err, "%d", i)
 		assert.Equal(tc.expected.Hash(), res.ResultsHash(), "%d", i)
 	}
@@ -423,17 +423,17 @@ func TestApplyUpdates(t *testing.T) {
 }
 
 func makeHeaderPartsResponsesValPubKeyChange(state State, height int64,
-	pubkey crypto.PubKey) (*types.Header, types.BlockID, *asuraResponses) {
+	pubkey crypto.PubKey) (*types.Header, types.BlockID, *AsuraResponses) {
 
 	block := makeBlock(state, height)
-	asuraResponses := &asuraResponses{
+	AsuraResponses := &AsuraResponses{
 		EndBlock: &asura.ResponseEndBlock{ValidatorUpdates: nil},
 	}
 
 	// if the pubkey is new, remove the old and add the new
 	_, val := state.Validators.GetByIndex(0)
 	if !bytes.Equal(pubkey.Bytes(), val.PubKey.Bytes()) {
-		asuraResponses.EndBlock = &asura.ResponseEndBlock{
+		AsuraResponses.EndBlock = &asura.ResponseEndBlock{
 			ValidatorUpdates: []asura.Validator{
 				{val.PubKey.Bytes(), 0},
 				{pubkey.Bytes(), 10},
@@ -441,38 +441,38 @@ func makeHeaderPartsResponsesValPubKeyChange(state State, height int64,
 		}
 	}
 
-	return block.Header, types.BlockID{block.Hash(), types.PartSetHeader{}}, asuraResponses
+	return block.Header, types.BlockID{block.Hash(), types.PartSetHeader{}}, AsuraResponses
 }
 
 func makeHeaderPartsResponsesValPowerChange(state State, height int64,
-	power int64) (*types.Header, types.BlockID, *asuraResponses) {
+	power int64) (*types.Header, types.BlockID, *AsuraResponses) {
 
 	block := makeBlock(state, height)
-	asuraResponses := &asuraResponses{
+	AsuraResponses := &AsuraResponses{
 		EndBlock: &asura.ResponseEndBlock{ValidatorUpdates: nil},
 	}
 
 	// if the pubkey is new, remove the old and add the new
 	_, val := state.Validators.GetByIndex(0)
 	if val.VotingPower != power {
-		asuraResponses.EndBlock = &asura.ResponseEndBlock{
+		AsuraResponses.EndBlock = &asura.ResponseEndBlock{
 			ValidatorUpdates: []asura.Validator{
 				{val.PubKey.Bytes(), power},
 			},
 		}
 	}
 
-	return block.Header, types.BlockID{block.Hash(), types.PartSetHeader{}}, asuraResponses
+	return block.Header, types.BlockID{block.Hash(), types.PartSetHeader{}}, AsuraResponses
 }
 
 func makeHeaderPartsResponsesParams(state State, height int64,
-	params types.ConsensusParams) (*types.Header, types.BlockID, *asuraResponses) {
+	params types.ConsensusParams) (*types.Header, types.BlockID, *AsuraResponses) {
 
 	block := makeBlock(state, height)
-	asuraResponses := &asuraResponses{
+	AsuraResponses := &AsuraResponses{
 		EndBlock: &asura.ResponseEndBlock{ConsensusParamUpdates: types.TM2PB.ConsensusParams(&params)},
 	}
-	return block.Header, types.BlockID{block.Hash(), types.PartSetHeader{}}, asuraResponses
+	return block.Header, types.BlockID{block.Hash(), types.PartSetHeader{}}, AsuraResponses
 }
 
 type paramsChangeTestCase struct {
@@ -481,12 +481,12 @@ type paramsChangeTestCase struct {
 }
 
 func makeHeaderPartsResults(state State, height int64,
-	results []*asura.ResponseDeliverTx) (*types.Header, types.BlockID, *asuraResponses) {
+	results []*asura.ResponseDeliverTx) (*types.Header, types.BlockID, *AsuraResponses) {
 
 	block := makeBlock(state, height)
-	asuraResponses := &asuraResponses{
+	AsuraResponses := &AsuraResponses{
 		DeliverTx: results,
 		EndBlock:  &asura.ResponseEndBlock{},
 	}
-	return block.Header, types.BlockID{block.Hash(), types.PartSetHeader{}}, asuraResponses
+	return block.Header, types.BlockID{block.Hash(), types.PartSetHeader{}}, AsuraResponses
 }

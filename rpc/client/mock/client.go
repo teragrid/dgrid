@@ -29,7 +29,7 @@ import (
 // Nothing hidden here, so no New function, just construct it from
 // some parts, and swap them out them during the tests.
 type Client struct {
-	client.asuraClient
+	client.AsuraClient
 	client.SignClient
 	client.HistoryClient
 	client.StatusClient
@@ -78,16 +78,16 @@ func (c Client) Status() (*ctypes.ResultStatus, error) {
 	return core.Status()
 }
 
-func (c Client) asuraInfo() (*ctypes.ResultasuraInfo, error) {
-	return core.asuraInfo()
+func (c Client) AsuraInfo() (*ctypes.ResultAsuraInfo, error) {
+	return core.AsuraInfo()
 }
 
-func (c Client) asuraQuery(path string, data cmn.HexBytes) (*ctypes.ResultasuraQuery, error) {
-	return c.asuraQueryWithOptions(path, data, client.DefaultasuraQueryOptions)
+func (c Client) AsuraQuery(path string, data cmn.HexBytes) (*ctypes.ResultAsuraQuery, error) {
+	return c.AsuraQueryWithOptions(path, data, client.DefaultAsuraQueryOptions)
 }
 
-func (c Client) asuraQueryWithOptions(path string, data cmn.HexBytes, opts client.asuraQueryOptions) (*ctypes.ResultasuraQuery, error) {
-	return core.asuraQuery(path, data, opts.Height, opts.Trusted)
+func (c Client) AsuraQueryWithOptions(path string, data cmn.HexBytes, opts client.AsuraQueryOptions) (*ctypes.ResultAsuraQuery, error) {
+	return core.AsuraQuery(path, data, opts.Height, opts.Trusted)
 }
 
 func (c Client) BroadcastTxCommit(tx types.Tx) (*ctypes.ResultBroadcastTxCommit, error) {

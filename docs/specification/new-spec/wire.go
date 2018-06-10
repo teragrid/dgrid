@@ -3,8 +3,6 @@ package main
 import (
 	"fmt"
 	"time"
-
-	wire "github.com/teragrid/go-wire"
 )
 
 func main() {
@@ -62,7 +60,7 @@ func main() {
 }
 
 func encode(i interface{}) {
-	Println(wire.BinaryBytes(i))
+	// Println(wire.BinaryBytes(i))
 
 }
 

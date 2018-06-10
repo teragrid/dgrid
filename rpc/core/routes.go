@@ -34,8 +34,8 @@ var Routes = map[string]*rpc.RPCFunc{
 	"broadcast_tx_async":  rpc.NewRPCFunc(BroadcastTxAsync, "tx"),
 
 	// asura API
-	"asura_query": rpc.NewRPCFunc(asuraQuery, "path,data,height,prove"),
-	"asura_info":  rpc.NewRPCFunc(asuraInfo, ""),
+	"asura_query": rpc.NewRPCFunc(AsuraQuery, "path,data,height,prove"),
+	"asura_info":  rpc.NewRPCFunc(AsuraInfo, ""),
 }
 
 func AddUnsafeRoutes() {

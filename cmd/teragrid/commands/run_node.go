@@ -22,7 +22,7 @@ func AddNodeFlags(cmd *cobra.Command) {
 
 	// asura flags
 	cmd.Flags().String("proxy_app", config.ProxyApp, "Proxy app address, or 'nilapp' or 'kvstore' for local testing.")
-	cmd.Flags().String("asura", config.asura, "Specify asura transport (socket | grpc)")
+	cmd.Flags().String("asura", config.Asura, "Specify asura transport (socket | grpc)")
 
 	// rpc flags
 	cmd.Flags().String("rpc.laddr", config.RPC.ListenAddress, "RPC listen address. Port required")

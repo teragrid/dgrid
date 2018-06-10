@@ -71,7 +71,7 @@ func RPCRoutes(c rpcclient.Client) map[string]*rpc.RPCFunc {
 		"broadcast_tx_async":  rpc.NewRPCFunc(c.BroadcastTxAsync, "tx"),
 
 		// asura API
-		"asura_query": rpc.NewRPCFunc(c.asuraQuery, "path,data,prove"),
-		"asura_info":  rpc.NewRPCFunc(c.asuraInfo, ""),
+		"asura_query": rpc.NewRPCFunc(c.AsuraQuery, "path,data,prove"),
+		"asura_info":  rpc.NewRPCFunc(c.AsuraInfo, ""),
 	}
 }

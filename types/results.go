@@ -21,12 +21,12 @@ func (a asuraResult) Hash() []byte {
 	return bz
 }
 
-// asuraResults wraps the deliver tx results to return a proof
-type asuraResults []asuraResult
+// AsuraResults wraps the deliver tx results to return a proof
+type AsuraResults []asuraResult
 
-// NewResults creates asuraResults from ResponseDeliverTx
-func NewResults(del []*asura.ResponseDeliverTx) asuraResults {
-	res := make(asuraResults, len(del))
+// NewResults creates AsuraResults from ResponseDeliverTx
+func NewResults(del []*asura.ResponseDeliverTx) AsuraResults {
+	res := make(AsuraResults, len(del))
 	for i, d := range del {
 		res[i] = NewResultFromResponse(d)
 	}
@@ -41,7 +41,7 @@ func NewResultFromResponse(response *asura.ResponseDeliverTx) asuraResult {
 }
 
 // Bytes serializes the asuraResponse using wire
-func (a asuraResults) Bytes() []byte {
+func (a AsuraResults) Bytes() []byte {
 	bz, err := cdc.MarshalBinary(a)
 	if err != nil {
 		panic(err)
@@ -50,17 +50,17 @@ func (a asuraResults) Bytes() []byte {
 }
 
 // Hash returns a merkle hash of all results
-func (a asuraResults) Hash() []byte {
+func (a AsuraResults) Hash() []byte {
 	return merkle.SimpleHashFromHashers(a.toHashers())
 }
 
 // ProveResult returns a merkle proof of one result from the set
-func (a asuraResults) ProveResult(i int) merkle.SimpleProof {
+func (a AsuraResults) ProveResult(i int) merkle.SimpleProof {
 	_, proofs := merkle.SimpleProofsFromHashers(a.toHashers())
 	return *proofs[i]
 }
 
-func (a asuraResults) toHashers() []merkle.Hasher {
+func (a AsuraResults) toHashers() []merkle.Hasher {
 	l := len(a)
 	hashers := make([]merkle.Hasher, l)
 	for i := 0; i < l; i++ {

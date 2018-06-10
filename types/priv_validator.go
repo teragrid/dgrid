@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"fmt"
 
-	"github.com/teragrid/go-crypto"
+	crypto "github.com/teragrid/go-crypto"
 )
 
 // PrivValidator defines the functionality of a local teragrid validator

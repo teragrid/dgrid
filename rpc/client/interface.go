@@ -25,15 +25,15 @@ import (
 	cmn "github.com/teragrid/teralibs/common"
 )
 
-// asuraClient groups together the functionality that principally
+// AsuraClient groups together the functionality that principally
 // affects the asura app. In many cases this will be all we want,
 // so we can accept an interface which is easier to mock
-type asuraClient interface {
+type AsuraClient interface {
 	// reading from asura app
-	asuraInfo() (*ctypes.ResultasuraInfo, error)
-	asuraQuery(path string, data cmn.HexBytes) (*ctypes.ResultasuraQuery, error)
-	asuraQueryWithOptions(path string, data cmn.HexBytes,
-		opts asuraQueryOptions) (*ctypes.ResultasuraQuery, error)
+	AsuraInfo() (*ctypes.ResultAsuraInfo, error)
+	AsuraQuery(path string, data cmn.HexBytes) (*ctypes.ResultAsuraQuery, error)
+	AsuraQueryWithOptions(path string, data cmn.HexBytes,
+		opts AsuraQueryOptions) (*ctypes.ResultAsuraQuery, error)
 
 	// writing to asura app
 	BroadcastTxCommit(tx types.Tx) (*ctypes.ResultBroadcastTxCommit, error)
@@ -68,7 +68,7 @@ type StatusClient interface {
 // implements events.EventSwitch
 type Client interface {
 	cmn.Service
-	asuraClient
+	AsuraClient
 	SignClient
 	HistoryClient
 	StatusClient

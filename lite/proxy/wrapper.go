@@ -33,17 +33,17 @@ func SecureClient(c rpcclient.Client, cert *lite.InquiringCertifier) Wrapper {
 	return wrap
 }
 
-// asuraQueryWithOptions exposes all options for the asura query and verifies the returned proof
-func (w Wrapper) asuraQueryWithOptions(path string, data cmn.HexBytes,
-	opts rpcclient.asuraQueryOptions) (*ctypes.ResultasuraQuery, error) {
+// AsuraQueryWithOptions exposes all options for the asura query and verifies the returned proof
+func (w Wrapper) AsuraQueryWithOptions(path string, data cmn.HexBytes,
+	opts rpcclient.AsuraQueryOptions) (*ctypes.ResultAsuraQuery, error) {
 
 	res, _, err := GetWithProofOptions(path, data, opts, w.Client, w.cert)
 	return res, err
 }
 
-// asuraQuery uses default options for the asura query and verifies the returned proof
-func (w Wrapper) asuraQuery(path string, data cmn.HexBytes) (*ctypes.ResultasuraQuery, error) {
-	return w.asuraQueryWithOptions(path, data, rpcclient.DefaultasuraQueryOptions)
+// AsuraQuery uses default options for the asura query and verifies the returned proof
+func (w Wrapper) AsuraQuery(path string, data cmn.HexBytes) (*ctypes.ResultAsuraQuery, error) {
+	return w.AsuraQueryWithOptions(path, data, rpcclient.DefaultAsuraQueryOptions)
 }
 
 // Tx queries for a given tx and verifies the proof if it was requested

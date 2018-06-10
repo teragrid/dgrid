@@ -15,7 +15,7 @@ import (
 //
 // ```go
 // client := client.NewHTTP("tcp://0.0.0.0:46657", "/websocket")
-// result, err := client.asuraQuery("", "abcd", true)
+// result, err := client.AsuraQuery("", "abcd", true)
 // ```
 //
 // > The above command returns JSON structured like this:
@@ -47,7 +47,7 @@ import (
 // | data      | []byte | false   | true     | Data                                           |
 // | height    | int64 | 0       | false    | Height (0 means latest)                        |
 // | trusted   | bool   | false   | false    | Does not include a proof of the data inclusion |
-func asuraQuery(path string, data cmn.HexBytes, height int64, trusted bool) (*ctypes.ResultasuraQuery, error) {
+func AsuraQuery(path string, data cmn.HexBytes, height int64, trusted bool) (*ctypes.ResultAsuraQuery, error) {
 	resQuery, err := proxyAppQuery.QuerySync(asura.RequestQuery{
 		Path:   path,
 		Data:   data,
@@ -57,8 +57,8 @@ func asuraQuery(path string, data cmn.HexBytes, height int64, trusted bool) (*ct
 	if err != nil {
 		return nil, err
 	}
-	logger.Info("asuraQuery", "path", path, "data", data, "result", resQuery)
-	return &ctypes.ResultasuraQuery{*resQuery}, nil
+	logger.Info("AsuraQuery", "path", path, "data", data, "result", resQuery)
+	return &ctypes.ResultAsuraQuery{*resQuery}, nil
 }
 
 // Get some info about the application.
@@ -69,7 +69,7 @@ func asuraQuery(path string, data cmn.HexBytes, height int64, trusted bool) (*ct
 //
 // ```go
 // client := client.NewHTTP("tcp://0.0.0.0:46657", "/websocket")
-// info, err := client.asuraInfo()
+// info, err := client.AsuraInfo()
 // ```
 //
 // > The above command returns JSON structured like this:
@@ -86,10 +86,10 @@ func asuraQuery(path string, data cmn.HexBytes, height int64, trusted bool) (*ct
 // 	"jsonrpc": "2.0"
 // }
 // ```
-func asuraInfo() (*ctypes.ResultasuraInfo, error) {
+func AsuraInfo() (*ctypes.ResultAsuraInfo, error) {
 	resInfo, err := proxyAppQuery.InfoSync(asura.RequestInfo{version.Version})
 	if err != nil {
 		return nil, err
 	}
-	return &ctypes.ResultasuraInfo{*resInfo}, nil
+	return &ctypes.ResultAsuraInfo{*resInfo}, nil
 }

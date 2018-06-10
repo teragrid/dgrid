@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestasuraResults(t *testing.T) {
+func TestAsuraResults(t *testing.T) {
 	a := asuraResult{Code: 0, Data: nil}
 	b := asuraResult{Code: 0, Data: []byte{}}
 	c := asuraResult{Code: 0, Data: []byte("one")}
@@ -21,7 +21,7 @@ func TestasuraResults(t *testing.T) {
 	require.Equal(t, a.Hash(), b.Hash())
 
 	// a and b should be the same, don't go in results.
-	results := asuraResults{a, c, d, e, f}
+	results := AsuraResults{a, c, d, e, f}
 
 	// Make sure each result hashes properly.
 	var last []byte

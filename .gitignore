@@ -4,9 +4,9 @@
 *.bak
 .DS_Store
 build/*
-rpc/test/.tendermint
+rpc/test/.teragrid
 .debora
-.tendermint
+.teragrid
 remote_dump
 .revision
 vendor
@@ -17,7 +17,7 @@ test/logs
 coverage.txt
 docs/_build
 docs/tools
-docs/abci-spec.rst
+docs/asura-spec.rst
 *.log
 
 scripts/wal2json/wal2json

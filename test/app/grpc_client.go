@@ -7,7 +7,6 @@ import (
 
 	"context"
 
-	"github.com/teragrid/go-wire"
 	"github.com/teragrid/teragrid/rpc/grpc"
 )
 

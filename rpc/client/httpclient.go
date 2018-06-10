@@ -58,26 +58,26 @@ func (c *HTTP) Status() (*ctypes.ResultStatus, error) {
 	return result, nil
 }
 
-func (c *HTTP) asuraInfo() (*ctypes.ResultasuraInfo, error) {
-	result := new(ctypes.ResultasuraInfo)
+func (c *HTTP) AsuraInfo() (*ctypes.ResultAsuraInfo, error) {
+	result := new(ctypes.ResultAsuraInfo)
 	_, err := c.rpc.Call("asura_info", map[string]interface{}{}, result)
 	if err != nil {
-		return nil, errors.Wrap(err, "asuraInfo")
+		return nil, errors.Wrap(err, "AsuraInfo")
 	}
 	return result, nil
 }
 
-func (c *HTTP) asuraQuery(path string, data cmn.HexBytes) (*ctypes.ResultasuraQuery, error) {
-	return c.asuraQueryWithOptions(path, data, DefaultasuraQueryOptions)
+func (c *HTTP) AsuraQuery(path string, data cmn.HexBytes) (*ctypes.ResultAsuraQuery, error) {
+	return c.AsuraQueryWithOptions(path, data, DefaultAsuraQueryOptions)
 }
 
-func (c *HTTP) asuraQueryWithOptions(path string, data cmn.HexBytes, opts asuraQueryOptions) (*ctypes.ResultasuraQuery, error) {
-	result := new(ctypes.ResultasuraQuery)
+func (c *HTTP) AsuraQueryWithOptions(path string, data cmn.HexBytes, opts AsuraQueryOptions) (*ctypes.ResultAsuraQuery, error) {
+	result := new(ctypes.ResultAsuraQuery)
 	_, err := c.rpc.Call("asura_query",
 		map[string]interface{}{"path": path, "data": data, "height": opts.Height, "trusted": opts.Trusted},
 		result)
 	if err != nil {
-		return nil, errors.Wrap(err, "asuraQuery")
+		return nil, errors.Wrap(err, "AsuraQuery")
 	}
 	return result, nil
 }

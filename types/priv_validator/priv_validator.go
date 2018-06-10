@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/teragrid/go-crypto"
+	crypto "github.com/teragrid/go-crypto"
 	"github.com/teragrid/teragrid/types"
 	cmn "github.com/teragrid/teralibs/common"
 )

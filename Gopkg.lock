@@ -229,19 +229,6 @@
   revision = "714f901b98fdb3aa954b4193d8cbd64a28d80cad"
 
 [[projects]]
-  name = "github.com/teragrid/asura"
-  packages = [
-    "client",
-    "example/code",
-    "example/counter",
-    "example/kvstore",
-    "server",
-    "types"
-  ]
-  revision = "78a8905690ef54f9d57e3b2b0ee7ad3a04ef3f1f"
-  version = "v0.10.3"
-
-[[projects]]
   branch = "master"
   name = "github.com/teragrid/ed25519"
   packages = [
@@ -252,24 +239,38 @@
   revision = "d8387025d2b9d158cf4efb07e7ebf814bcce2057"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/teragrid/asura"
+  packages = [
+    "client",
+    "example/code",
+    "example/counter",
+    "example/kvstore",
+    "server",
+    "types"
+  ]
+  revision = "c4443251526d622adaac59049b1c8341de92437f"
+
+[[projects]]
+  branch = "master"
   name = "github.com/teragrid/go-amino"
   packages = ["."]
-  revision = "42246108ff925a457fb709475070a03dfd3e2b5c"
-  version = "0.9.6"
+  revision = "68c347fe3e5d01e64fadcbdda2d7004f512e2e01"
 
 [[projects]]
+  branch = "master"
   name = "github.com/teragrid/go-crypto"
   packages = ["."]
-  revision = "915416979bf70efa4bcbf1c6cd5d64c5fff9fc19"
-  version = "v0.6.2"
+  revision = "a48c5bf549f42012e9d6bf2c58ec3c8368d8460a"
 
 [[projects]]
+  branch = "master"
   name = "github.com/teragrid/go-wire"
   packages = ["."]
-  revision = "fa721242b042ecd4c6ed1a934ee740db4f74e45c"
-  version = "v0.7.3"
+  revision = "e4d4f079598e95647f54ec778ab094674930c53c"
 
 [[projects]]
+  branch = "master"
   name = "github.com/teragrid/teralibs"
   packages = [
     "autofile",
@@ -285,8 +286,7 @@
     "pubsub/query",
     "test"
   ]
-  revision = "97e1f1ad3f510048929a51475811a18686c894df"
-  version = "0.8.2-rc0"
+  revision = "8a7405f0c60db4b836333b919a1bfc91577a2c36"
 
 [[projects]]
   branch = "master"
@@ -383,6 +383,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "e70f8692c825e80ae8510546e297840b9560d00e11b2272749a55cc2ffd147f0"
+  inputs-digest = "f21998a16bcc6e328e62e2ac4cce27fe7d4e991f8ab220ca00ef750ad2fc59df"
   solver-name = "gps-cdcl"
   solver-version = 1

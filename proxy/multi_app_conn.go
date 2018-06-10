@@ -71,7 +71,7 @@ func (app *multiAppConn) Query() AppConnQuery {
 
 func (app *multiAppConn) OnStart() error {
 	// query connection
-	querycli, err := app.clientCreator.NewasuraClient()
+	querycli, err := app.clientCreator.NewAsuraClient()
 	if err != nil {
 		return errors.Wrap(err, "Error creating asura client (query connection)")
 	}
@@ -82,7 +82,7 @@ func (app *multiAppConn) OnStart() error {
 	app.queryConn = NewAppConnQuery(querycli)
 
 	// mempool connection
-	memcli, err := app.clientCreator.NewasuraClient()
+	memcli, err := app.clientCreator.NewAsuraClient()
 	if err != nil {
 		return errors.Wrap(err, "Error creating asura client (mempool connection)")
 	}
@@ -93,7 +93,7 @@ func (app *multiAppConn) OnStart() error {
 	app.mempoolConn = NewAppConnMempool(memcli)
 
 	// consensus connection
-	concli, err := app.clientCreator.NewasuraClient()
+	concli, err := app.clientCreator.NewAsuraClient()
 	if err != nil {
 		return errors.Wrap(err, "Error creating asura client (consensus connection)")
 	}

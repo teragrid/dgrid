@@ -18,7 +18,7 @@ import (
 	cmn "github.com/teragrid/teralibs/common"
 )
 
-func TestasuraMock(t *testing.T) {
+func TestAsuraMock(t *testing.T) {
 	assert, require := assert.New(t), require.New(t)
 
 	key, value := []byte("foo"), []byte("bar")
@@ -26,7 +26,7 @@ func TestasuraMock(t *testing.T) {
 	goodTx := types.Tx{0x01, 0xff}
 	badTx := types.Tx{0x12, 0x21}
 
-	m := mock.asuraMock{
+	m := mock.AsuraMock{
 		Info: mock.Call{Error: errors.New("foobar")},
 		Query: mock.Call{Response: asura.ResponseQuery{
 			Key:    key,
@@ -46,12 +46,12 @@ func TestasuraMock(t *testing.T) {
 	}
 
 	// now, let's try to make some calls
-	_, err := m.asuraInfo()
+	_, err := m.AsuraInfo()
 	require.NotNil(err)
 	assert.Equal("foobar", err.Error())
 
 	// query always returns the response
-	_query, err := m.asuraQueryWithOptions("/", nil, client.asuraQueryOptions{Trusted: true})
+	_query, err := m.AsuraQueryWithOptions("/", nil, client.AsuraQueryOptions{Trusted: true})
 	query := _query.Response
 	require.Nil(err)
 	require.NotNil(query)
@@ -82,7 +82,7 @@ func TestasuraRecorder(t *testing.T) {
 	assert, require := assert.New(t), require.New(t)
 
 	// This mock returns errors on everything but Query
-	m := mock.asuraMock{
+	m := mock.AsuraMock{
 		Info: mock.Call{Response: asura.ResponseInfo{
 			Data:    "data",
 			Version: "v0.9.9",
@@ -95,10 +95,10 @@ func TestasuraRecorder(t *testing.T) {
 
 	require.Equal(0, len(r.Calls))
 
-	_, err := r.asuraInfo()
+	_, err := r.AsuraInfo()
 	assert.Nil(err, "expected no err on info")
 
-	_, err = r.asuraQueryWithOptions("path", cmn.HexBytes("data"), client.asuraQueryOptions{Trusted: false})
+	_, err = r.AsuraQueryWithOptions("path", cmn.HexBytes("data"), client.AsuraQueryOptions{Trusted: false})
 	assert.NotNil(err, "expected error on query")
 	require.Equal(2, len(r.Calls))
 
@@ -107,7 +107,7 @@ func TestasuraRecorder(t *testing.T) {
 	assert.Nil(info.Error)
 	assert.Nil(info.Args)
 	require.NotNil(info.Response)
-	ir, ok := info.Response.(*ctypes.ResultasuraInfo)
+	ir, ok := info.Response.(*ctypes.ResultAsuraInfo)
 	require.True(ok)
 	assert.Equal("data", ir.Response.Data)
 	assert.Equal("v0.9.9", ir.Response.Version)
@@ -154,13 +154,13 @@ func TestasuraRecorder(t *testing.T) {
 	assert.EqualValues(ba.Args, txs[2])
 }
 
-func TestasuraApp(t *testing.T) {
+func TestAsuraApp(t *testing.T) {
 	assert, require := assert.New(t), require.New(t)
 	app := kvstore.NewKVStoreApplication()
-	m := mock.asuraApp{app}
+	m := mock.AsuraApp{app}
 
 	// get some info
-	info, err := m.asuraInfo()
+	info, err := m.AsuraInfo()
 	require.Nil(err)
 	assert.Equal(`{"size":0}`, info.Response.GetData())
 
@@ -174,7 +174,7 @@ func TestasuraApp(t *testing.T) {
 	assert.True(res.DeliverTx.IsOK())
 
 	// check the key
-	_qres, err := m.asuraQueryWithOptions("/key", cmn.HexBytes(key), client.asuraQueryOptions{Trusted: true})
+	_qres, err := m.AsuraQueryWithOptions("/key", cmn.HexBytes(key), client.AsuraQueryOptions{Trusted: true})
 	qres := _qres.Response
 	require.Nil(err)
 	assert.EqualValues(value, qres.Value)

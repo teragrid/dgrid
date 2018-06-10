@@ -42,7 +42,7 @@ func GetWithProof(key []byte, reqHeight int64, node rpcclient.Client,
 	}
 
 	_resp, proof, err := GetWithProofOptions("/key", key,
-		rpcclient.asuraQueryOptions{Height: int64(reqHeight)},
+		rpcclient.AsuraQueryOptions{Height: int64(reqHeight)},
 		node, cert)
 	if _resp != nil {
 		resp := _resp.Response
@@ -51,12 +51,12 @@ func GetWithProof(key []byte, reqHeight int64, node rpcclient.Client,
 	return val, height, proof, err
 }
 
-// GetWithProofOptions is useful if you want full access to the asuraQueryOptions
-func GetWithProofOptions(path string, key []byte, opts rpcclient.asuraQueryOptions,
+// GetWithProofOptions is useful if you want full access to the AsuraQueryOptions
+func GetWithProofOptions(path string, key []byte, opts rpcclient.AsuraQueryOptions,
 	node rpcclient.Client, cert lite.Certifier) (
-	*ctypes.ResultasuraQuery, KeyProof, error) {
+	*ctypes.ResultAsuraQuery, KeyProof, error) {
 
-	_resp, err := node.asuraQueryWithOptions(path, key, opts)
+	_resp, err := node.AsuraQueryWithOptions(path, key, opts)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -81,7 +81,7 @@ func GetWithProofOptions(path string, key []byte, opts rpcclient.asuraQueryOptio
 	}
 
 	_ = commit
-	return &ctypes.ResultasuraQuery{Response: resp}, nil, nil
+	return &ctypes.ResultAsuraQuery{Response: resp}, nil, nil
 
 	/* // TODO refactor so iavl stuff is not in teragrid core
 	   // https://github.com/teragrid/teragrid/issues/1183
@@ -102,7 +102,7 @@ func GetWithProofOptions(path string, key []byte, opts rpcclient.asuraQueryOptio
 		if err != nil {
 			return nil, nil, errors.Wrap(err, "Couldn't verify proof")
 		}
-		return &ctypes.ResultasuraQuery{Response: resp}, eproof, nil
+		return &ctypes.ResultAsuraQuery{Response: resp}, eproof, nil
 	}
 
 	// The key wasn't found, construct a proof of non-existence.
@@ -121,7 +121,7 @@ func GetWithProofOptions(path string, key []byte, opts rpcclient.asuraQueryOptio
 	if err != nil {
 		return nil, nil, errors.Wrap(err, "Couldn't verify proof")
 	}
-	return &ctypes.ResultasuraQuery{Response: resp}, aproof, ErrNoData()
+	return &ctypes.ResultAsuraQuery{Response: resp}, aproof, ErrNoData()
 	*/
 }
 

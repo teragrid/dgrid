@@ -321,11 +321,11 @@ func (h *Handshaker) ReplayBlocks(state sm.State, appHash []byte, appBlockHeight
 
 		} else if appBlockHeight == storeBlockHeight {
 			// We ran Commit, but didn't save the state, so replayBlock with mock app
-			asuraResponses, err := sm.LoadasuraResponses(h.stateDB, storeBlockHeight)
+			AsuraResponses, err := sm.LoadAsuraResponses(h.stateDB, storeBlockHeight)
 			if err != nil {
 				return nil, err
 			}
-			mockApp := newMockProxyApp(appHash, asuraResponses)
+			mockApp := newMockProxyApp(appHash, AsuraResponses)
 			h.logger.Info("Replay last block using mock app")
 			state, err = h.replayBlock(state, storeBlockHeight, mockApp)
 			return state.AppHash, err
@@ -403,15 +403,15 @@ func checkAppHash(state sm.State, appHash []byte) error {
 }
 
 //--------------------------------------------------------------------------------
-// mockProxyApp uses asuraResponses to give the right results
+// mockProxyApp uses AsuraResponses to give the right results
 // Useful because we don't want to call Commit() twice for the same block on the real app.
 
-func newMockProxyApp(appHash []byte, asuraResponses *sm.asuraResponses) proxy.AppConnConsensus {
+func newMockProxyApp(appHash []byte, AsuraResponses *sm.AsuraResponses) proxy.AppConnConsensus {
 	clientCreator := proxy.NewLocalClientCreator(&mockProxyApp{
 		appHash:       appHash,
-		asuraResponses: asuraResponses,
+		AsuraResponses: AsuraResponses,
 	})
-	cli, _ := clientCreator.NewasuraClient()
+	cli, _ := clientCreator.NewAsuraClient()
 	err := cli.Start()
 	if err != nil {
 		panic(err)
@@ -424,18 +424,18 @@ type mockProxyApp struct {
 
 	appHash       []byte
 	txCount       int
-	asuraResponses *sm.asuraResponses
+	AsuraResponses *sm.AsuraResponses
 }
 
 func (mock *mockProxyApp) DeliverTx(tx []byte) asura.ResponseDeliverTx {
-	r := mock.asuraResponses.DeliverTx[mock.txCount]
+	r := mock.AsuraResponses.DeliverTx[mock.txCount]
 	mock.txCount++
 	return *r
 }
 
 func (mock *mockProxyApp) EndBlock(req asura.RequestEndBlock) asura.ResponseEndBlock {
 	mock.txCount = 0
-	return *mock.asuraResponses.EndBlock
+	return *mock.AsuraResponses.EndBlock
 }
 
 func (mock *mockProxyApp) Commit() asura.ResponseCommit {

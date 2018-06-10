@@ -52,16 +52,16 @@ func (Local) Status() (*ctypes.ResultStatus, error) {
 	return core.Status()
 }
 
-func (Local) asuraInfo() (*ctypes.ResultasuraInfo, error) {
-	return core.asuraInfo()
+func (Local) AsuraInfo() (*ctypes.ResultAsuraInfo, error) {
+	return core.AsuraInfo()
 }
 
-func (c *Local) asuraQuery(path string, data cmn.HexBytes) (*ctypes.ResultasuraQuery, error) {
-	return c.asuraQueryWithOptions(path, data, DefaultasuraQueryOptions)
+func (c *Local) AsuraQuery(path string, data cmn.HexBytes) (*ctypes.ResultAsuraQuery, error) {
+	return c.AsuraQueryWithOptions(path, data, DefaultAsuraQueryOptions)
 }
 
-func (Local) asuraQueryWithOptions(path string, data cmn.HexBytes, opts asuraQueryOptions) (*ctypes.ResultasuraQuery, error) {
-	return core.asuraQuery(path, data, opts.Height, opts.Trusted)
+func (Local) AsuraQueryWithOptions(path string, data cmn.HexBytes, opts AsuraQueryOptions) (*ctypes.ResultAsuraQuery, error) {
+	return core.AsuraQuery(path, data, opts.Height, opts.Trusted)
 }
 
 func (Local) BroadcastTxCommit(tx types.Tx) (*ctypes.ResultBroadcastTxCommit, error) {

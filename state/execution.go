@@ -74,7 +74,7 @@ func (blockExec *BlockExecutor) ApplyBlock(s State, blockID types.BlockID, block
 		return s, ErrInvalidBlock(err)
 	}
 
-	asuraResponses, err := execBlockOnProxyApp(blockExec.logger, blockExec.proxyApp, block)
+	AsuraResponses, err := execBlockOnProxyApp(blockExec.logger, blockExec.proxyApp, block)
 	if err != nil {
 		return s, ErrProxyAppConn(err)
 	}
@@ -82,12 +82,12 @@ func (blockExec *BlockExecutor) ApplyBlock(s State, blockID types.BlockID, block
 	fail.Fail() // XXX
 
 	// save the results before we commit
-	saveasuraResponses(blockExec.db, block.Height, asuraResponses)
+	saveAsuraResponses(blockExec.db, block.Height, AsuraResponses)
 
 	fail.Fail() // XXX
 
 	// update the state with the block and responses
-	s, err = updateState(s, blockID, block.Header, asuraResponses)
+	s, err = updateState(s, blockID, block.Header, AsuraResponses)
 	if err != nil {
 		return s, fmt.Errorf("Commit failed for application: %v", err)
 	}
@@ -113,7 +113,7 @@ func (blockExec *BlockExecutor) ApplyBlock(s State, blockID types.BlockID, block
 
 	// events are fired after everything else
 	// NOTE: if we crash between Commit and Save, events wont be fired during replay
-	fireEvents(blockExec.logger, blockExec.eventBus, block, asuraResponses)
+	fireEvents(blockExec.logger, blockExec.eventBus, block, AsuraResponses)
 
 	return s, nil
 }
@@ -160,11 +160,11 @@ func (blockExec *BlockExecutor) Commit(block *types.Block) ([]byte, error) {
 
 // Executes block's transactions on proxyAppConn.
 // Returns a list of transaction results and updates to the validator set
-func execBlockOnProxyApp(logger log.Logger, proxyAppConn proxy.AppConnConsensus, block *types.Block) (*asuraResponses, error) {
+func execBlockOnProxyApp(logger log.Logger, proxyAppConn proxy.AppConnConsensus, block *types.Block) (*AsuraResponses, error) {
 	var validTxs, invalidTxs = 0, 0
 
 	txIndex := 0
-	asuraResponses := NewasuraResponses(block)
+	AsuraResponses := NewAsuraResponses(block)
 
 	// Execute transactions and get hash
 	proxyCb := func(req *asura.Request, res *asura.Response) {
@@ -180,7 +180,7 @@ func execBlockOnProxyApp(logger log.Logger, proxyAppConn proxy.AppConnConsensus,
 				logger.Debug("Invalid tx", "code", txRes.Code, "log", txRes.Log)
 				invalidTxs++
 			}
-			asuraResponses.DeliverTx[txIndex] = txRes
+			AsuraResponses.DeliverTx[txIndex] = txRes
 			txIndex++
 		}
 	}
@@ -224,7 +224,7 @@ func execBlockOnProxyApp(logger log.Logger, proxyAppConn proxy.AppConnConsensus,
 	}
 
 	// End block
-	asuraResponses.EndBlock, err = proxyAppConn.EndBlockSync(asura.RequestEndBlock{block.Height})
+	AsuraResponses.EndBlock, err = proxyAppConn.EndBlockSync(asura.RequestEndBlock{block.Height})
 	if err != nil {
 		logger.Error("Error in proxyAppConn.EndBlock", "err", err)
 		return nil, err
@@ -232,12 +232,12 @@ func execBlockOnProxyApp(logger log.Logger, proxyAppConn proxy.AppConnConsensus,
 
 	logger.Info("Executed block", "height", block.Height, "validTxs", validTxs, "invalidTxs", invalidTxs)
 
-	valUpdates := asuraResponses.EndBlock.ValidatorUpdates
+	valUpdates := AsuraResponses.EndBlock.ValidatorUpdates
 	if len(valUpdates) > 0 {
 		logger.Info("Updates to validators", "updates", asura.ValidatorsString(valUpdates))
 	}
 
-	return asuraResponses, nil
+	return AsuraResponses, nil
 }
 
 // If more or equal than 1/3 of total voting power changed in one block, then
@@ -284,17 +284,17 @@ func updateValidators(currentSet *types.ValidatorSet, updates []asura.Validator)
 
 // updateState returns a new State updated according to the header and responses.
 func updateState(s State, blockID types.BlockID, header *types.Header,
-	asuraResponses *asuraResponses) (State, error) {
+	AsuraResponses *AsuraResponses) (State, error) {
 
 	// copy the valset so we can apply changes from EndBlock
 	// and update s.LastValidators and s.Validators
 	prevValSet := s.Validators.Copy()
 	nextValSet := prevValSet.Copy()
 
-	// update the validator set with the latest asuraResponses
+	// update the validator set with the latest AsuraResponses
 	lastHeightValsChanged := s.LastHeightValidatorsChanged
-	if len(asuraResponses.EndBlock.ValidatorUpdates) > 0 {
-		err := updateValidators(nextValSet, asuraResponses.EndBlock.ValidatorUpdates)
+	if len(AsuraResponses.EndBlock.ValidatorUpdates) > 0 {
+		err := updateValidators(nextValSet, AsuraResponses.EndBlock.ValidatorUpdates)
 		if err != nil {
 			return s, fmt.Errorf("Error changing validator set: %v", err)
 		}
@@ -305,12 +305,12 @@ func updateState(s State, blockID types.BlockID, header *types.Header,
 	// Update validator accums and set state variables
 	nextValSet.IncrementAccum(1)
 
-	// update the params with the latest asuraResponses
+	// update the params with the latest AsuraResponses
 	nextParams := s.ConsensusParams
 	lastHeightParamsChanged := s.LastHeightConsensusParamsChanged
-	if asuraResponses.EndBlock.ConsensusParamUpdates != nil {
+	if AsuraResponses.EndBlock.ConsensusParamUpdates != nil {
 		// NOTE: must not mutate s.ConsensusParams
-		nextParams = s.ConsensusParams.Update(asuraResponses.EndBlock.ConsensusParamUpdates)
+		nextParams = s.ConsensusParams.Update(AsuraResponses.EndBlock.ConsensusParamUpdates)
 		err := nextParams.Validate()
 		if err != nil {
 			return s, fmt.Errorf("Error updating consensus params: %v", err)
@@ -332,7 +332,7 @@ func updateState(s State, blockID types.BlockID, header *types.Header,
 		LastHeightValidatorsChanged:      lastHeightValsChanged,
 		ConsensusParams:                  nextParams,
 		LastHeightConsensusParamsChanged: lastHeightParamsChanged,
-		LastResultsHash:                  asuraResponses.ResultsHash(),
+		LastResultsHash:                  AsuraResponses.ResultsHash(),
 		AppHash:                          nil,
 	}, nil
 }
@@ -340,7 +340,7 @@ func updateState(s State, blockID types.BlockID, header *types.Header,
 // Fire NewBlock, NewBlockHeader.
 // Fire TxEvent for every tx.
 // NOTE: if teragrid crashes before commit, some or all of these events may be published again.
-func fireEvents(logger log.Logger, eventBus types.BlockEventPublisher, block *types.Block, asuraResponses *asuraResponses) {
+func fireEvents(logger log.Logger, eventBus types.BlockEventPublisher, block *types.Block, AsuraResponses *AsuraResponses) {
 	// NOTE: do we still need this buffer ?
 	txEventBuffer := types.NewTxEventBuffer(eventBus, int(block.NumTxs))
 	for i, tx := range block.Data.Txs {
@@ -348,7 +348,7 @@ func fireEvents(logger log.Logger, eventBus types.BlockEventPublisher, block *ty
 			Height: block.Height,
 			Index:  uint32(i),
 			Tx:     tx,
-			Result: *(asuraResponses.DeliverTx[i]),
+			Result: *(AsuraResponses.DeliverTx[i]),
 		}})
 	}
 

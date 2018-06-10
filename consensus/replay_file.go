@@ -296,7 +296,7 @@ func newConsensusStateForReplay(config cfg.BaseConfig, csConfig *cfg.ConsensusCo
 	}
 
 	// Create proxyAppConn connection (consensus, mempool, query)
-	clientCreator := proxy.DefaultClientCreator(config.ProxyApp, config.asura, config.DBDir())
+	clientCreator := proxy.DefaultClientCreator(config.ProxyApp, config.Asura, config.DBDir())
 	proxyApp := proxy.NewAppConns(clientCreator,
 		NewHandshaker(stateDB, state, blockStore, gdoc.AppState()))
 	err = proxyApp.Start()

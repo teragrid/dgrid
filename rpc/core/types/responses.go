@@ -37,7 +37,7 @@ type ResultCommit struct {
 
 type ResultBlockResults struct {
 	Height  int64                `json:"height"`
-	Results *state.asuraResponses `json:"results"`
+	Results *state.AsuraResponses `json:"results"`
 }
 
 // NewResultCommit is a helper to initialize the ResultCommit with
@@ -145,11 +145,11 @@ type ResultUnconfirmedTxs struct {
 	Txs []types.Tx `json:"txs"`
 }
 
-type ResultasuraInfo struct {
+type ResultAsuraInfo struct {
 	Response asura.ResponseInfo `json:"response"`
 }
 
-type ResultasuraQuery struct {
+type ResultAsuraQuery struct {
 	Response asura.ResponseQuery `json:"response"`
 }
 

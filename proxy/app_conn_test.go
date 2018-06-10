@@ -57,7 +57,7 @@ func TestEcho(t *testing.T) {
 	defer s.Stop()
 
 	// Start client
-	cli, err := clientCreator.NewasuraClient()
+	cli, err := clientCreator.NewAsuraClient()
 	if err != nil {
 		t.Fatalf("Error creating asura client: %v", err.Error())
 	}
@@ -91,7 +91,7 @@ func BenchmarkEcho(b *testing.B) {
 	defer s.Stop()
 
 	// Start client
-	cli, err := clientCreator.NewasuraClient()
+	cli, err := clientCreator.NewAsuraClient()
 	if err != nil {
 		b.Fatalf("Error creating asura client: %v", err.Error())
 	}
@@ -130,7 +130,7 @@ func TestInfo(t *testing.T) {
 	defer s.Stop()
 
 	// Start client
-	cli, err := clientCreator.NewasuraClient()
+	cli, err := clientCreator.NewAsuraClient()
 	if err != nil {
 		t.Fatalf("Error creating asura client: %v", err.Error())
 	}

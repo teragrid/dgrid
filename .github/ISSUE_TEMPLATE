@@ -10,14 +10,14 @@ If this is a FEATURE REQUEST, please:
   - Describe *in detail* the feature/behavior/change you'd like to see.
 
 In both cases, be ready for followup questions, and please respond in a timely
-manner. We might ask you to provide additional logs and data (tendermint & app)
+manner. We might ask you to provide additional logs and data (teragrid & app)
 in a case of bug.
 -->
 
-**Tendermint version** (use `tendermint version` or `git rev-parse --verify HEAD` if installed from source):
+**Tendermint version** (use `teragrid version` or `git rev-parse --verify HEAD` if installed from source):
 
 
-**ABCI app** (name for built-in, URL for self-written if it's publicly available):
+**Asura app** (name for built-in, URL for self-written if it's publicly available):
 
 
 **Merkleeyes version** (use `git rev-parse --verify HEAD`, skip if you don't use it):

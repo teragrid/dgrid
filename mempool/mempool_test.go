@@ -27,7 +27,7 @@ import (
 func newMempoolWithApp(cc proxy.ClientCreator) *Mempool {
 	config := cfg.ResetTestRoot("mempool_test")
 
-	appConnMem, _ := cc.NewasuraClient()
+	appConnMem, _ := cc.NewAsuraClient()
 	appConnMem.SetLogger(log.TestingLogger().With("module", "asura-client", "connection", "mempool"))
 	err := appConnMem.Start()
 	if err != nil {
@@ -121,7 +121,7 @@ func TestSerialReap(t *testing.T) {
 	cc := proxy.NewLocalClientCreator(app)
 
 	mempool := newMempoolWithApp(cc)
-	appConnCon, _ := cc.NewasuraClient()
+	appConnCon, _ := cc.NewAsuraClient()
 	appConnCon.SetLogger(log.TestingLogger().With("module", "asura-client", "connection", "consensus"))
 	err := appConnCon.Start()
 	require.Nil(t, err)
@@ -240,7 +240,7 @@ func TestMempoolCloseWAL(t *testing.T) {
 	wcfg.RootDir = rootDir
 	app := kvstore.NewKVStoreApplication()
 	cc := proxy.NewLocalClientCreator(app)
-	appConnMem, _ := cc.NewasuraClient()
+	appConnMem, _ := cc.NewAsuraClient()
 	mempool := NewMempool(wcfg, appConnMem, 10)
 	mempool.InitWAL()
 

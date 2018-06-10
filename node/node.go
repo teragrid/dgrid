@@ -79,7 +79,7 @@ type NodeProvider func(*cfg.Config, log.Logger) (*Node, error)
 func DefaultNewNode(config *cfg.Config, logger log.Logger) (*Node, error) {
 	return NewNode(config,
 		pvm.LoadOrGenFilePV(config.PrivValidatorFile()),
-		proxy.DefaultClientCreator(config.ProxyApp, config.asura, config.DBDir()),
+		proxy.DefaultClientCreator(config.ProxyApp, config.Asura, config.DBDir()),
 		DefaultGenesisDocProviderFunc(config),
 		DefaultDBProvider,
 		logger,

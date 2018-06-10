@@ -1,7 +1,7 @@
 version: 2
 
 defaults: &defaults
-  working_directory: /go/src/github.com/tendermint/tendermint
+  working_directory: /go/src/github.com/teragrid/teragrid
   docker:
     - image: circleci/golang:1.10.0
   environment:
@@ -44,9 +44,9 @@ jobs:
       - save_cache:
           key: v1-tree-{{ .Environment.CIRCLE_SHA1 }}
           paths:
-            - /go/src/github.com/tendermint/tendermint
+            - /go/src/github.com/teragrid/teragrid
 
-  setup_abci:
+  setup_asura:
     <<: *defaults
     steps:
       - attach_workspace:
@@ -56,15 +56,15 @@ jobs:
       - restore_cache:
           key: v1-tree-{{ .Environment.CIRCLE_SHA1 }}
       - run:
-          name: Checkout abci
+          name: Checkout asura
           command: |
-            commit=$(bash scripts/dep_utils/parse.sh abci)
-            go get -v -u -d github.com/tendermint/abci/...
-            cd /go/src/github.com/tendermint/abci
+            commit=$(bash scripts/dep_utils/parse.sh asura)
+            go get -v -u -d github.com/teragrid/asura/...
+            cd /go/src/github.com/teragrid/asura
             git checkout "$commit"
       - run:
-          working_directory: /go/src/github.com/tendermint/abci
-          name: Install abci
+          working_directory: /go/src/github.com/teragrid/asura
+          name: Install asura
           command: |
             set -ex
             export PATH="$GOBIN:$PATH"
@@ -75,7 +75,7 @@ jobs:
       - persist_to_workspace:
           root: /tmp/workspace
           paths:
-            - "bin/abci*"
+            - "bin/asura*"
 
   lint:
     <<: *defaults
@@ -120,7 +120,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            for pkg in $(go list github.com/tendermint/tendermint/... | grep -v /vendor/ | circleci tests split --split-by=timings); do
+            for pkg in $(go list github.com/teragrid/teragrid/... | grep -v /vendor/ | circleci tests split --split-by=timings); do
               id=$(basename "$pkg")
 
               go test -timeout 5m -race -coverprofile=/tmp/workspace/profiles/$id.out -covermode=atomic "$pkg"
@@ -151,8 +151,8 @@ jobs:
       image: circleci/classic:latest
     steps:
       - checkout
-      - run: mkdir -p $GOPATH/src/github.com/tendermint
-      - run: ln -sf /home/circleci/project $GOPATH/src/github.com/tendermint/tendermint
+      - run: mkdir -p $GOPATH/src/github.com/teragrid
+      - run: ln -sf /home/circleci/project $GOPATH/src/github.com/teragrid/teragrid
       - run: bash test/circleci/p2p.sh
 
   upload_coverage:
@@ -180,7 +180,7 @@ workflows:
   test-suite:
     jobs:
       - setup_dependencies
-      - setup_abci:
+      - setup_asura:
           requires:
             - setup_dependencies
       - lint:
@@ -188,13 +188,13 @@ workflows:
             - setup_dependencies
       - test_apps:
           requires:
-            - setup_abci
+            - setup_asura
       - test_cover:
           requires:
             - setup_dependencies
       - test_persistence:
           requires:
-            - setup_abci
+            - setup_asura
       - test_p2p
       - upload_coverage:
           requires:

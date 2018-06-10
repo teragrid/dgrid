@@ -70,20 +70,24 @@
   version = "~1.2.1"
 
 [[constraint]]
+  branch = "master"
   name = "github.com/teragrid/asura"
-  version = "~0.10.3"
+  # version = "~0.1.0"
 
 [[constraint]]
+  branch = "master"
   name = "github.com/teragrid/go-crypto"
-  version = "~0.6.2"
+  # version = "~0.6.2"
 
 [[constraint]]
+  branch = "master"
   name = "github.com/teragrid/go-amino"
-  version = "~0.9.6"
+  # version = "~0.9.6"
 
 [[constraint]]
+  branch = "master"
   name = "github.com/teragrid/teralibs"
-  version = "~0.8.2-rc0"
+  # version = "~0.1.0"
 
 [[constraint]]
   name = "google.golang.org/grpc"

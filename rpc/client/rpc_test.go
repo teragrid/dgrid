@@ -47,7 +47,7 @@ func TestInfo(t *testing.T) {
 	for i, c := range GetClients() {
 		// status, err := c.Status()
 		// require.Nil(t, err, "%+v", err)
-		info, err := c.asuraInfo()
+		info, err := c.AsuraInfo()
 		require.Nil(t, err, "%d: %+v", i, err)
 		// TODO: this is not correct - fix merkleeyes!
 		// assert.EqualValues(t, status.SyncInfo.LatestBlockHeight, info.Response.LastBlockHeight)
@@ -109,7 +109,7 @@ func TestGenesisAndValidators(t *testing.T) {
 	}
 }
 
-func TestasuraQuery(t *testing.T) {
+func TestAsuraQuery(t *testing.T) {
 	for i, c := range GetClients() {
 		// write something
 		k, v, tx := MakeTxKV()
@@ -119,7 +119,7 @@ func TestasuraQuery(t *testing.T) {
 
 		// wait before querying
 		client.WaitForHeight(c, apph, nil)
-		res, err := c.asuraQuery("/key", k)
+		res, err := c.AsuraQuery("/key", k)
 		qres := res.Response
 		if assert.Nil(t, err) && assert.True(t, qres.IsOK()) {
 			assert.EqualValues(t, v, qres.Value)
@@ -155,7 +155,7 @@ func TestAppCalls(t *testing.T) {
 		if err := client.WaitForHeight(c, apph, nil); err != nil {
 			t.Error(err)
 		}
-		_qres, err := c.asuraQueryWithOptions("/key", k, client.asuraQueryOptions{Trusted: true})
+		_qres, err := c.AsuraQueryWithOptions("/key", k, client.AsuraQueryOptions{Trusted: true})
 		qres := _qres.Response
 		if assert.Nil(err) && assert.True(qres.IsOK()) {
 			// assert.Equal(k, data.GetKey())  // only returned for proofs
@@ -210,7 +210,7 @@ func TestAppCalls(t *testing.T) {
 		assert.Equal(block.Block.LastCommit, commit2.Commit)
 
 		// and we got a proof that works!
-		_pres, err := c.asuraQueryWithOptions("/key", k, client.asuraQueryOptions{Trusted: false})
+		_pres, err := c.AsuraQueryWithOptions("/key", k, client.AsuraQueryOptions{Trusted: false})
 		pres := _pres.Response
 		assert.Nil(err)
 		assert.True(pres.IsOK())

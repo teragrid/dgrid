@@ -391,29 +391,29 @@ The state follows this recursive equation:
 
 ```go
 state(1) = InitialState
-state(h+1) <- Execute(state(h), asuraApp, block(h))
+state(h+1) <- Execute(state(h), AsuraApp, block(h))
 ```
 
 where `InitialState` includes the initial consensus parameters and validator set,
-and `asuraApp` is an asura application that can return results and changes to the validator
+and `AsuraApp` is an asura application that can return results and changes to the validator
 set (TODO). Execute is defined as:
 
 ```go
-Execute(s State, app asuraApp, block Block) State {
+Execute(s State, app AsuraApp, block Block) State {
     TODO: just spell out ApplyBlock here
-    and remove asuraResponses struct.
-    asuraResponses := app.ApplyBlock(block)
+    and remove AsuraResponses struct.
+    AsuraResponses := app.ApplyBlock(block)
 
     return State{
-        LastResults: asuraResponses.DeliverTxResults,
-        AppHash: asuraResponses.AppHash,
-        Validators: UpdateValidators(state.Validators, asuraResponses.ValidatorChanges),
+        LastResults: AsuraResponses.DeliverTxResults,
+        AppHash: AsuraResponses.AppHash,
+        Validators: UpdateValidators(state.Validators, AsuraResponses.ValidatorChanges),
         LastValidators: state.Validators,
         ConsensusParams: UpdateConsensusParams(state.ConsensusParams, asura.Responses.ConsensusParamChanges),
     }
 }
 
-type asuraResponses struct {
+type AsuraResponses struct {
     DeliverTxResults        []Result
     ValidatorChanges        []Validator
     ConsensusParamChanges   ConsensusParams

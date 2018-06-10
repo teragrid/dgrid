@@ -65,8 +65,8 @@ const defaultConfigTemplate = `# This is a TOML config file.
 
 ##### main base config options #####
 
-# TCP or UNIX socket address of the asura application,
-# or the name of an asura application compiled in with the teragrid binary
+# TCP or UNIX socket address of the Asura application,
+# or the name of an Asura application compiled in with the teragrid binary
 proxy_app = "{{ .BaseConfig.ProxyApp }}"
 
 # A custom human readable name for this node
@@ -97,13 +97,13 @@ priv_validator_file = "{{ .BaseConfig.PrivValidator }}"
 # Path to the JSON file containing the private key to use for node authentication in the p2p protocol
 node_key_file = "{{ .BaseConfig.NodeKey}}"
 
-# Mechanism to connect to the asura application: socket | grpc
-asura = "{{ .BaseConfig.asura }}"
+# Mechanism to connect to the Asura application: socket | grpc
+Asura = "{{ .BaseConfig.Asura }}"
 
 # TCP or UNIX socket address for the profiling server to listen on
 prof_laddr = "{{ .BaseConfig.ProfListenAddress }}"
 
-# If true, query the asura app on connecting to a new peer
+# If true, query the Asura app on connecting to a new peer
 # so the app can decide if we should keep the connection or not
 filter_peers = {{ .BaseConfig.FilterPeers }}
 

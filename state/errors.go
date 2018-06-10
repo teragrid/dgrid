@@ -42,7 +42,7 @@ type (
 		Height int64
 	}
 
-	ErrNoasuraResponsesForHeight struct {
+	ErrNoAsuraResponsesForHeight struct {
 		Height int64
 	}
 )
@@ -74,6 +74,6 @@ func (e ErrNoConsensusParamsForHeight) Error() string {
 	return cmn.Fmt("Could not find consensus params for height #%d", e.Height)
 }
 
-func (e ErrNoasuraResponsesForHeight) Error() string {
+func (e ErrNoAsuraResponsesForHeight) Error() string {
 	return cmn.Fmt("Could not find results for height #%d", e.Height)
 }

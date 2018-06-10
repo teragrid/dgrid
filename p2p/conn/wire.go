@@ -1,8 +1,8 @@
 package conn
 
 import (
-	"github.com/teragrid/go-amino"
-	"github.com/teragrid/go-crypto"
+	amino "github.com/teragrid/go-amino"
+	crypto "github.com/teragrid/go-crypto"
 )
 
 var cdc *amino.Codec = amino.NewCodec()

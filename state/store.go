@@ -19,8 +19,8 @@ func calcConsensusParamsKey(height int64) []byte {
 	return []byte(cmn.Fmt("consensusParamsKey:%v", height))
 }
 
-func calcasuraResponsesKey(height int64) []byte {
-	return []byte(cmn.Fmt("asuraResponsesKey:%v", height))
+func calcAsuraResponsesKey(height int64) []byte {
+	return []byte(cmn.Fmt("AsuraResponsesKey:%v", height))
 }
 
 // LoadStateFromDBOrGenesisFile loads the most recent state from the database,
@@ -93,62 +93,62 @@ func saveState(db dbm.DB, s State, key []byte) {
 
 //------------------------------------------------------------------------
 
-// asuraResponses retains the responses
+// AsuraResponses retains the responses
 // of the various asura calls during block processing.
 // It is persisted to disk for each height before calling Commit.
-type asuraResponses struct {
+type AsuraResponses struct {
 	DeliverTx []*asura.ResponseDeliverTx
 	EndBlock  *asura.ResponseEndBlock
 }
 
-// NewasuraResponses returns a new asuraResponses
-func NewasuraResponses(block *types.Block) *asuraResponses {
+// NewAsuraResponses returns a new AsuraResponses
+func NewAsuraResponses(block *types.Block) *AsuraResponses {
 	resDeliverTxs := make([]*asura.ResponseDeliverTx, block.NumTxs)
 	if block.NumTxs == 0 {
 		// This makes Amino encoding/decoding consistent.
 		resDeliverTxs = nil
 	}
-	return &asuraResponses{
+	return &AsuraResponses{
 		DeliverTx: resDeliverTxs,
 	}
 }
 
 // Bytes serializes the asuraResponse using go-amino.
-func (arz *asuraResponses) Bytes() []byte {
+func (arz *AsuraResponses) Bytes() []byte {
 	return cdc.MustMarshalBinaryBare(arz)
 }
 
-func (arz *asuraResponses) ResultsHash() []byte {
+func (arz *AsuraResponses) ResultsHash() []byte {
 	results := types.NewResults(arz.DeliverTx)
 	return results.Hash()
 }
 
-// LoadasuraResponses loads the asuraResponses for the given height from the database.
+// LoadAsuraResponses loads the AsuraResponses for the given height from the database.
 // This is useful for recovering from crashes where we called app.Commit and before we called
 // s.Save(). It can also be used to produce Merkle proofs of the result of txs.
-func LoadasuraResponses(db dbm.DB, height int64) (*asuraResponses, error) {
-	buf := db.Get(calcasuraResponsesKey(height))
+func LoadAsuraResponses(db dbm.DB, height int64) (*AsuraResponses, error) {
+	buf := db.Get(calcAsuraResponsesKey(height))
 	if len(buf) == 0 {
-		return nil, ErrNoasuraResponsesForHeight{height}
+		return nil, ErrNoAsuraResponsesForHeight{height}
 	}
 
-	asuraResponses := new(asuraResponses)
-	err := cdc.UnmarshalBinaryBare(buf, asuraResponses)
+	AsuraResponses := new(AsuraResponses)
+	err := cdc.UnmarshalBinaryBare(buf, AsuraResponses)
 	if err != nil {
 		// DATA HAS BEEN CORRUPTED OR THE SPEC HAS CHANGED
-		cmn.Exit(cmn.Fmt(`LoadasuraResponses: Data has been corrupted or its spec has
+		cmn.Exit(cmn.Fmt(`LoadAsuraResponses: Data has been corrupted or its spec has
                 changed: %v\n`, err))
 	}
 	// TODO: ensure that buf is completely read.
 
-	return asuraResponses, nil
+	return AsuraResponses, nil
 }
 
-// SaveasuraResponses persists the asuraResponses to the database.
+// SaveAsuraResponses persists the AsuraResponses to the database.
 // This is useful in case we crash after app.Commit and before s.Save().
 // Responses are indexed by height so they can also be loaded later to produce Merkle proofs.
-func saveasuraResponses(db dbm.DB, height int64, asuraResponses *asuraResponses) {
-	db.SetSync(calcasuraResponsesKey(height), asuraResponses.Bytes())
+func saveAsuraResponses(db dbm.DB, height int64, AsuraResponses *AsuraResponses) {
+	db.SetSync(calcAsuraResponsesKey(height), AsuraResponses.Bytes())
 }
 
 //-----------------------------------------------------------------------------
