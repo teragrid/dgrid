@@ -56,9 +56,9 @@ get_vendor_deps:
 
 #Run this locally.
 ensure_deps:
-#	@rm -rf vendor/
+	@rm -rf vendor/
 	@echo "--> Running dep"
-#	@dep ensure
+	@dep ensure
 
 draw_deps:
 	@# requires brew install graphviz or apt-get install graphviz
