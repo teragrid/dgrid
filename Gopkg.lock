@@ -64,7 +64,7 @@
     "types"
   ]
   revision = "1adfc126b41513cc696b209667c8656ea7aac67c"
-  version = "v1.1.0"
+  version = "v1.0.0"
 
 [[projects]]
   branch = "master"
