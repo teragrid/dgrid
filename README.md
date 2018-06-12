@@ -78,7 +78,7 @@ Yay open source! Please see our [contributing guidelines](CONTRIBUTING.md).
 ### SemVer
 
 Teragrid uses [SemVer](http://semver.org/) to determine when and how the version changes.
-According to SemVer, anything in the public API can change at any time before version 1.0.0
+According to SemVer, anything in the public API can change at any time before version 1.1.0
 
 To provide some stability to Teragrid users in these 0.X.X days, the MINOR version is used
 to signal breaking changes across a subset of the total public API. This subset includes all
@@ -95,7 +95,7 @@ Functions, types, and values in any other package may also change at any time.
 
 ### Upgrades
 
-In an effort to avoid accumulating technical debt prior to 1.0.0,
+In an effort to avoid accumulating technical debt prior to 1.1.0,
 we do not guarantee that breaking changes (ie. bumps in the MINOR version)
 will work with existing teragrid blockchains. In these cases you will
 have to start a new blockchain, or write something custom to get the old

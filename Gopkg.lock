@@ -64,9 +64,10 @@
     "types"
   ]
   revision = "1adfc126b41513cc696b209667c8656ea7aac67c"
-  version = "v3.5.1"
+  version = "v1.1.0"
 
 [[projects]]
+  branch = "master"
   name = "github.com/golang/protobuf"
   packages = [
     "proto",
@@ -76,7 +77,6 @@
     "ptypes/timestamp"
   ]
   revision = "925541529c1fa6821df4e44ce2723319eb2be768"
-  version = "v3.5.1"
 
 [[projects]]
   branch = "master"
@@ -153,7 +153,7 @@
   name = "github.com/pmezard/go-difflib"
   packages = ["difflib"]
   revision = "792786c7400a136282c1664665ae0a8db921c6c2"
-  version = "v1.0.0"
+  version = "v1.1.0"
 
 [[projects]]
   branch = "master"
@@ -245,7 +245,7 @@
     "server",
     "types"
   ]
-  revision = "0c4f93e00aed4a2d19f2666eba5b9438c9bda8bd"
+  revision = "d2fb06c7db2c633792d1f0ba83e36f0e279196c7"
 
 [[projects]]
   branch = "master"
@@ -285,7 +285,7 @@
     "pubsub/query",
     "test"
   ]
-  revision = "c673400e58d17ac5e0be5d87d683ce67968c86bd"
+  revision = "e43a5e4a45b9023b385706fbb973741bc9d8c00b"
 
 [[projects]]
   branch = "master"
@@ -382,6 +382,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "f5a58d7ff1b23013470b945677f984dd943ef4ec973a4f9ca373913f72cd7abf"
+  inputs-digest = "3898301e1824582c57a1883e440bb8d958bb3b6bae0986e1a641c865d27a98fc"
   solver-name = "gps-cdcl"
   solver-version = 1
