@@ -245,7 +245,7 @@
     "server",
     "types"
   ]
-  revision = "d2fb06c7db2c633792d1f0ba83e36f0e279196c7"
+  revision = "d1184eb63ba135aa872227c563e6928f764c1edd"
 
 [[projects]]
   branch = "master"
@@ -285,7 +285,7 @@
     "pubsub/query",
     "test"
   ]
-  revision = "e43a5e4a45b9023b385706fbb973741bc9d8c00b"
+  revision = "fcc6be7f4f09e552d107066d19804e3f4d63f2ce"
 
 [[projects]]
   branch = "master"
@@ -382,6 +382,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "3898301e1824582c57a1883e440bb8d958bb3b6bae0986e1a641c865d27a98fc"
+  inputs-digest = "2d74164c53d17119bc9bbbbda88d1d661ebd88976699638aa9ceb3bd53efc89a"
   solver-name = "gps-cdcl"
   solver-version = 1
