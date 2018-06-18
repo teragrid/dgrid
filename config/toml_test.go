@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -27,9 +28,12 @@ func TestEnsureRoot(t *testing.T) {
 	require.Nil(err)
 	defer os.RemoveAll(tmpDir) // nolint: errcheck
 
+	fmt.Println("TestEnsureRoot, create dir " + tmpDir)
 	// create root dir
 	EnsureRoot(tmpDir)
+	fmt.Println("TestEnsureRoot " + tmpDir)
 
+	fmt.Println("Read File  " + filepath.Join(tmpDir, defaultConfigFilePath))
 	// make sure config is set properly
 	data, err := ioutil.ReadFile(filepath.Join(tmpDir, defaultConfigFilePath))
 	require.Nil(err)

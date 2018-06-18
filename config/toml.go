@@ -2,6 +2,7 @@ package config
 
 import (
 	"bytes"
+	"fmt"
 	"os"
 	"path/filepath"
 	"text/template"
@@ -14,6 +15,7 @@ var configTemplate *template.Template
 func init() {
 	var err error
 	if configTemplate, err = template.New("configFileTemplate").Parse(defaultConfigTemplate); err != nil {
+		fmt.Println("Error configTemplate")
 		panic(err)
 	}
 }
@@ -23,18 +25,29 @@ func init() {
 // EnsureRoot creates the root, config, and data directories if they don't exist,
 // and panics if it fails.
 func EnsureRoot(rootDir string) {
+	fmt.Println("EnsureDir_rootDir " + rootDir)
 	if err := cmn.EnsureDir(rootDir, 0700); err != nil {
 		cmn.PanicSanity(err.Error())
 	}
-	if err := cmn.EnsureDir(filepath.Join(rootDir, defaultConfigDir), 0700); err != nil {
-		cmn.PanicSanity(err.Error())
-	}
-	if err := cmn.EnsureDir(filepath.Join(rootDir, defaultDataDir), 0700); err != nil {
+	fmt.Println("EnsureDir_rootDir defaultChainName " + filepath.Join(rootDir, defaultChainName))
+	if err := cmn.EnsureDir(filepath.Join(rootDir, defaultChainName), 0700); err != nil {
 		cmn.PanicSanity(err.Error())
 	}
 
-	configFilePath := filepath.Join(rootDir, defaultConfigFilePath)
+	fmt.Println("EnsureDir_rootDir/defaultChainName/defaultConfigDir " + filepath.Join(rootDir, defaultChainName, defaultConfigDir))
+	if err := cmn.EnsureDir(filepath.Join(rootDir, defaultChainName, defaultConfigDir), 0700); err != nil {
+		cmn.PanicSanity(err.Error())
+	}
 
+	fmt.Println("EnsureDir_rootDir/defaultChainName/defaultDataDir " + filepath.Join(rootDir, defaultChainName, defaultDataDir))
+
+	if err := cmn.EnsureDir(filepath.Join(rootDir, defaultChainName, defaultDataDir), 0700); err != nil {
+		cmn.PanicSanity(err.Error())
+	}
+
+	configFilePath := rootDir //filepath.Join(rootDir, defaultChainName, defaultConfigFilePath)
+
+	fmt.Println("EnsureDir_writeDefaultCondigFile rOOT " + configFilePath)
 	// Write default config file if missing.
 	if !cmn.FileExists(configFilePath) {
 		writeDefaultCondigFile(configFilePath)
@@ -44,6 +57,7 @@ func EnsureRoot(rootDir string) {
 // XXX: this func should probably be called by cmd/teragrid/commands/init.go
 // alongside the writing of the genesis.json and priv_validator.json
 func writeDefaultCondigFile(configFilePath string) {
+	fmt.Println("WriteConfigFile x " + configFilePath)
 	WriteConfigFile(configFilePath, DefaultConfig())
 }
 
@@ -51,7 +65,8 @@ func writeDefaultCondigFile(configFilePath string) {
 func WriteConfigFile(configFilePath string, config *Config) {
 	var buffer bytes.Buffer
 
-	if err := configTemplate.Execute(&buffer, config); err != nil {
+	if err := configTemplate.Execute(&buffer, config.ChainConfigs[0]); err != nil {
+		fmt.Println("WriteConfigFile Panic " + configFilePath)
 		panic(err)
 	}
 
@@ -230,6 +245,7 @@ index_tags = "{{ .TxIndex.IndexTags }}"
 # desirable (see the comment above). IndexTags has a precedence over
 # IndexAllTags (i.e. when given both, IndexTags will be indexed).
 index_all_tags = {{ .TxIndex.IndexAllTags }}
+
 `
 
 /****** these are for test settings ***********/
@@ -253,10 +269,13 @@ func ResetTestRoot(testName string) *Config {
 	if err := cmn.EnsureDir(rootDir, 0700); err != nil {
 		cmn.PanicSanity(err.Error())
 	}
-	if err := cmn.EnsureDir(filepath.Join(rootDir, defaultConfigDir), 0700); err != nil {
+	if err := cmn.EnsureDir(filepath.Join(rootDir, defaultChainName), 0700); err != nil {
 		cmn.PanicSanity(err.Error())
 	}
-	if err := cmn.EnsureDir(filepath.Join(rootDir, defaultDataDir), 0700); err != nil {
+	if err := cmn.EnsureDir(filepath.Join(rootDir, defaultChainName, defaultConfigDir), 0700); err != nil {
+		cmn.PanicSanity(err.Error())
+	}
+	if err := cmn.EnsureDir(filepath.Join(rootDir, defaultChainName, defaultDataDir), 0700); err != nil {
 		cmn.PanicSanity(err.Error())
 	}
 
@@ -267,6 +286,7 @@ func ResetTestRoot(testName string) *Config {
 
 	// Write default config file if missing.
 	if !cmn.FileExists(configFilePath) {
+		fmt.Println("EnsureDir_writeDefaultCondigFile XXXX " + configFilePath)
 		writeDefaultCondigFile(configFilePath)
 	}
 	if !cmn.FileExists(genesisFilePath) {

@@ -23,7 +23,7 @@ func makeStateAndBlockStore(logger log.Logger) (sm.State, *BlockStore) {
 	blockStore := NewBlockStore(blockDB)
 	state, err := sm.LoadStateFromDBOrGenesisFile(stateDB, config.GenesisFile())
 	if err != nil {
-		panic(cmn.ErrorWrap(err, "error constructing state from genesis file"))
+		panic(cmn.ErrorWrap(err, "error constructing state from genesis file "+config.GenesisFile()))
 	}
 	return state, blockStore
 }
