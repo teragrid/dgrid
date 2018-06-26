@@ -1,7 +1,6 @@
 package config
 
 import (
-	//	"fmt"
 	//	"os"
 	"path/filepath"
 	//	"time"
@@ -39,14 +38,14 @@ type Config struct {
 	RootDir string `mapstructure:"home"`
 	// Output level for logging
 	LogLevel     string `mapstructure:"log_level"`
-	ChainConfigs []ChainConfig
+	ChainConfigs []*ChainConfig
 }
 
 // SetRoot sets the RootDir for all Config structs
 func (cfg *Config) SetRoot(root string) *Config {
 	cfg.RootDir = root
 	for _, chain := range cfg.ChainConfigs {
-		chainDir := root + chain.ChainID()
+		chainDir := filepath.Join(root, chain.ChainID())
 		chain.SetRoot(chainDir)
 	}
 	return cfg
@@ -57,8 +56,8 @@ func DefaultConfig() *Config {
 	cfg := Config{
 		RootDir:  "",
 		LogLevel: DefaultPackageLogLevels(),
-		ChainConfigs: []ChainConfig{
-			*DefaultChainConfig(defaultChainName),
+		ChainConfigs: []*ChainConfig{
+			DefaultChainConfig(defaultChainName),
 		},
 	}
 	return &cfg

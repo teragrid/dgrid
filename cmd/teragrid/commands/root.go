@@ -13,8 +13,9 @@ import (
 )
 
 var (
-	config = cfg.DefaultConfig()
-	logger = log.NewTMLogger(log.NewSyncWriter(os.Stdout))
+	mainConfig = cfg.DefaultConfig()
+	config     = mainConfig.ChainConfigs[0]
+	logger     = log.NewTMLogger(log.NewSyncWriter(os.Stdout))
 )
 
 func init() {
@@ -34,7 +35,7 @@ func ParseConfig() (*cfg.Config, error) {
 		return nil, err
 	}
 	conf.SetRoot(conf.RootDir)
-	cfg.EnsureRoot(conf.RootDir)
+	cfg.EnsureRoot(conf.RootDir, conf)
 	return conf, err
 }
 
@@ -46,7 +47,7 @@ var RootCmd = &cobra.Command{
 		if cmd.Name() == VersionCmd.Name() {
 			return nil
 		}
-		config, err = ParseConfig()
+		mainConfig, err = ParseConfig()
 		if err != nil {
 			return err
 		}

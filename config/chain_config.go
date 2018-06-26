@@ -51,6 +51,7 @@ func TestChainConfig() *ChainConfig {
 
 // SetRoot sets the RootDir for all Config structs
 func (cfg *ChainConfig) SetRoot(root string) *ChainConfig {
+	cfg.RootDir = root
 	cfg.BaseConfig.RootDir = root
 	cfg.RPC.RootDir = root
 	cfg.P2P.RootDir = root

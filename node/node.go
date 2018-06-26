@@ -44,7 +44,7 @@ import (
 // DBContext specifies config information for loading a new DB.
 type DBContext struct {
 	ID     string
-	Config *cfg.Config
+	Config *cfg.ChainConfig
 }
 
 // DBProvider takes a DBContext and returns an instantiated DB.
@@ -64,19 +64,19 @@ type GenesisDocProvider func() (*types.GenesisDoc, error)
 
 // DefaultGenesisDocProviderFunc returns a GenesisDocProvider that loads
 // the GenesisDoc from the config.GenesisFile() on the filesystem.
-func DefaultGenesisDocProviderFunc(config *cfg.Config) GenesisDocProvider {
+func DefaultGenesisDocProviderFunc(config *cfg.ChainConfig) GenesisDocProvider {
 	return func() (*types.GenesisDoc, error) {
 		return types.GenesisDocFromFile(config.GenesisFile())
 	}
 }
 
 // NodeProvider takes a config and a logger and returns a ready to go Node.
-type NodeProvider func(*cfg.Config, log.Logger) (*Node, error)
+type NodeProvider func(*cfg.ChainConfig, log.Logger) (*Node, error)
 
 // DefaultNewNode returns a teragrid node with default settings for the
 // PrivValidator, ClientCreator, GenesisDoc, and DBProvider.
 // It implements NodeProvider.
-func DefaultNewNode(config *cfg.Config, logger log.Logger) (*Node, error) {
+func DefaultNewNode(config *cfg.ChainConfig, logger log.Logger) (*Node, error) {
 	return NewNode(config,
 		pvm.LoadOrGenFilePV(config.PrivValidatorFile()),
 		proxy.DefaultClientCreator(config.ProxyApp, config.Asura, config.DBDir()),
@@ -94,7 +94,7 @@ type Node struct {
 	cmn.BaseService
 
 	// config
-	config        *cfg.Config
+	config        *cfg.ChainConfig
 	genesisDoc    *types.GenesisDoc   // initial validator set
 	privValidator types.PrivValidator // local node's validator key
 
@@ -119,7 +119,7 @@ type Node struct {
 }
 
 // NewNode returns a new, ready to go, teragrid Node.
-func NewNode(config *cfg.Config,
+func NewNode(config *cfg.ChainConfig,
 	privValidator types.PrivValidator,
 	clientCreator proxy.ClientCreator,
 	genesisDocProvider GenesisDocProvider,

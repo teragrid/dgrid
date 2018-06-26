@@ -25,12 +25,11 @@ func init() {
 
 // EnsureRoot creates the root, config, and data directories if they don't exist,
 // and panics if it fails.
-func EnsureRoot(rootDir string) {
-
+func EnsureRoot(rootDir string, config *Config) {
 	if err := cmn.EnsureDir(rootDir, 0700); err != nil {
 		cmn.PanicSanity(err.Error())
 	}
-	config := DefaultConfig()
+	//config := DefaultConfig()
 	for _, chain := range config.ChainConfigs {
 		chainDir := chain.ChainID()
 		if err := cmn.EnsureDir(filepath.Join(rootDir, chainDir), 0700); err != nil {
@@ -46,19 +45,16 @@ func EnsureRoot(rootDir string) {
 
 	configFilePath := rootDir //filepath.Join(rootDir, defaultChainName, defaultConfigFilePath)
 
-	fmt.Println("EnsureDir_writeDefaultCondigFile rOOT " + configFilePath)
 	// Write default config file if missing.
 	if !cmn.FileExists(filepath.Join(configFilePath, "config.json")) {
-		//fmt.Println("EnsureRoot: writeDefaultCondigFile rOOT " + configFilePath)
-		writeDefaultConfigFile(configFilePath)
+		writeDefaultConfigFile(configFilePath, config)
 	}
 }
 
 // XXX: this func should probably be called by cmd/teragrid/commands/init.go
 // alongside the writing of the genesis.json and priv_validator.json
-func writeDefaultConfigFile(configFilePath string) {
-	fmt.Println("WriteConfigFile x " + configFilePath)
-	WriteConfigFile(configFilePath, DefaultConfig())
+func writeDefaultConfigFile(configFilePath string, config *Config) {
+	WriteConfigFile(configFilePath, config)
 }
 
 // WriteConfigFile renders config using the template and writes it to configFilePath.
@@ -72,6 +68,7 @@ func WriteConfigFile(configFilePath string, config *Config) {
 	chains = make([]string, len(config.ChainConfigs))
 	for idx, chain := range config.ChainConfigs {
 		chains[idx] = chain.ChainID()
+
 		var buffer bytes.Buffer
 
 		if err := configTemplate.Execute(&buffer, chain); err != nil {
@@ -291,7 +288,9 @@ func ResetTestRoot(testName string) *Config {
 		cmn.PanicSanity(err.Error())
 	}
 
-	baseConfig := DefaultBaseConfig(defaultChainName)
+	config := DefaultConfig()
+	//baseConfig := DefaultBaseConfig(defaultChainName)
+	baseConfig := config.ChainConfigs[0]
 	configFilePath := filepath.Join(rootDir, defaultChainName, defaultConfigFilePath)
 	genesisFilePath := filepath.Join(rootDir, baseConfig.Genesis)
 	privFilePath := filepath.Join(rootDir, baseConfig.PrivValidator)
@@ -299,7 +298,7 @@ func ResetTestRoot(testName string) *Config {
 	// Write default config file if missing.
 	if !cmn.FileExists(configFilePath) {
 		fmt.Println("EnsureDir_writeDefaultCondigFile XXXX " + configFilePath)
-		writeDefaultConfigFile(rootDir)
+		writeDefaultConfigFile(rootDir, config)
 	}
 	if !cmn.FileExists(genesisFilePath) {
 		cmn.MustWriteFile(genesisFilePath, []byte(testGenesis), 0644)
@@ -307,8 +306,8 @@ func ResetTestRoot(testName string) *Config {
 	// we always overwrite the priv val
 	cmn.MustWriteFile(privFilePath, []byte(testPrivValidator), 0644)
 
-	config := TestConfig().SetRoot(rootDir)
-	return config
+	configX := TestConfig().SetRoot(rootDir)
+	return configX
 }
 
 var testGenesis = `{

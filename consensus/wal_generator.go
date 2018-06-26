@@ -29,7 +29,7 @@ import (
 // (byteBufferWAL) and waits until numBlocks are created. Then it returns a WAL
 // content.
 func WALWithNBlocks(numBlocks int) (data []byte, err error) {
-	config := getConfig()
+	config := getConfig().ChainConfigs[0]
 
 	app := kvstore.NewPersistentKVStoreApplication(filepath.Join(config.DBDir(), "wal_generator"))
 
@@ -133,9 +133,9 @@ func getConfig() *cfg.Config {
 
 	// and we use random ports to run in parallel
 	tm, rpc, grpc := makeAddrs()
-	c.P2P.ListenAddress = tm
-	c.RPC.ListenAddress = rpc
-	c.RPC.GRPCListenAddress = grpc
+	c.ChainConfigs[0].P2P.ListenAddress = tm
+	c.ChainConfigs[0].RPC.ListenAddress = rpc
+	c.ChainConfigs[0].RPC.GRPCListenAddress = grpc
 	return c
 }
 

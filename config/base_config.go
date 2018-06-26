@@ -69,10 +69,10 @@ type BaseConfig struct {
 func DefaultBaseConfig(name string) BaseConfig {
 	return BaseConfig{
 		chainID:           name,
-		Genesis:           filepath.Join(name, defaultGenesisJSONPath),
-		PrivValidator:     filepath.Join(name, defaultPrivValPath),
-		NodeKey:           filepath.Join(name, defaultNodeKeyPath),
-		Moniker:           filepath.Join(name, defaultMoniker),
+		Genesis:           defaultGenesisJSONPath,
+		PrivValidator:     defaultPrivValPath,
+		NodeKey:           defaultNodeKeyPath,
+		Moniker:           defaultMoniker,
 		ProxyApp:          "tcp://127.0.0.1:46658",
 		Asura:             "socket",
 		LogLevel:          DefaultPackageLogLevels(),

@@ -63,66 +63,66 @@ var TestnetFilesCmd = &cobra.Command{
 func testnetFiles(cmd *cobra.Command, args []string) error {
 	config := cfg.DefaultConfig()
 	genVals := make([]types.GenesisValidator, nValidators)
+	for _, chain := range config.ChainConfigs {
+		for i := 0; i < nValidators; i++ {
+			nodeDirName := cmn.Fmt("%s%d", nodeDirPrefix, i)
+			nodeDir := filepath.Join(outputDir, nodeDirName)
+			config.SetRoot(nodeDir)
 
-	for i := 0; i < nValidators; i++ {
-		nodeDirName := cmn.Fmt("%s%d", nodeDirPrefix, i)
-		nodeDir := filepath.Join(outputDir, nodeDirName)
-		config.SetRoot(nodeDir)
+			err := os.MkdirAll(filepath.Join(nodeDir, "config"), nodeDirPerm)
+			if err != nil {
+				_ = os.RemoveAll(outputDir)
+				return err
+			}
 
-		err := os.MkdirAll(filepath.Join(nodeDir, "config"), nodeDirPerm)
-		if err != nil {
-			_ = os.RemoveAll(outputDir)
-			return err
+			initFilesWithConfig(config)
+
+			pvFile := filepath.Join(nodeDir, chain.BaseConfig.PrivValidator)
+			pv := pvm.LoadFilePV(pvFile)
+			genVals[i] = types.GenesisValidator{
+				PubKey: pv.GetPubKey(),
+				Power:  1,
+				Name:   nodeDirName,
+			}
 		}
 
-		initFilesWithConfig(config)
+		for i := 0; i < nNonValidators; i++ {
+			nodeDir := filepath.Join(outputDir, cmn.Fmt("%s%d", nodeDirPrefix, i+nValidators))
+			config.SetRoot(nodeDir)
 
-		pvFile := filepath.Join(nodeDir, config.BaseConfig.PrivValidator)
-		pv := pvm.LoadFilePV(pvFile)
-		genVals[i] = types.GenesisValidator{
-			PubKey: pv.GetPubKey(),
-			Power:  1,
-			Name:   nodeDirName,
-		}
-	}
+			err := os.MkdirAll(filepath.Join(nodeDir, "config"), nodeDirPerm)
+			if err != nil {
+				_ = os.RemoveAll(outputDir)
+				return err
+			}
 
-	for i := 0; i < nNonValidators; i++ {
-		nodeDir := filepath.Join(outputDir, cmn.Fmt("%s%d", nodeDirPrefix, i+nValidators))
-		config.SetRoot(nodeDir)
-
-		err := os.MkdirAll(filepath.Join(nodeDir, "config"), nodeDirPerm)
-		if err != nil {
-			_ = os.RemoveAll(outputDir)
-			return err
+			initFilesWithConfig(config)
 		}
 
-		initFilesWithConfig(config)
-	}
+		// Generate genesis doc from generated validators
+		genDoc := &types.GenesisDoc{
+			GenesisTime: time.Now(),
+			ChainID:     "chain-" + cmn.RandStr(6),
+			Validators:  genVals,
+		}
 
-	// Generate genesis doc from generated validators
-	genDoc := &types.GenesisDoc{
-		GenesisTime: time.Now(),
-		ChainID:     "chain-" + cmn.RandStr(6),
-		Validators:  genVals,
-	}
+		// Write genesis file.
+		for i := 0; i < nValidators+nNonValidators; i++ {
+			nodeDir := filepath.Join(outputDir, cmn.Fmt("%s%d", nodeDirPrefix, i))
+			if err := genDoc.SaveAs(filepath.Join(nodeDir, chain.BaseConfig.Genesis)); err != nil {
+				_ = os.RemoveAll(outputDir)
+				return err
+			}
+		}
 
-	// Write genesis file.
-	for i := 0; i < nValidators+nNonValidators; i++ {
-		nodeDir := filepath.Join(outputDir, cmn.Fmt("%s%d", nodeDirPrefix, i))
-		if err := genDoc.SaveAs(filepath.Join(nodeDir, config.BaseConfig.Genesis)); err != nil {
-			_ = os.RemoveAll(outputDir)
-			return err
+		if populatePersistentPeers {
+			err := populatePersistentPeersInConfigAndWriteIt(config)
+			if err != nil {
+				_ = os.RemoveAll(outputDir)
+				return err
+			}
 		}
 	}
-
-	if populatePersistentPeers {
-		err := populatePersistentPeersInConfigAndWriteIt(config)
-		if err != nil {
-			_ = os.RemoveAll(outputDir)
-			return err
-		}
-	}
-
 	fmt.Printf("Successfully initialized %v node directories\n", nValidators+nNonValidators)
 	return nil
 }
@@ -147,25 +147,26 @@ func hostnameOrIP(i int) string {
 
 func populatePersistentPeersInConfigAndWriteIt(config *cfg.Config) error {
 	persistentPeers := make([]string, nValidators+nNonValidators)
-	for i := 0; i < nValidators+nNonValidators; i++ {
-		nodeDir := filepath.Join(outputDir, cmn.Fmt("%s%d", nodeDirPrefix, i))
-		config.SetRoot(nodeDir)
-		nodeKey, err := p2p.LoadNodeKey(config.NodeKeyFile())
-		if err != nil {
-			return err
+	for _, chain := range config.ChainConfigs {
+		for i := 0; i < nValidators+nNonValidators; i++ {
+			nodeDir := filepath.Join(outputDir, cmn.Fmt("%s%d", nodeDirPrefix, i))
+			config.SetRoot(nodeDir)
+			nodeKey, err := p2p.LoadNodeKey(chain.NodeKeyFile())
+			if err != nil {
+				return err
+			}
+			persistentPeers[i] = p2p.IDAddressString(nodeKey.ID(), fmt.Sprintf("%s:%d", hostnameOrIP(i), p2pPort))
 		}
-		persistentPeers[i] = p2p.IDAddressString(nodeKey.ID(), fmt.Sprintf("%s:%d", hostnameOrIP(i), p2pPort))
+		persistentPeersList := strings.Join(persistentPeers, ",")
+
+		for i := 0; i < nValidators+nNonValidators; i++ {
+			nodeDir := filepath.Join(outputDir, cmn.Fmt("%s%d", nodeDirPrefix, i))
+			chain.SetRoot(nodeDir)
+			chain.P2P.PersistentPeers = persistentPeersList
+
+			// overwrite default config
+			cfg.WriteConfigFile(filepath.Join(nodeDir, "config", "config.toml"), config)
+		}
 	}
-	persistentPeersList := strings.Join(persistentPeers, ",")
-
-	for i := 0; i < nValidators+nNonValidators; i++ {
-		nodeDir := filepath.Join(outputDir, cmn.Fmt("%s%d", nodeDirPrefix, i))
-		config.SetRoot(nodeDir)
-		config.P2P.PersistentPeers = persistentPeersList
-
-		// overwrite default config
-		cfg.WriteConfigFile(filepath.Join(nodeDir, "config", "config.toml"), config)
-	}
-
 	return nil
 }
