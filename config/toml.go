@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"text/template"
 
+	"github.com/spf13/viper"
 	cmn "github.com/teragrid/teralibs/common"
 )
 
@@ -25,52 +26,63 @@ func init() {
 // EnsureRoot creates the root, config, and data directories if they don't exist,
 // and panics if it fails.
 func EnsureRoot(rootDir string) {
-	fmt.Println("EnsureDir_rootDir " + rootDir)
+
 	if err := cmn.EnsureDir(rootDir, 0700); err != nil {
 		cmn.PanicSanity(err.Error())
 	}
-	fmt.Println("EnsureDir_rootDir defaultChainName " + filepath.Join(rootDir, defaultChainName))
-	if err := cmn.EnsureDir(filepath.Join(rootDir, defaultChainName), 0700); err != nil {
-		cmn.PanicSanity(err.Error())
-	}
-
-	fmt.Println("EnsureDir_rootDir/defaultChainName/defaultConfigDir " + filepath.Join(rootDir, defaultChainName, defaultConfigDir))
-	if err := cmn.EnsureDir(filepath.Join(rootDir, defaultChainName, defaultConfigDir), 0700); err != nil {
-		cmn.PanicSanity(err.Error())
-	}
-
-	fmt.Println("EnsureDir_rootDir/defaultChainName/defaultDataDir " + filepath.Join(rootDir, defaultChainName, defaultDataDir))
-
-	if err := cmn.EnsureDir(filepath.Join(rootDir, defaultChainName, defaultDataDir), 0700); err != nil {
-		cmn.PanicSanity(err.Error())
+	config := DefaultConfig()
+	for _, chain := range config.ChainConfigs {
+		chainDir := chain.ChainID()
+		if err := cmn.EnsureDir(filepath.Join(rootDir, chainDir), 0700); err != nil {
+			cmn.PanicSanity(err.Error())
+		}
+		if err := cmn.EnsureDir(filepath.Join(rootDir, chainDir, defaultConfigDir), 0700); err != nil {
+			cmn.PanicSanity(err.Error())
+		}
+		if err := cmn.EnsureDir(filepath.Join(rootDir, chainDir, defaultDataDir), 0700); err != nil {
+			cmn.PanicSanity(err.Error())
+		}
 	}
 
 	configFilePath := rootDir //filepath.Join(rootDir, defaultChainName, defaultConfigFilePath)
 
 	fmt.Println("EnsureDir_writeDefaultCondigFile rOOT " + configFilePath)
 	// Write default config file if missing.
-	if !cmn.FileExists(configFilePath) {
-		writeDefaultCondigFile(configFilePath)
+	if !cmn.FileExists(filepath.Join(configFilePath, "config.json")) {
+		//fmt.Println("EnsureRoot: writeDefaultCondigFile rOOT " + configFilePath)
+		writeDefaultConfigFile(configFilePath)
 	}
 }
 
 // XXX: this func should probably be called by cmd/teragrid/commands/init.go
 // alongside the writing of the genesis.json and priv_validator.json
-func writeDefaultCondigFile(configFilePath string) {
+func writeDefaultConfigFile(configFilePath string) {
 	fmt.Println("WriteConfigFile x " + configFilePath)
 	WriteConfigFile(configFilePath, DefaultConfig())
 }
 
 // WriteConfigFile renders config using the template and writes it to configFilePath.
 func WriteConfigFile(configFilePath string, config *Config) {
-	var buffer bytes.Buffer
+	var runtime_viper = viper.New()
+	runtime_viper.SetConfigType("json")
+	runtime_viper.SetConfigFile(filepath.Join(configFilePath, "config.json"))
+	runtime_viper.SetDefault("LogLevel", config.LogLevel)
 
-	if err := configTemplate.Execute(&buffer, config.ChainConfigs[0]); err != nil {
-		fmt.Println("WriteConfigFile Panic " + configFilePath)
-		panic(err)
+	var chains []string
+	chains = make([]string, len(config.ChainConfigs))
+	for idx, chain := range config.ChainConfigs {
+		chains[idx] = chain.ChainID()
+		var buffer bytes.Buffer
+
+		if err := configTemplate.Execute(&buffer, chain); err != nil {
+			fmt.Println("WriteConfigFile Panic " + configFilePath)
+			panic(err)
+		} else {
+			cmn.MustWriteFile(filepath.Join(configFilePath, chain.ChainID(), defaultConfigFilePath), buffer.Bytes(), 0644)
+		}
 	}
-
-	cmn.MustWriteFile(configFilePath, buffer.Bytes(), 0644)
+	runtime_viper.SetDefault("Chains", chains)
+	runtime_viper.WriteConfig()
 }
 
 // Note: any changes to the comments/variables/mapstructure
@@ -279,15 +291,15 @@ func ResetTestRoot(testName string) *Config {
 		cmn.PanicSanity(err.Error())
 	}
 
-	baseConfig := DefaultBaseConfig()
-	configFilePath := filepath.Join(rootDir, defaultConfigFilePath)
+	baseConfig := DefaultBaseConfig(defaultChainName)
+	configFilePath := filepath.Join(rootDir, defaultChainName, defaultConfigFilePath)
 	genesisFilePath := filepath.Join(rootDir, baseConfig.Genesis)
 	privFilePath := filepath.Join(rootDir, baseConfig.PrivValidator)
 
 	// Write default config file if missing.
 	if !cmn.FileExists(configFilePath) {
 		fmt.Println("EnsureDir_writeDefaultCondigFile XXXX " + configFilePath)
-		writeDefaultCondigFile(configFilePath)
+		writeDefaultConfigFile(rootDir)
 	}
 	if !cmn.FileExists(genesisFilePath) {
 		cmn.MustWriteFile(genesisFilePath, []byte(testGenesis), 0644)

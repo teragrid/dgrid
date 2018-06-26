@@ -3,6 +3,7 @@ package config
 import (
 	"testing"
 
+	_ "github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -11,6 +12,7 @@ func TestDefaultConfig(t *testing.T) {
 
 	// set up some defaults
 	cfg := DefaultConfig()
+
 	assert.NotNil(cfg.RootDir)
 	//	assert.NotNil(cfg.Mempool)
 	//	assert.NotNil(cfg.Consensus)

@@ -28,14 +28,12 @@ func TestEnsureRoot(t *testing.T) {
 	require.Nil(err)
 	defer os.RemoveAll(tmpDir) // nolint: errcheck
 
-	fmt.Println("TestEnsureRoot, create dir " + tmpDir)
 	// create root dir
 	EnsureRoot(tmpDir)
-	fmt.Println("TestEnsureRoot " + tmpDir)
 
-	fmt.Println("Read File  " + filepath.Join(tmpDir, defaultConfigFilePath))
+	fmt.Println("Read File  " + filepath.Join(tmpDir, defaultChainName, defaultConfigFilePath))
 	// make sure config is set properly
-	data, err := ioutil.ReadFile(filepath.Join(tmpDir, defaultConfigFilePath))
+	data, err := ioutil.ReadFile(filepath.Join(tmpDir, defaultChainName, defaultConfigFilePath))
 	require.Nil(err)
 
 	if !checkConfig(string(data)) {
@@ -55,7 +53,7 @@ func TestEnsureTestRoot(t *testing.T) {
 	rootDir := cfg.RootDir
 
 	// make sure config is set properly
-	data, err := ioutil.ReadFile(filepath.Join(rootDir, defaultConfigFilePath))
+	data, err := ioutil.ReadFile(filepath.Join(rootDir, defaultChainName, defaultConfigFilePath))
 	require.Nil(err)
 
 	if !checkConfig(string(data)) {
@@ -63,7 +61,7 @@ func TestEnsureTestRoot(t *testing.T) {
 	}
 
 	// TODO: make sure the cfg returned and testconfig are the same!
-	baseConfig := DefaultBaseConfig()
+	baseConfig := DefaultBaseConfig(defaultChainName)
 	ensureFiles(t, rootDir, defaultDataDir, baseConfig.Genesis, baseConfig.PrivValidator)
 }
 

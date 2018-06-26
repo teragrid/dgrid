@@ -66,12 +66,13 @@ type BaseConfig struct {
 }
 
 // DefaultBaseConfig returns a default base configuration for a teragrid node
-func DefaultBaseConfig() BaseConfig {
+func DefaultBaseConfig(name string) BaseConfig {
 	return BaseConfig{
-		Genesis:           defaultGenesisJSONPath,
-		PrivValidator:     defaultPrivValPath,
-		NodeKey:           defaultNodeKeyPath,
-		Moniker:           defaultMoniker,
+		chainID:           name,
+		Genesis:           filepath.Join(name, defaultGenesisJSONPath),
+		PrivValidator:     filepath.Join(name, defaultPrivValPath),
+		NodeKey:           filepath.Join(name, defaultNodeKeyPath),
+		Moniker:           filepath.Join(name, defaultMoniker),
 		ProxyApp:          "tcp://127.0.0.1:46658",
 		Asura:             "socket",
 		LogLevel:          DefaultPackageLogLevels(),
@@ -85,7 +86,7 @@ func DefaultBaseConfig() BaseConfig {
 
 // TestBaseConfig returns a base configuration for testing a teragrid node
 func TestBaseConfig() BaseConfig {
-	cfg := DefaultBaseConfig()
+	cfg := DefaultBaseConfig(defaultChainName)
 	cfg.chainID = "teragrid_test"
 	cfg.ProxyApp = "kvstore"
 	cfg.FastSync = false

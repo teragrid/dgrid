@@ -26,11 +26,11 @@ var (
 	defaultNodeKeyName  = "node_key.json"
 	defaultAddrBookName = "addrbook.json"
 
-	defaultConfigFilePath  = filepath.Join(defaultChainName, defaultConfigDir, defaultConfigFileName)
-	defaultGenesisJSONPath = filepath.Join(defaultChainName, defaultConfigDir, defaultGenesisJSONName)
-	defaultPrivValPath     = filepath.Join(defaultChainName, defaultConfigDir, defaultPrivValName)
-	defaultNodeKeyPath     = filepath.Join(defaultChainName, defaultConfigDir, defaultNodeKeyName)
-	defaultAddrBookPath    = filepath.Join(defaultChainName, defaultConfigDir, defaultAddrBookName)
+	defaultConfigFilePath  = filepath.Join(defaultConfigDir, defaultConfigFileName)
+	defaultGenesisJSONPath = filepath.Join(defaultConfigDir, defaultGenesisJSONName)
+	defaultPrivValPath     = filepath.Join(defaultConfigDir, defaultPrivValName)
+	defaultNodeKeyPath     = filepath.Join(defaultConfigDir, defaultNodeKeyName)
+	defaultAddrBookPath    = filepath.Join(defaultConfigDir, defaultAddrBookName)
 )
 
 type Config struct {
@@ -47,11 +47,7 @@ func (cfg *Config) SetRoot(root string) *Config {
 	cfg.RootDir = root
 	for _, chain := range cfg.ChainConfigs {
 		chainDir := root + chain.ChainID()
-		chain.BaseConfig.RootDir = chainDir
-		chain.RPC.RootDir = chainDir
-		chain.P2P.RootDir = chainDir
-		chain.Mempool.RootDir = chainDir
-		chain.Consensus.RootDir = chainDir
+		chain.SetRoot(chainDir)
 	}
 	return cfg
 }
@@ -61,18 +57,17 @@ func DefaultConfig() *Config {
 	cfg := Config{
 		RootDir:  "",
 		LogLevel: DefaultPackageLogLevels(),
+		ChainConfigs: []ChainConfig{
+			*DefaultChainConfig(defaultChainName),
+		},
 	}
-	cfg.ChainConfigs = make([]ChainConfig, 1)
-	var chainConfig ChainConfig
-	chainConfig = *DefaultChainConfig()
-	cfg.ChainConfigs[0] = chainConfig
 	return &cfg
 }
 
 // TestConfig returns a configuration that can be used for testing
 func TestConfig() *Config {
 	return DefaultConfig()
-	//	return &Config{
-	//		DefaultConfig(),
-	//	}
+	//return &Config{
+	//	DefaultConfig(),
+	//}
 }

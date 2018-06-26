@@ -26,9 +26,9 @@ type ChainConfig struct {
 }
 
 // DefaultConfig returns a default configuration for a teragrid node
-func DefaultChainConfig() *ChainConfig {
+func DefaultChainConfig(name string) *ChainConfig {
 	return &ChainConfig{
-		BaseConfig: DefaultBaseConfig(),
+		BaseConfig: DefaultBaseConfig(name),
 		RPC:        DefaultRPCConfig(),
 		P2P:        DefaultP2PConfig(),
 		Mempool:    DefaultMempoolConfig(),
