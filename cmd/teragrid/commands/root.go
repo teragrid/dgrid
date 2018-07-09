@@ -2,6 +2,10 @@ package commands
 
 import (
 	"os"
+	//"os/user"
+	"path/filepath"
+	//"runtime"
+	//"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -14,8 +18,8 @@ import (
 
 var (
 	mainConfig = cfg.DefaultConfig()
-	config     = mainConfig.ChainConfigs[0]
-	logger     = log.NewTMLogger(log.NewSyncWriter(os.Stdout))
+	//mainConfig *cfg.Config
+	logger = log.NewTMLogger(log.NewSyncWriter(os.Stdout))
 )
 
 func init() {
@@ -23,26 +27,71 @@ func init() {
 }
 
 func registerFlagsRootCmd(cmd *cobra.Command) {
-	cmd.PersistentFlags().String("log_level", config.LogLevel, "Log level")
+	cmd.PersistentFlags().String("log_level", mainConfig.LogLevel, "Log level")
+	cmd.PersistentFlags().StringP("config", "c", "", "Alternate configuration file to read. Defaults to $HOME/.tendermint/")
+
+	//viper.BindPFlag("ConfigFileName", cmd.PersistentFlags().Lookup("config"))
+	//viper.BindPFlag("Home", cmd.PersistentFlags().Lookup("home"))
 }
 
 // ParseConfig retrieves the default environment configuration,
-// sets up the teragrid root and ensures that the root exists
+// sets up the Tendermint root and ensures that the root exists
 func ParseConfig() (*cfg.Config, error) {
-	conf := cfg.DefaultConfig()
-	err := viper.Unmarshal(conf)
-	if err != nil {
-		return nil, err
+
+	var conf *cfg.Config
+
+	rootDir := viper.GetString("home")
+	chains := viper.GetStringSlice("chains")
+
+	if len(chains) > 0 {
+		hasDefault := false
+		chainConfigs := make([]*cfg.ChainConfig, len(chains))
+		for idx, item := range chains {
+			if item == "default" {
+				hasDefault = true
+			}
+			chainConfigs[idx] = cfg.DefaultChainConfig(item)
+		}
+		if !hasDefault {
+			//chainConfigs = append(chainConfigs, cfg.DefaultChainConfig("default"))
+		}
+		conf = &cfg.Config{
+			RootDir:      "",
+			LogLevel:     cfg.DefaultPackageLogLevels(),
+			ChainConfigs: chainConfigs,
+		}
+	} else {
+		conf = cfg.DefaultConfig()
 	}
-	conf.SetRoot(conf.RootDir)
+	if rootDir == "" {
+		panic("Error")
+	}
+	conf.SetRoot(rootDir)
+
+	for _, chain := range conf.ChainConfigs {
+		var chainConfig = filepath.Join(chain.RootDir, "config", "config.toml")
+		//fmt.Println("chainConfig " + chainConfig)
+
+		var chainViper = viper.New()
+		//chainViper.SetConfigType("json")
+		chainViper.SetConfigFile(chainConfig)
+		err := chainViper.ReadInConfig()
+		if err == nil {
+			err = chainViper.Unmarshal(chain)
+			if err != nil {
+				panic(err)
+			}
+		}
+	}
+
 	cfg.EnsureRoot(conf.RootDir, conf)
-	return conf, err
+	return conf, nil
 }
 
-// RootCmd is the root command for teragrid core.
+// RootCmd is the root command for Tendermint core.
 var RootCmd = &cobra.Command{
-	Use:   "teragrid",
-	Short: "teragrid Core (BFT Consensus) in Go",
+	Use:   "tendermint",
+	Short: "Tendermint Core (BFT Consensus) in Go",
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
 		if cmd.Name() == VersionCmd.Name() {
 			return nil
@@ -51,7 +100,7 @@ var RootCmd = &cobra.Command{
 		if err != nil {
 			return err
 		}
-		logger, err = tmflags.ParseLogLevel(config.LogLevel, logger, cfg.DefaultLogLevel())
+		logger, err = tmflags.ParseLogLevel(mainConfig.LogLevel, logger, cfg.DefaultLogLevel())
 		if err != nil {
 			return err
 		}

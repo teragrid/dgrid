@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	pvm "github.com/teragrid/teragrid/types/priv_validator"
+	"github.com/teragrid/teragrid/types/priv_validator"
 )
 
 // GenValidatorCmd allows the generation of a keypair for a
@@ -17,7 +17,7 @@ var GenValidatorCmd = &cobra.Command{
 }
 
 func genValidator(cmd *cobra.Command, args []string) {
-	pv := pvm.GenFilePV("")
+	pv := privval.GenFilePV("")
 	jsbz, err := cdc.MarshalJSON(pv)
 	if err != nil {
 		panic(err)

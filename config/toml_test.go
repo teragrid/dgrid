@@ -26,10 +26,10 @@ func TestEnsureRoot(t *testing.T) {
 	// setup temp dir for test
 	tmpDir, err := ioutil.TempDir("", "config-test")
 	require.Nil(err)
-	defer os.RemoveAll(tmpDir) // nolint: errcheck
+	//defer os.RemoveAll(tmpDir) // nolint: errcheck
 
 	// create root dir
-	EnsureRoot(tmpDir)
+	EnsureRoot(tmpDir, DefaultConfig())
 
 	fmt.Println("Read File  " + filepath.Join(tmpDir, defaultChainName, defaultConfigFilePath))
 	// make sure config is set properly

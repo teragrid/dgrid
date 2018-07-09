@@ -1,9 +1,11 @@
 package config
 
+var portStep = 0
+
 //-----------------------------------------------------------------------------
 // ShardConfig
 
-// ShardConfig defines the base configuration for a teragrid quorum
+// ShardConfig defines the base configuration for a tendermint quorum
 type ShardConfig struct {
 	ShardID   string
 	Validator bool
@@ -12,7 +14,7 @@ type ShardConfig struct {
 	PrivValidator string `mapstructure:"priv_validator_file"`
 }
 
-// Config defines the top level configuration for a teragrid node
+// Config defines the top level configuration for a tendermint node
 type ChainConfig struct {
 	// Top level options use an anonymous struct
 	BaseConfig `mapstructure:",squash"`
@@ -25,8 +27,9 @@ type ChainConfig struct {
 	TxIndex   *TxIndexConfig   `mapstructure:"tx_index"`
 }
 
-// DefaultConfig returns a default configuration for a teragrid node
+// DefaultConfig returns a default configuration for a tendermint node
 func DefaultChainConfig(name string) *ChainConfig {
+	portStep = portStep + 10
 	return &ChainConfig{
 		BaseConfig: DefaultBaseConfig(name),
 		RPC:        DefaultRPCConfig(),
@@ -51,7 +54,6 @@ func TestChainConfig() *ChainConfig {
 
 // SetRoot sets the RootDir for all Config structs
 func (cfg *ChainConfig) SetRoot(root string) *ChainConfig {
-	cfg.RootDir = root
 	cfg.BaseConfig.RootDir = root
 	cfg.RPC.RootDir = root
 	cfg.P2P.RootDir = root

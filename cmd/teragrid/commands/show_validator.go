@@ -2,9 +2,10 @@ package commands
 
 import (
 	"fmt"
+
 	"github.com/spf13/cobra"
 
-	privval "github.com/teragrid/teragrid/types/priv_validator"
+	"github.com/teragrid/teragrid/types/priv_validator"
 )
 
 // ShowValidatorCmd adds capabilities for showing the validator info.
@@ -15,7 +16,9 @@ var ShowValidatorCmd = &cobra.Command{
 }
 
 func showValidator(cmd *cobra.Command, args []string) {
-	privValidator := privval.LoadOrGenFilePV(config.PrivValidatorFile())
-	pubKeyJSONBytes, _ := cdc.MarshalJSON(privValidator.GetPubKey())
-	fmt.Println(string(pubKeyJSONBytes))
+	for _, config := range mainConfig.ChainConfigs {
+		privValidator := privval.LoadOrGenFilePV(config.PrivValidatorFile())
+		pubKeyJSONBytes, _ := cdc.MarshalJSON(privValidator.GetPubKey())
+		fmt.Println(string(pubKeyJSONBytes))
+	}
 }

@@ -11,7 +11,7 @@ func TestDefaultConfig(t *testing.T) {
 	assert := assert.New(t)
 
 	// set up some defaults
-	cfg := DefaultConfig()
+	cfg := *DefaultConfig()
 
 	assert.NotNil(cfg.RootDir)
 	//	assert.NotNil(cfg.Mempool)

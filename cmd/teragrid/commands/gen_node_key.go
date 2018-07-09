@@ -18,15 +18,17 @@ var GenNodeKeyCmd = &cobra.Command{
 }
 
 func genNodeKey(cmd *cobra.Command, args []string) error {
-	nodeKeyFile := config.NodeKeyFile()
-	if cmn.FileExists(nodeKeyFile) {
-		return fmt.Errorf("node key at %s already exists", nodeKeyFile)
-	}
+	for _, config := range mainConfig.ChainConfigs {
+		nodeKeyFile := config.NodeKeyFile()
+		if cmn.FileExists(nodeKeyFile) {
+			return fmt.Errorf("node key at %s already exists", nodeKeyFile)
+		}
 
-	nodeKey, err := p2p.LoadOrGenNodeKey(nodeKeyFile)
-	if err != nil {
-		return err
+		nodeKey, err := p2p.LoadOrGenNodeKey(nodeKeyFile)
+		if err != nil {
+			return err
+		}
+		fmt.Println(nodeKey.ID())
 	}
-	fmt.Println(nodeKey.ID())
 	return nil
 }

@@ -8,7 +8,7 @@ import (
 	"text/template"
 
 	"github.com/spf13/viper"
-	cmn "github.com/teragrid/teralibs/common"
+	cmn "github.com/tendermint/tmlibs/common"
 )
 
 var configTemplate *template.Template
@@ -29,7 +29,6 @@ func EnsureRoot(rootDir string, config *Config) {
 	if err := cmn.EnsureDir(rootDir, 0700); err != nil {
 		cmn.PanicSanity(err.Error())
 	}
-	//config := DefaultConfig()
 	for _, chain := range config.ChainConfigs {
 		chainDir := chain.ChainID()
 		if err := cmn.EnsureDir(filepath.Join(rootDir, chainDir), 0700); err != nil {
@@ -43,15 +42,17 @@ func EnsureRoot(rootDir string, config *Config) {
 		}
 	}
 
-	configFilePath := rootDir //filepath.Join(rootDir, defaultChainName, defaultConfigFilePath)
-
+	//	configFilePath := rootDir //filepath.Join(rootDir, defaultChainName, defaultConfigFilePath)
+	//	fmt.Println("EnsureRoot  " + filepath.Join(configFilePath, "config.json"))
 	// Write default config file if missing.
-	if !cmn.FileExists(filepath.Join(configFilePath, "config.json")) {
-		writeDefaultConfigFile(configFilePath, config)
-	}
+	//	if !cmn.FileExists(filepath.Join(configFilePath, "config.json")) {
+	//		fmt.Println("EnsureRoot (WRITE) " + filepath.Join(configFilePath, "config.json"))
+	//		writeDefaultConfigFile(configFilePath, config)
+	//	}
+	WriteConfigFile(rootDir, config)
 }
 
-// XXX: this func should probably be called by cmd/teragrid/commands/init.go
+// XXX: this func should probably be called by cmd/tendermint/commands/init.go
 // alongside the writing of the genesis.json and priv_validator.json
 func writeDefaultConfigFile(configFilePath string, config *Config) {
 	WriteConfigFile(configFilePath, config)
@@ -59,11 +60,6 @@ func writeDefaultConfigFile(configFilePath string, config *Config) {
 
 // WriteConfigFile renders config using the template and writes it to configFilePath.
 func WriteConfigFile(configFilePath string, config *Config) {
-	var runtime_viper = viper.New()
-	runtime_viper.SetConfigType("json")
-	runtime_viper.SetConfigFile(filepath.Join(configFilePath, "config.json"))
-	runtime_viper.SetDefault("LogLevel", config.LogLevel)
-
 	var chains []string
 	chains = make([]string, len(config.ChainConfigs))
 	for idx, chain := range config.ChainConfigs {
@@ -75,11 +71,19 @@ func WriteConfigFile(configFilePath string, config *Config) {
 			fmt.Println("WriteConfigFile Panic " + configFilePath)
 			panic(err)
 		} else {
-			cmn.MustWriteFile(filepath.Join(configFilePath, chain.ChainID(), defaultConfigFilePath), buffer.Bytes(), 0644)
+			if !cmn.FileExists(filepath.Join(configFilePath, chain.ChainID(), defaultConfigFilePath)) {
+				cmn.MustWriteFile(filepath.Join(configFilePath, chain.ChainID(), defaultConfigFilePath), buffer.Bytes(), 0644)
+			}
 		}
 	}
-	runtime_viper.SetDefault("Chains", chains)
-	runtime_viper.WriteConfig()
+	if true || !cmn.FileExists(filepath.Join(configFilePath, "config.json")) {
+		var runtime_viper = viper.New()
+		runtime_viper.SetConfigType("json")
+		runtime_viper.SetConfigFile(filepath.Join(configFilePath, "config.json"))
+		runtime_viper.SetDefault("LogLevel", config.LogLevel)
+		runtime_viper.SetDefault("Chains", chains)
+		runtime_viper.WriteConfig()
+	}
 }
 
 // Note: any changes to the comments/variables/mapstructure
@@ -89,8 +93,8 @@ const defaultConfigTemplate = `# This is a TOML config file.
 
 ##### main base config options #####
 
-# TCP or UNIX socket address of the Asura application,
-# or the name of an Asura application compiled in with the teragrid binary
+# TCP or UNIX socket address of the ABCI application,
+# or the name of an ABCI application compiled in with the Tendermint binary
 proxy_app = "{{ .BaseConfig.ProxyApp }}"
 
 # A custom human readable name for this node
@@ -105,7 +109,7 @@ fast_sync = {{ .BaseConfig.FastSync }}
 db_backend = "{{ .BaseConfig.DBBackend }}"
 
 # Database directory
-db_path = "{{ .BaseConfig.DBPath }}"
+db_path = "{{ js .BaseConfig.DBPath }}"
 
 # Output level for logging, including package level options
 log_level = "{{ .BaseConfig.LogLevel }}"
@@ -113,21 +117,21 @@ log_level = "{{ .BaseConfig.LogLevel }}"
 ##### additional base config options #####
 
 # Path to the JSON file containing the initial validator set and other meta data
-genesis_file = "{{ .BaseConfig.Genesis }}"
+genesis_file = "{{ js .BaseConfig.Genesis }}"
 
 # Path to the JSON file containing the private key to use as a validator in the consensus protocol
-priv_validator_file = "{{ .BaseConfig.PrivValidator }}"
+priv_validator_file = "{{ js .BaseConfig.PrivValidator }}"
 
 # Path to the JSON file containing the private key to use for node authentication in the p2p protocol
-node_key_file = "{{ .BaseConfig.NodeKey}}"
+node_key_file = "{{ js .BaseConfig.NodeKey}}"
 
-# Mechanism to connect to the Asura application: socket | grpc
-Asura = "{{ .BaseConfig.Asura }}"
+# Mechanism to connect to the ABCI application: socket | grpc
+abci = "{{ .BaseConfig.ABCI }}"
 
 # TCP or UNIX socket address for the profiling server to listen on
 prof_laddr = "{{ .BaseConfig.ProfListenAddress }}"
 
-# If true, query the Asura app on connecting to a new peer
+# If true, query the ABCI app on connecting to a new peer
 # so the app can decide if we should keep the connection or not
 filter_peers = {{ .BaseConfig.FilterPeers }}
 
@@ -160,7 +164,7 @@ seeds = "{{ .P2P.Seeds }}"
 persistent_peers = "{{ .P2P.PersistentPeers }}"
 
 # Path to address book
-addr_book_file = "{{ .P2P.AddrBook }}"
+addr_book_file = "{{ js .P2P.AddrBook }}"
 
 # Set true for strict address routability rules
 addr_book_strict = {{ .P2P.AddrBookStrict }}
@@ -189,9 +193,6 @@ pex = {{ .P2P.PexReactor }}
 # Does not work if the peer-exchange reactor is disabled.
 seed_mode = {{ .P2P.SeedMode }}
 
-# Authenticated encryption
-auth_enc = {{ .P2P.AuthEnc }}
-
 # Comma separated list of peer IDs to keep private (will not be gossiped to other peers)
 private_peer_ids = "{{ .P2P.PrivatePeerIDs }}"
 
@@ -201,13 +202,18 @@ private_peer_ids = "{{ .P2P.PrivatePeerIDs }}"
 recheck = {{ .Mempool.Recheck }}
 recheck_empty = {{ .Mempool.RecheckEmpty }}
 broadcast = {{ .Mempool.Broadcast }}
-wal_dir = "{{ .Mempool.WalPath }}"
+wal_dir = "{{ js .Mempool.WalPath }}"
+
+# size of the mempool
+size = {{ .Mempool.Size }}
+
+# size of the cache (used to filter transactions we saw earlier)
+cache_size = {{ .Mempool.CacheSize }}
 
 ##### consensus configuration options #####
 [consensus]
 
-wal_file = "{{ .Consensus.WalPath }}"
-wal_light = {{ .Consensus.WalLight }}
+wal_file = "{{ js .Consensus.WalPath }}"
 
 # All timeouts are in milliseconds
 timeout_propose = {{ .Consensus.TimeoutPropose }}
@@ -260,15 +266,15 @@ index_all_tags = {{ .TxIndex.IndexAllTags }}
 /****** these are for test settings ***********/
 
 func ResetTestRoot(testName string) *Config {
-	rootDir := os.ExpandEnv("$HOME/.teragrid_test")
+	rootDir := os.ExpandEnv("$HOME/.tendermint_test")
 	rootDir = filepath.Join(rootDir, testName)
-	// Remove ~/.teragrid_test_bak
+	// Remove ~/.tendermint_test_bak
 	if cmn.FileExists(rootDir + "_bak") {
 		if err := os.RemoveAll(rootDir + "_bak"); err != nil {
 			cmn.PanicSanity(err.Error())
 		}
 	}
-	// Move ~/.teragrid_test to ~/.teragrid_test_bak
+	// Move ~/.tendermint_test to ~/.tendermint_test_bak
 	if cmn.FileExists(rootDir) {
 		if err := os.Rename(rootDir, rootDir+"_bak"); err != nil {
 			cmn.PanicSanity(err.Error())
@@ -292,8 +298,8 @@ func ResetTestRoot(testName string) *Config {
 	//baseConfig := DefaultBaseConfig(defaultChainName)
 	baseConfig := config.ChainConfigs[0]
 	configFilePath := filepath.Join(rootDir, defaultChainName, defaultConfigFilePath)
-	genesisFilePath := filepath.Join(rootDir, baseConfig.Genesis)
-	privFilePath := filepath.Join(rootDir, baseConfig.PrivValidator)
+	genesisFilePath := filepath.Join(rootDir, defaultChainName, baseConfig.Genesis)
+	privFilePath := filepath.Join(rootDir, defaultChainName, baseConfig.PrivValidator)
 
 	// Write default config file if missing.
 	if !cmn.FileExists(configFilePath) {
@@ -301,8 +307,10 @@ func ResetTestRoot(testName string) *Config {
 		writeDefaultConfigFile(rootDir, config)
 	}
 	if !cmn.FileExists(genesisFilePath) {
+		fmt.Println("ResetTestRoot genesisFilePath XXXX " + genesisFilePath)
 		cmn.MustWriteFile(genesisFilePath, []byte(testGenesis), 0644)
 	}
+	fmt.Println("ResetTestRoot privFilePath XXXX " + privFilePath)
 	// we always overwrite the priv val
 	cmn.MustWriteFile(privFilePath, []byte(testPrivValidator), 0644)
 
@@ -312,7 +320,7 @@ func ResetTestRoot(testName string) *Config {
 
 var testGenesis = `{
   "genesis_time": "0001-01-01T00:00:00.000Z",
-  "chain_id": "teragrid_test",
+  "chain_id": "tendermint_test",
   "validators": [
     {
       "pub_key": {

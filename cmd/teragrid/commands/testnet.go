@@ -13,7 +13,7 @@ import (
 	cfg "github.com/teragrid/teragrid/config"
 	"github.com/teragrid/teragrid/p2p"
 	"github.com/teragrid/teragrid/types"
-	pvm "github.com/teragrid/teragrid/types/priv_validator"
+	"github.com/teragrid/teragrid/types/priv_validator"
 	cmn "github.com/teragrid/teralibs/common"
 )
 
@@ -46,18 +46,29 @@ func init() {
 	TestnetFilesCmd.Flags().BoolVar(&populatePersistentPeers, "populate-persistent-peers", true,
 		"Update config of each node with the list of persistent peers build using either hostname-prefix or starting-ip-address")
 	TestnetFilesCmd.Flags().StringVar(&hostnamePrefix, "hostname-prefix", "node",
-		"Hostname prefix (node results in persistent peers list ID0@node0:46656, ID1@node1:46656, ...)")
+		"Hostname prefix (node results in persistent peers list ID0@node0:26656, ID1@node1:26656, ...)")
 	TestnetFilesCmd.Flags().StringVar(&startingIPAddress, "starting-ip-address", "",
-		"Starting IP address (192.168.0.1 results in persistent peers list ID0@192.168.0.1:46656, ID1@192.168.0.2:46656, ...)")
-	TestnetFilesCmd.Flags().IntVar(&p2pPort, "p2p-port", 46656,
+		"Starting IP address (192.168.0.1 results in persistent peers list ID0@192.168.0.1:26656, ID1@192.168.0.2:26656, ...)")
+	TestnetFilesCmd.Flags().IntVar(&p2pPort, "p2p-port", 26656,
 		"P2P Port")
 }
 
-// TestnetFilesCmd allows initialisation of files for a teragrid testnet.
+// TestnetFilesCmd allows initialisation of files for a Tendermint testnet.
 var TestnetFilesCmd = &cobra.Command{
 	Use:   "testnet",
-	Short: "Initialize files for a teragrid testnet",
-	RunE:  testnetFiles,
+	Short: "Initialize files for a Tendermint testnet",
+	Long: `testnet will create "v" + "n" number of directories and populate each with
+necessary files (private validator, genesis, config, etc.).
+
+Note, strict routability for addresses is turned off in the config file.
+
+Optionally, it will fill in persistent_peers list in config file using either hostnames or IPs.
+
+Example:
+
+	tendermint testnet --v 4 --o ./output --populate-persistent-peers --starting-ip-address 192.168.10.2
+	`,
+	RunE: testnetFiles,
 }
 
 func testnetFiles(cmd *cobra.Command, args []string) error {
@@ -67,7 +78,7 @@ func testnetFiles(cmd *cobra.Command, args []string) error {
 		for i := 0; i < nValidators; i++ {
 			nodeDirName := cmn.Fmt("%s%d", nodeDirPrefix, i)
 			nodeDir := filepath.Join(outputDir, nodeDirName)
-			config.SetRoot(nodeDir)
+			chain.SetRoot(nodeDir)
 
 			err := os.MkdirAll(filepath.Join(nodeDir, "config"), nodeDirPerm)
 			if err != nil {
@@ -78,7 +89,7 @@ func testnetFiles(cmd *cobra.Command, args []string) error {
 			initFilesWithConfig(config)
 
 			pvFile := filepath.Join(nodeDir, chain.BaseConfig.PrivValidator)
-			pv := pvm.LoadFilePV(pvFile)
+			pv := privval.LoadFilePV(pvFile)
 			genVals[i] = types.GenesisValidator{
 				PubKey: pv.GetPubKey(),
 				Power:  1,
@@ -88,7 +99,7 @@ func testnetFiles(cmd *cobra.Command, args []string) error {
 
 		for i := 0; i < nNonValidators; i++ {
 			nodeDir := filepath.Join(outputDir, cmn.Fmt("%s%d", nodeDirPrefix, i+nValidators))
-			config.SetRoot(nodeDir)
+			chain.SetRoot(nodeDir)
 
 			err := os.MkdirAll(filepath.Join(nodeDir, "config"), nodeDirPerm)
 			if err != nil {
@@ -150,7 +161,7 @@ func populatePersistentPeersInConfigAndWriteIt(config *cfg.Config) error {
 	for _, chain := range config.ChainConfigs {
 		for i := 0; i < nValidators+nNonValidators; i++ {
 			nodeDir := filepath.Join(outputDir, cmn.Fmt("%s%d", nodeDirPrefix, i))
-			config.SetRoot(nodeDir)
+			chain.SetRoot(nodeDir)
 			nodeKey, err := p2p.LoadNodeKey(chain.NodeKeyFile())
 			if err != nil {
 				return err
@@ -163,6 +174,7 @@ func populatePersistentPeersInConfigAndWriteIt(config *cfg.Config) error {
 			nodeDir := filepath.Join(outputDir, cmn.Fmt("%s%d", nodeDirPrefix, i))
 			chain.SetRoot(nodeDir)
 			chain.P2P.PersistentPeers = persistentPeersList
+			chain.P2P.AddrBookStrict = false
 
 			// overwrite default config
 			cfg.WriteConfigFile(filepath.Join(nodeDir, "config", "config.toml"), config)

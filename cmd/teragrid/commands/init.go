@@ -1,19 +1,21 @@
 package commands
 
 import (
+	"time"
+
 	"github.com/spf13/cobra"
 
 	cfg "github.com/teragrid/teragrid/config"
 	"github.com/teragrid/teragrid/p2p"
 	"github.com/teragrid/teragrid/types"
-	pvm "github.com/teragrid/teragrid/types/priv_validator"
+	"github.com/teragrid/teragrid/types/priv_validator"
 	cmn "github.com/teragrid/teralibs/common"
 )
 
-// InitFilesCmd initialises a fresh teragrid Core instance.
+// InitFilesCmd initialises a fresh Tendermint Core instance.
 var InitFilesCmd = &cobra.Command{
 	Use:   "init",
-	Short: "Initialize teragrid",
+	Short: "Initialize Tendermint",
 	RunE:  initFiles,
 }
 
@@ -22,16 +24,16 @@ func initFiles(cmd *cobra.Command, args []string) error {
 }
 
 func initFilesWithConfig(config *cfg.Config) error {
+	// private validator
 	config.SetRoot(config.RootDir)
 	for _, chain := range config.ChainConfigs {
-		// private validator
 		privValFile := chain.PrivValidatorFile()
-		var pv *pvm.FilePV
+		var pv *privval.FilePV
 		if cmn.FileExists(privValFile) {
-			pv = pvm.LoadFilePV(privValFile)
+			pv = privval.LoadFilePV(privValFile)
 			logger.Info("Found private validator", "path", privValFile)
 		} else {
-			pv = pvm.GenFilePV(privValFile)
+			pv = privval.GenFilePV(privValFile)
 			pv.Save()
 			logger.Info("Generated private validator", "path", privValFile)
 		}
@@ -52,7 +54,8 @@ func initFilesWithConfig(config *cfg.Config) error {
 			logger.Info("Found genesis file", "path", genFile)
 		} else {
 			genDoc := types.GenesisDoc{
-				ChainID: cmn.Fmt("test-chain-%v", cmn.RandStr(6)),
+				ChainID:     cmn.Fmt("test-chain-%v", cmn.RandStr(6)),
+				GenesisTime: time.Now(),
 			}
 			genDoc.Validators = []types.GenesisValidator{{
 				PubKey: pv.GetPubKey(),
