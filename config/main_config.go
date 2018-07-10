@@ -12,12 +12,12 @@ import (
 // generate the config.toml. Please reflect any changes
 // made here in the defaultConfigTemplate constant in
 // config/toml.go
-// NOTE: tendermint/cli must know to look in the config dir!
+// NOTE: teragrid/cli must know to look in the config dir!
 var (
-	DefaultTendermintDir = ".dagmint"
-	defaultChainName     = "default"
-	defaultConfigDir     = "config"
-	defaultDataDir       = "data"
+	DefaultTeragridDir = ".teragrid"
+	defaultChainName   = "default"
+	defaultConfigDir   = "config"
+	defaultDataDir     = "data"
 
 	defaultConfigFileName  = "config.toml"
 	defaultGenesisJSONName = "genesis.json"
@@ -52,7 +52,7 @@ func (cfg *Config) SetRoot(root string) *Config {
 	return cfg
 }
 
-// DefaultConfig returns a default configuration for a tendermint node
+// DefaultConfig returns a default configuration for a teragrid node
 func DefaultConfig() *Config {
 	cfg := Config{
 		RootDir:  "",

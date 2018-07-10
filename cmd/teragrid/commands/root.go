@@ -35,7 +35,7 @@ func registerFlagsRootCmd(cmd *cobra.Command) {
 }
 
 // ParseConfig retrieves the default environment configuration,
-// sets up the Tendermint root and ensures that the root exists
+// sets up the Teragrid root and ensures that the root exists
 func ParseConfig() (*cfg.Config, error) {
 
 	var conf *cfg.Config
@@ -88,10 +88,10 @@ func ParseConfig() (*cfg.Config, error) {
 	return conf, nil
 }
 
-// RootCmd is the root command for Tendermint core.
+// RootCmd is the root command for Teragrid core.
 var RootCmd = &cobra.Command{
 	Use:   "tendermint",
-	Short: "Tendermint Core (BFT Consensus) in Go",
+	Short: "Teragrid Core (BFT Consensus) in Go",
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
 		if cmd.Name() == VersionCmd.Name() {
 			return nil

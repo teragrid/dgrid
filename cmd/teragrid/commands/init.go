@@ -12,10 +12,10 @@ import (
 	cmn "github.com/teragrid/teralibs/common"
 )
 
-// InitFilesCmd initialises a fresh Tendermint Core instance.
+// InitFilesCmd initialises a fresh Teragrid Core instance.
 var InitFilesCmd = &cobra.Command{
 	Use:   "init",
-	Short: "Initialize Tendermint",
+	Short: "Initialize Teragrid",
 	RunE:  initFiles,
 }
 

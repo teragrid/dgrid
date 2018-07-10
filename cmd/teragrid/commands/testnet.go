@@ -53,10 +53,10 @@ func init() {
 		"P2P Port")
 }
 
-// TestnetFilesCmd allows initialisation of files for a Tendermint testnet.
+// TestnetFilesCmd allows initialisation of files for a Teragrid testnet.
 var TestnetFilesCmd = &cobra.Command{
 	Use:   "testnet",
-	Short: "Initialize files for a Tendermint testnet",
+	Short: "Initialize files for a Teragrid testnet",
 	Long: `testnet will create "v" + "n" number of directories and populate each with
 necessary files (private validator, genesis, config, etc.).
 

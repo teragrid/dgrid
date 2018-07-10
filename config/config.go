@@ -17,7 +17,7 @@ const (
 //-----------------------------------------------------------------------------
 // BaseConfig
 
-// BaseConfig defines the base configuration for a Tendermint node
+// BaseConfig defines the base configuration for a Teragrid node
 type BaseConfig struct {
 
 	// chainID is unexposed and immutable but here for convenience
@@ -39,15 +39,15 @@ type BaseConfig struct {
 	// A custom human readable name for this node
 	Moniker string `mapstructure:"moniker"`
 
-	// TCP or UNIX socket address for Tendermint to listen on for
+	// TCP or UNIX socket address for Teragrid to listen on for
 	// connections from an external PrivValidator process
 	PrivValidatorListenAddr string `mapstructure:"priv_validator_laddr"`
 
-	// TCP or UNIX socket address of the ABCI application,
-	// or the name of an ABCI application compiled in with the Tendermint binary
+	// TCP or UNIX socket address of the Asura application,
+	// or the name of an Asura application compiled in with the Teragrid binary
 	ProxyApp string `mapstructure:"proxy_app"`
 
-	// Mechanism to connect to the ABCI application: socket | grpc
+	// Mechanism to connect to the Asura application: socket | grpc
 	Asura string `mapstructure:"asura"`
 
 	// Output level for logging
@@ -61,7 +61,7 @@ type BaseConfig struct {
 	// and verifying their commits
 	FastSync bool `mapstructure:"fast_sync"`
 
-	// If true, query the ABCI app on connecting to a new peer
+	// If true, query the Asura app on connecting to a new peer
 	// so the app can decide if we should keep the connection or not
 	FilterPeers bool `mapstructure:"filter_peers"` // false
 
@@ -72,7 +72,7 @@ type BaseConfig struct {
 	DBPath string `mapstructure:"db_dir"`
 }
 
-// DefaultBaseConfig returns a default base configuration for a Tendermint node
+// DefaultBaseConfig returns a default base configuration for a Teragrid node
 func DefaultBaseConfig(name string) BaseConfig {
 	return BaseConfig{
 		chainID:       name,
@@ -92,7 +92,7 @@ func DefaultBaseConfig(name string) BaseConfig {
 	}
 }
 
-// TestBaseConfig returns a base configuration for testing a Tendermint node
+// TestBaseConfig returns a base configuration for testing a Teragrid node
 func TestBaseConfig() BaseConfig {
 	cfg := DefaultBaseConfig(defaultChainName)
 	cfg.chainID = "dagmint_test"
@@ -140,7 +140,7 @@ func DefaultPackageLogLevels() string {
 //-----------------------------------------------------------------------------
 // RPCConfig
 
-// RPCConfig defines the configuration options for the Tendermint RPC server
+// RPCConfig defines the configuration options for the Teragrid RPC server
 type RPCConfig struct {
 	RootDir string `mapstructure:"home"`
 
@@ -177,7 +177,7 @@ func TestRPCConfig() *RPCConfig {
 //-----------------------------------------------------------------------------
 // P2PConfig
 
-// P2PConfig defines the configuration options for the Tendermint peer-to-peer networking layer
+// P2PConfig defines the configuration options for the Teragrid peer-to-peer networking layer
 type P2PConfig struct {
 	RootDir string `mapstructure:"home"`
 
@@ -308,7 +308,7 @@ func DefaultFuzzConnConfig() *FuzzConnConfig {
 //-----------------------------------------------------------------------------
 // MempoolConfig
 
-// MempoolConfig defines the configuration options for the Tendermint mempool
+// MempoolConfig defines the configuration options for the Teragrid mempool
 type MempoolConfig struct {
 	RootDir      string `mapstructure:"home"`
 	Recheck      bool   `mapstructure:"recheck"`
@@ -319,7 +319,7 @@ type MempoolConfig struct {
 	CacheSize    int    `mapstructure:"cache_size"`
 }
 
-// DefaultMempoolConfig returns a default configuration for the Tendermint mempool
+// DefaultMempoolConfig returns a default configuration for the Teragrid mempool
 func DefaultMempoolConfig() *MempoolConfig {
 	return &MempoolConfig{
 		Recheck:      true,
@@ -331,7 +331,7 @@ func DefaultMempoolConfig() *MempoolConfig {
 	}
 }
 
-// TestMempoolConfig returns a configuration for testing the Tendermint mempool
+// TestMempoolConfig returns a configuration for testing the Teragrid mempool
 func TestMempoolConfig() *MempoolConfig {
 	cfg := DefaultMempoolConfig()
 	cfg.CacheSize = 1000
@@ -346,7 +346,7 @@ func (cfg *MempoolConfig) WalDir() string {
 //-----------------------------------------------------------------------------
 // ConsensusConfig
 
-// ConsensusConfig defines the confuguration for the Tendermint consensus service,
+// ConsensusConfig defines the confuguration for the Teragrid consensus service,
 // including timeouts and details about the WAL and the block structure.
 type ConsensusConfig struct {
 	RootDir  string `mapstructure:"home"`

@@ -9,7 +9,7 @@ import (
 	"github.com/teragrid/teralibs/log"
 )
 
-// ResetAllCmd removes the database of this Tendermint core
+// ResetAllCmd removes the database of this Teragrid core
 // instance.
 var ResetAllCmd = &cobra.Command{
 	Use:   "unsafe_reset_all",

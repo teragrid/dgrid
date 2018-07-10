@@ -22,9 +22,9 @@ func AddNodeFlags(cmd *cobra.Command) {
 	// node flags
 	cmd.Flags().Bool("fast_sync", config.FastSync, "Fast blockchain syncing")
 
-	// abci flags
+	// Asura flags
 	cmd.Flags().String("proxy_app", config.ProxyApp, "Proxy app address, or 'nilapp' or 'kvstore' for local testing.")
-	cmd.Flags().String("abci", config.Asura, "Specify Asura transport (socket | grpc)")
+	cmd.Flags().String("asura", config.Asura, "Specify Asura transport (socket | grpc)")
 
 	// rpc flags
 	cmd.Flags().String("rpc.laddr", config.RPC.ListenAddress, "RPC listen address. Port required")
@@ -45,7 +45,7 @@ func AddNodeFlags(cmd *cobra.Command) {
 }
 
 // NewRunNodeCmd returns the command that allows the CLI to start a node.
-// It can be used with a custom PrivValidator and in-process ABCI application.
+// It can be used with a custom PrivValidator and in-process Asura application.
 func NewRunNodeCmd(nodeProvider nm.NodeProvider) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "node",
@@ -123,7 +123,7 @@ func runNodes(nodeProvider nm.NodeProvider) {
 
 /*
 // NewRunNodeCmd returns the command that allows the CLI to start a node.
-// It can be used with a custom PrivValidator and in-process ABCI application.
+// It can be used with a custom PrivValidator and in-process Asura application.
 func NewRunNodeCmd(nodeProvider nm.NodeProvider) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "node",
