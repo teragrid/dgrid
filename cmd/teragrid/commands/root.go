@@ -28,7 +28,7 @@ func init() {
 
 func registerFlagsRootCmd(cmd *cobra.Command) {
 	cmd.PersistentFlags().String("log_level", mainConfig.LogLevel, "Log level")
-	cmd.PersistentFlags().StringP("config", "c", "", "Alternate configuration file to read. Defaults to $HOME/.tendermint/")
+	cmd.PersistentFlags().StringP("config", "c", "", "Alternate configuration file to read. Defaults to $HOME/.teragrid/")
 
 	//viper.BindPFlag("ConfigFileName", cmd.PersistentFlags().Lookup("config"))
 	//viper.BindPFlag("Home", cmd.PersistentFlags().Lookup("home"))
@@ -90,8 +90,8 @@ func ParseConfig() (*cfg.Config, error) {
 
 // RootCmd is the root command for Teragrid core.
 var RootCmd = &cobra.Command{
-	Use:   "tendermint",
-	Short: "Teragrid Core (BFT Consensus) in Go",
+	Use:   "teragrid",
+	Short: "Teragrid Core (FBA Consensus) in Go",
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
 		if cmd.Name() == VersionCmd.Name() {
 			return nil

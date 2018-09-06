@@ -51,7 +51,7 @@ All resources involving the use of, building application on, or developing for, 
 ### Sub-projects
 
 * [Asura](http://github.com/teragrid/asura), the Application Blockchain Interface
-* [Parkhill](http://github.com/teragrid/parkhill), a D-Apps MVC Framwork for rapid development and adoptation 
+* [Parkhill](http://github.com/teragrid/parkhill), a D-Apps MVC Framework for rapid development and adoptation
 
 ### Tools
 * [Deployment, Benchmarking, and Monitoring](http://teragrid.readthedocs.io/projects/tools/en/develop/index.html#teragrid-tools)

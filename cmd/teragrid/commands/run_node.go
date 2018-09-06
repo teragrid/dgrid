@@ -10,7 +10,7 @@ import (
 )
 
 // AddNodeFlags exposes some common configuration options on the command-line
-// These are exposed for convenience of commands embedding a tendermint node
+// These are exposed for convenience of commands embedding a teragrid node
 func AddNodeFlags(cmd *cobra.Command) {
 	config := mainConfig.ChainConfigs[0]
 	// bind flags
@@ -49,7 +49,7 @@ func AddNodeFlags(cmd *cobra.Command) {
 func NewRunNodeCmd(nodeProvider nm.NodeProvider) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "node",
-		Short: "Run the tendermint node",
+		Short: "Run the teragrid node",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			//runOneNode(nodeProvider)
 			runNodes(nodeProvider)
@@ -127,7 +127,7 @@ func runNodes(nodeProvider nm.NodeProvider) {
 func NewRunNodeCmd(nodeProvider nm.NodeProvider) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "node",
-		Short: "Run the tendermint node",
+		Short: "Run the teragrid node",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			// Create & start node
 			n, err := nodeProvider(config, logger)

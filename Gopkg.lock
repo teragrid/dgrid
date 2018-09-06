@@ -5,13 +5,13 @@
   branch = "master"
   name = "github.com/btcsuite/btcd"
   packages = ["btcec"]
-  revision = "86fed781132ac890ee03e906e4ecd5d6fa180c64"
+  revision = "cff30e1d23fc9e800b2b5b4b41ef1817dda07e9f"
 
 [[projects]]
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
-  revision = "346938d642f2ec3594ed81d874461961cd0faa76"
-  version = "v1.1.0"
+  revision = "8991bc29aa16c548c550c7ff78260e27b9ab7c73"
+  version = "v1.1.1"
 
 [[projects]]
   branch = "master"
@@ -20,10 +20,10 @@
   revision = "95f809107225be108efcf10a3509e4ea6ceef3c4"
 
 [[projects]]
+  branch = "master"
   name = "github.com/fortytw2/leaktest"
   packages = ["."]
-  revision = "a5ef70473c97b71626b9abeda80ee92ba2a7de9e"
-  version = "v1.2.0"
+  revision = "b433bbd6d743c1854040b39062a3916ed5f78fe8"
 
 [[projects]]
   name = "github.com/fsnotify/fsnotify"
@@ -50,8 +50,8 @@
 [[projects]]
   name = "github.com/go-stack/stack"
   packages = ["."]
-  revision = "259ab82a6cad3992b4e21ff5cac294ccb06474bc"
-  version = "v1.7.0"
+  revision = "2fee6af1a9795aafbe0253a0cfbdf668e1fb8a9a"
+  version = "v1.8.0"
 
 [[projects]]
   name = "github.com/gogo/protobuf"
@@ -76,7 +76,7 @@
     "ptypes/duration",
     "ptypes/timestamp"
   ]
-  revision = "925541529c1fa6821df4e44ce2723319eb2be768"
+  revision = "b27b920f9e71b439b873b17bf99f56467623814a"
 
 [[projects]]
   branch = "master"
@@ -91,7 +91,6 @@
   version = "v1.2.0"
 
 [[projects]]
-  branch = "master"
   name = "github.com/hashicorp/hcl"
   packages = [
     ".",
@@ -105,7 +104,8 @@
     "json/scanner",
     "json/token"
   ]
-  revision = "ef8a98b0bbce4a65b5aa4c368430a80ddc533168"
+  revision = "8cb6e5b959231cc1119e43259c4a608f9c51a241"
+  version = "v1.0.0"
 
 [[projects]]
   name = "github.com/inconshreveable/mousetrap"
@@ -132,10 +132,10 @@
   version = "v1.8.0"
 
 [[projects]]
-  branch = "master"
   name = "github.com/mitchellh/mapstructure"
   packages = ["."]
-  revision = "bb74f1db0675b241733089d5a1faa5dd8b0ef57b"
+  revision = "fa473d140ef3c6adf42d6b391fe76707f1f243c8"
+  version = "v1.0.0"
 
 [[projects]]
   name = "github.com/pelletier/go-toml"
@@ -153,7 +153,7 @@
   name = "github.com/pmezard/go-difflib"
   packages = ["difflib"]
   revision = "792786c7400a136282c1664665ae0a8db921c6c2"
-  version = "v1.1.0"
+  version = "v1.0.0"
 
 [[projects]]
   branch = "master"
@@ -186,13 +186,13 @@
   branch = "master"
   name = "github.com/spf13/jwalterweatherman"
   packages = ["."]
-  revision = "7c0cea34c8ece3fbeb2b27ab9b59511d360fb394"
+  revision = "14d3d4c518341bea657dd8a226f5121c0ff8c9f2"
 
 [[projects]]
   name = "github.com/spf13/pflag"
   packages = ["."]
-  revision = "583c0c0531f06d5278b7d917446061adc344b5cd"
-  version = "v1.0.1"
+  revision = "9a97c102cda95a86cec2345a6f09f55a939babf5"
+  version = "v1.0.2"
 
 [[projects]]
   name = "github.com/spf13/viper"
@@ -226,7 +226,7 @@
     "leveldb/table",
     "leveldb/util"
   ]
-  revision = "e2150783cd35f5b607daca48afd8c57ec54cc995"
+  revision = "ae2bd5eed72d46b28834ec3f60db3a3ebedd8dbd"
 
 [[projects]]
   branch = "master"
@@ -260,13 +260,13 @@
   branch = "master"
   name = "github.com/teragrid/go-amino"
   packages = ["."]
-  revision = "cda24e4f1b69ad6be3242f232bce42391e614fab"
+  revision = "0eab9ff210aa0337e1d9647b46f47baa9b266a4a"
 
 [[projects]]
   branch = "master"
   name = "github.com/teragrid/go-crypto"
   packages = ["."]
-  revision = "d22b3d2026e45348974f68b4606fefc20d3854ff"
+  revision = "4ac0a56fe910e18b2e3c1661f035760b045a59e7"
 
 [[projects]]
   branch = "master"
@@ -292,6 +292,7 @@
   name = "golang.org/x/crypto"
   packages = [
     "curve25519",
+    "internal/subtle",
     "nacl/box",
     "nacl/secretbox",
     "openpgp/armor",
@@ -300,7 +301,7 @@
     "ripemd160",
     "salsa20/salsa"
   ]
-  revision = "8ac0e0d97ce45cd83d1d7243c060cb8461dda5e9"
+  revision = "182538f80094b6a8efaade63a8fd8e0d9d5843dd"
 
 [[projects]]
   branch = "master"
@@ -314,13 +315,13 @@
     "internal/timeseries",
     "trace"
   ]
-  revision = "1e491301e022f8f977054da4c2d852decd59571f"
+  revision = "8a410e7b638dca158bf9e766925842f6651ff828"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "bff228c7b664c5fce602223a05fb708fd8654986"
+  revision = "2b024373dcd9800f0cae693839fac6ede8d64a8c"
 
 [[projects]]
   name = "golang.org/x/text"
@@ -347,7 +348,7 @@
   branch = "master"
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
-  revision = "32ee49c4dd805befd833990acba36cb75042378c"
+  revision = "11092d34479b07829b72e10713b159248caf5dad"
 
 [[projects]]
   name = "google.golang.org/grpc"

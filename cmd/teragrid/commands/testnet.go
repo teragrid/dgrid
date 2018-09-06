@@ -66,7 +66,7 @@ Optionally, it will fill in persistent_peers list in config file using either ho
 
 Example:
 
-	tendermint testnet --v 4 --o ./output --populate-persistent-peers --starting-ip-address 192.168.10.2
+	teragrid testnet --v 4 --o ./output --populate-persistent-peers --starting-ip-address 192.168.10.2
 	`,
 	RunE: testnetFiles,
 }
