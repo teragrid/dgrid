@@ -8,7 +8,7 @@ Or [Blockchain](https://en.wikipedia.org/wiki/Blockchain_(database)) for short.
 [![version](https://img.shields.io/github/tag/teragrid/teragrid.svg)](https://github.com/teragrid/teragrid/releases/latest)
 [![API Reference](
 https://teragrid.network/api/docs
-)](https://godoc.org/github.com/teragrid/teragrid)
+)](https://github.com/teragrid/teradocs/wiki)
 [![Go version](https://img.shields.io/badge/go-1.9.2-blue.svg)](https://github.com/moovweb/gvm)
 [![license](https://img.shields.io/github/license/teragrid/teragrid.svg)](https://github.com/teragrid/teragrid/blob/master/LICENSE)
 [![](https://tokei.rs/b1/github/teragrid/teragrid?category=lines)](https://github.com/teragrid/teragrid)
