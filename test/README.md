@@ -1,4 +1,4 @@
-# teragrid Tests
+# Teragrid Tests
 
 The unit tests (ie. the `go test` s) can be run with `make test`.
 The integration tests can be run wtih `make test_integrations`.
