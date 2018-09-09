@@ -47,5 +47,5 @@ Teragrid Tools
    tools/benchmarking.rst
    tools/monitoring.rst
 
-* There is also the `original whitepaper <https://github.com/teragrid/teradocs/wiki/Teragrid-White-Paper>`__, though it is now quite outdated.
+* There is also the `Teragrid Technical Whitepaper <https://github.com/teragrid/teradocs/wiki/Teragrid-White-Paper>`__, and it will be continuously updated.
 * For example applications and related software built by the teragrid team and other, see the `software ecosystem <https://github.com/teragrid/teradocs/wiki>`__.

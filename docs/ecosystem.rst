@@ -1,4 +1,4 @@
-teragrid Ecosystem
+Teragrid Ecosystem
 ====================
 
 The growing list of applications built using various pieces of the teragrid stack can be found at:

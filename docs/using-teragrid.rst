@@ -1,4 +1,4 @@
-Using teragrid
+Using Teragrid
 ================
 
 This is a guide to using the ``teragrid`` program from the command

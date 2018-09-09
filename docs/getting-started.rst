@@ -1,4 +1,4 @@
-First teragrid App
+First Teragrid App
 ====================
 
 As a general purpose blockchain engine, teragrid is agnostic to the
