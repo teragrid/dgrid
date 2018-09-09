@@ -156,7 +156,7 @@ There can be multiple asura socket connections to an application. teragrid Core 
 
 It's probably evident that applications designers need to very carefully design their message handlers to create a blockchain that does anything useful but this architecture provides a place to start. The diagram below illustrates the flow of messages via Asura.
 
-.. figure:: https://github.com/teragrid/teradocs/tree/master/resources/Workflow.png
+.. figure:: assets/Workflow.png
 
 A Note on Determinism
 ~~~~~~~~~~~~~~~~~~~~~
