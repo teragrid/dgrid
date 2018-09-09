@@ -7,7 +7,7 @@ Welcome to teragrid!
 ======================
 
 
-.. image:: assets/tmint-logo-blue.png
+.. image:: assets/teragrid-logo.png
    :height: 200px
    :width: 200px
    :align: center
@@ -68,9 +68,5 @@ teragrid 201
    specification.rst
    determinism.rst
 
-* For a deeper dive, see `this thesis <https://atrium.lib.uoguelph.ca/xmlui/handle/10214/9769>`__.
-* There is also the `original whitepaper <https://teragrid.com/static/docs/teragrid.pdf>`__, though it is now quite outdated.
-* Readers might also be interested in the `Cosmos Whitepaper <https://cosmos.network/whitepaper>`__ which describes teragrid, asura, and how to build a scalable, heterogeneous, cryptocurrency network.
-* For example applications and related software built by the teragrid team and other, see the `software ecosystem <https://teragrid.com/ecosystem>`__.
-
-Join the `community <https://cosmos.network/community>`__ to ask questions and discuss projects.
+* There is also the `original whitepaper <https://github.com/teragrid/teradocs/wiki/Teragrid-White-Paper>`__, though it is now quite outdated.
+* For example applications and related software built by the teragrid team and other, see the `software ecosystem <https://github.com/teragrid/teradocs/wiki>`__.
