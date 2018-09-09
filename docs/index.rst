@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to teragrid!
+Welcome to Teragrid!
 ======================
 
 
@@ -12,7 +12,7 @@ Welcome to teragrid!
    :width: 200px
    :align: center
 
-teragrid 101
+Teragrid
 --------------
 
 .. toctree::
@@ -23,7 +23,7 @@ teragrid 101
    getting-started.rst
    using-teragrid.rst
 
-teragrid Ecosystem
+Teragrid Ecosystem
 --------------------
 
 .. toctree::
@@ -31,7 +31,7 @@ teragrid Ecosystem
 
    ecosystem.rst
 
-teragrid Tools
+Teragrid Tools
 ----------------
 
 .. the tools/ files are pulled in from the tools repo
@@ -46,27 +46,6 @@ teragrid Tools
    tools/terraform-digitalocean.rst
    tools/benchmarking.rst
    tools/monitoring.rst
-
-teragrid 102
---------------
-
-.. toctree::
-   :maxdepth: 2
-
-   asura-cli.rst
-   asura-spec.rst
-   app-architecture.rst
-   app-development.rst
-   how-to-read-logs.rst
-
-teragrid 201
---------------
-
-.. toctree::
-   :maxdepth: 2
-
-   specification.rst
-   determinism.rst
 
 * There is also the `original whitepaper <https://github.com/teragrid/teradocs/wiki/Teragrid-White-Paper>`__, though it is now quite outdated.
 * For example applications and related software built by the teragrid team and other, see the `software ecosystem <https://github.com/teragrid/teradocs/wiki>`__.
