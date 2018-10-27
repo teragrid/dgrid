@@ -15,8 +15,8 @@ import (
 // NOTE: teralibs/cli must know to look in the config dir!
 var (
 	DefaultteragridDir = ".teragrid"
-	defaultConfigDir     = "config"
-	defaultDataDir       = "data"
+	defaultConfigDir   = "config"
+	defaultDataDir     = "data"
 
 	defaultConfigFileName  = "config.toml"
 	defaultGenesisJSONName = "genesis.json"
@@ -32,7 +32,7 @@ var (
 	defaultAddrBookPath    = filepath.Join(defaultConfigDir, defaultAddrBookName)
 )
 
-// Config defines the top level configuration for a teragrid node
+// Config defines the top level configuration for a Teragrid node
 type Config struct {
 	// Top level options use an anonymous struct
 	BaseConfig `mapstructure:",squash"`
@@ -45,7 +45,7 @@ type Config struct {
 	TxIndex   *TxIndexConfig   `mapstructure:"tx_index"`
 }
 
-// DefaultConfig returns a default configuration for a teragrid node
+// DefaultConfig returns a default configuration for a Teragrid node
 func DefaultConfig() *Config {
 	return &Config{
 		BaseConfig: DefaultBaseConfig(),
@@ -82,7 +82,7 @@ func (cfg *Config) SetRoot(root string) *Config {
 //-----------------------------------------------------------------------------
 // BaseConfig
 
-// BaseConfig defines the base configuration for a teragrid node
+// BaseConfig defines the base configuration for a Teragrid node
 type BaseConfig struct {
 
 	// chainID is unexposed and immutable but here for convenience
@@ -104,12 +104,12 @@ type BaseConfig struct {
 	// A custom human readable name for this node
 	Moniker string `mapstructure:"moniker"`
 
-	// TCP or UNIX socket address for teragrid to listen on for
+	// TCP or UNIX socket address for Teragrid to listen on for
 	// connections from an external PrivValidator process
 	PrivValidatorListenAddr string `mapstructure:"priv_validator_laddr"`
 
 	// TCP or UNIX socket address of the Asura application,
-	// or the name of an Asura application compiled in with the teragrid binary
+	// or the name of an Asura application compiled in with the Teragrid binary
 	ProxyApp string `mapstructure:"proxy_app"`
 
 	// Mechanism to connect to the Asura application: socket | grpc
@@ -137,7 +137,7 @@ type BaseConfig struct {
 	DBPath string `mapstructure:"db_dir"`
 }
 
-// DefaultBaseConfig returns a default base configuration for a teragrid node
+// DefaultBaseConfig returns a default base configuration for a Teragrid node
 func DefaultBaseConfig() BaseConfig {
 	return BaseConfig{
 		Genesis:           defaultGenesisJSONPath,
@@ -145,7 +145,7 @@ func DefaultBaseConfig() BaseConfig {
 		NodeKey:           defaultNodeKeyPath,
 		Moniker:           defaultMoniker,
 		ProxyApp:          "tcp://127.0.0.1:46658",
-		Asura:              "socket",
+		Asura:             "socket",
 		LogLevel:          DefaultPackageLogLevels(),
 		ProfListenAddress: "",
 		FastSync:          true,
@@ -155,7 +155,7 @@ func DefaultBaseConfig() BaseConfig {
 	}
 }
 
-// TestBaseConfig returns a base configuration for testing a teragrid node
+// TestBaseConfig returns a base configuration for testing a Teragrid node
 func TestBaseConfig() BaseConfig {
 	cfg := DefaultBaseConfig()
 	cfg.chainID = "teragrid_test"
@@ -203,7 +203,7 @@ func DefaultPackageLogLevels() string {
 //-----------------------------------------------------------------------------
 // RPCConfig
 
-// RPCConfig defines the configuration options for the teragrid RPC server
+// RPCConfig defines the configuration options for the Teragrid RPC server
 type RPCConfig struct {
 	RootDir string `mapstructure:"home"`
 
@@ -239,7 +239,7 @@ func TestRPCConfig() *RPCConfig {
 //-----------------------------------------------------------------------------
 // P2PConfig
 
-// P2PConfig defines the configuration options for the teragrid peer-to-peer networking layer
+// P2PConfig defines the configuration options for the Teragrid peer-to-peer networking layer
 type P2PConfig struct {
 	RootDir string `mapstructure:"home"`
 
@@ -328,7 +328,7 @@ func (cfg *P2PConfig) AddrBookFile() string {
 //-----------------------------------------------------------------------------
 // MempoolConfig
 
-// MempoolConfig defines the configuration options for the teragrid mempool
+// MempoolConfig defines the configuration options for the Teragrid mempool
 type MempoolConfig struct {
 	RootDir      string `mapstructure:"home"`
 	Recheck      bool   `mapstructure:"recheck"`
@@ -338,7 +338,7 @@ type MempoolConfig struct {
 	CacheSize    int    `mapstructure:"cache_size"`
 }
 
-// DefaultMempoolConfig returns a default configuration for the teragrid mempool
+// DefaultMempoolConfig returns a default configuration for the Teragrid mempool
 func DefaultMempoolConfig() *MempoolConfig {
 	return &MempoolConfig{
 		Recheck:      true,
@@ -349,7 +349,7 @@ func DefaultMempoolConfig() *MempoolConfig {
 	}
 }
 
-// TestMempoolConfig returns a configuration for testing the teragrid mempool
+// TestMempoolConfig returns a configuration for testing the Teragrid mempool
 func TestMempoolConfig() *MempoolConfig {
 	cfg := DefaultMempoolConfig()
 	cfg.CacheSize = 1000
@@ -364,7 +364,7 @@ func (cfg *MempoolConfig) WalDir() string {
 //-----------------------------------------------------------------------------
 // ConsensusConfig
 
-// ConsensusConfig defines the confuguration for the teragrid consensus service,
+// ConsensusConfig defines the confuguration for the Teragrid consensus service,
 // including timeouts and details about the WAL and the block structure.
 type ConsensusConfig struct {
 	RootDir  string `mapstructure:"home"`
