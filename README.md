@@ -9,7 +9,6 @@ Or [Blockchain](https://en.wikipedia.org/wiki/Blockchain_(database)) for short.
 https://teragrid.network/api/docs
 )](https://godoc.org/github.com/teragrid/teragrid)
 [![Go version](https://img.shields.io/badge/go-1.9.2-blue.svg)](https://github.com/moovweb/gvm)
-[![Rocket.Chat](https://demo.rocket.chat/images/join-chat.svg)](https://cosmos.rocket.chat/)
 [![license](https://img.shields.io/github/license/teragrid/teragrid.svg)](https://github.com/teragrid/teragrid/blob/master/LICENSE)
 [![](https://tokei.rs/b1/github/teragrid/teragrid?category=lines)](https://github.com/teragrid/teragrid)
 

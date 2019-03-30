@@ -97,8 +97,7 @@ If you look at the code, you will notice that we need to provide the
 This is to protect anyone from swapping votes between chains to fake (or
 frame) a validator. Also note that this ``chainID`` is in the
 ``genesis.json`` from *teragrid*, not the ``genesis.json`` from the
-basecoin app (`that is a different
-chainID... <https://github.com/cosmos/cosmos-sdk/issues/32>`__).
+teracoin app.
 
 Once we have those votes, and we calculated the proper `sign
 bytes <https://godoc.org/github.com/teragrid/teragrid/types#Vote.WriteSignBytes>`__

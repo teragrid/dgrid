@@ -10,13 +10,13 @@ What is teragrid?
 teragrid is software for securely and consistently replicating an application on many machines.
 By securely, we mean that teragrid works even if up to 1/3 of machines fail in arbitrary ways.
 By consistently, we mean that every non-faulty machine sees the same transaction log and computes the same state.
-Secure and consistent replication is a fundamental problem in distributed systems; 
-it plays a critical role in the fault tolerance of a broad range of applications, 
+Secure and consistent replication is a fundamental problem in distributed systems;
+it plays a critical role in the fault tolerance of a broad range of applications,
 from currencies, to elections, to infrastructure orchestration, and beyond.
 
 The ability to tolerate machines failing in arbitrary ways, including becoming malicious, is known as Byzantine fault tolerance (BFT).
 The theory of BFT is decades old, but software implementations have only became popular recently,
-due largely to the success of "blockchain technology" like Bitcoin and Ethereum. 
+due largely to the success of "blockchain technology" like Bitcoin and Ethereum.
 Blockchain technology is just a reformalization of BFT in a more modern setting,
 with emphasis on peer-to-peer networking and cryptographic authentication.
 The name derives from the way transactions are batched in blocks,
@@ -27,7 +27,7 @@ teragrid consists of two chief technical components: a blockchain consensus engi
 The consensus engine, called teragrid Core, ensures that the same transactions are recorded on every machine in the same order.
 The application interface, called the Application BlockChain Interface (asura), enables the transactions to be processed in any programming language.
 Unlike other blockchain and consensus solutions, which come pre-packaged with built in state machines (like a fancy key-value store,
-or a quirky scripting language), developers can use teragrid for BFT state machine replication of applications written in 
+or a quirky scripting language), developers can use teragrid for BFT state machine replication of applications written in
 whatever programming language and development environment is right for them.
 
 teragrid is designed to be easy-to-use, simple-to-understand, highly performant, and useful
@@ -40,16 +40,16 @@ teragrid vs. Other Software
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 teragrid is broadly similar to two classes of software.
-The first class consists of distributed key-value stores, 
+The first class consists of distributed key-value stores,
 like Zookeeper, etcd, and consul, which use non-BFT consensus.
 The second class is known as "blockchain technology",
-and consists of both cryptocurrencies like Bitcoin and Ethereum, 
+and consists of both cryptocurrencies like Bitcoin and Ethereum,
 and alternative distributed ledger designs like Hyperledger's Burrow.
 
 Zookeeper, etcd, consul
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Zookeeper, etcd, and consul are all implementations of a key-value store atop a classical, 
+Zookeeper, etcd, and consul are all implementations of a key-value store atop a classical,
 non-BFT consensus algorithm. Zookeeper uses a version of Paxos called Zookeeper Atomic Broadcast,
 while etcd and consul use the Raft consensus algorithm, which is much younger and simpler.
 A typical cluster contains 3-5 machines, and can tolerate crash failures in up to 1/2 of the machines,
@@ -62,7 +62,7 @@ such as dynamic configuration, service discovery, locking, leader-election, and 
 teragrid is in essence similar software, but with two key differences:
 - It is Byzantine Fault Tolerant, meaning it can only tolerate up to a 1/3 of failures,
 but those failures can include arbitrary behaviour - including hacking and malicious attacks.
-- It does not specify a particular application, like a fancy key-value store. Instead, 
+- It does not specify a particular application, like a fancy key-value store. Instead,
 it focuses on arbitrary state machine replication, so developers can build the application logic
 that's right for them, from key-value store to cryptocurrency to e-voting platform and beyond.
 
@@ -84,17 +84,15 @@ So one can take the current Ethereum code base, whether in Rust, or Go, or Haske
 using teragrid consensus. Indeed, `we did that with Ethereum <https://github.com/teragrid/ethermint>`__.
 And we plan to do the same for Bitcoin, ZCash, and various other deterministic applications as well.
 
-Another example of a cryptocurrency application built on teragrid is `the Cosmos network <http://cosmos.network>`__.
-
 Other Blockchain Projects
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 `Fabric <https://github.com/hyperledger/fabric>`__ takes a similar approach to teragrid, but is more opinionated about how the state is managed,
-and requires that all application behaviour runs in potentially many docker containers, modules it calls "chaincode". 
+and requires that all application behaviour runs in potentially many docker containers, modules it calls "chaincode".
 It uses an implementation of `PBFT <http://pmg.csail.mit.edu/papers/osdi99.pdf>`__.
-from a team at IBM that is 
+from a team at IBM that is
 `augmented to handle potentially non-deterministic chaincode <https://www.zurich.ibm.com/~cca/papers/sieve.pdf>`__
-It is possible to implement this docker-based behaviour as a asura app in teragrid, 
+It is possible to implement this docker-based behaviour as a asura app in teragrid,
 though extending teragrid to handle non-determinism remains for future work.
 
 `Burrow <https://github.com/hyperledger/burrow>`__ is an implementation of the Ethereum Virtual Machine and Ethereum transaction mechanics,
@@ -125,10 +123,10 @@ Thus we have an interface, the Application BlockChain Interface (asura), and its
 Intro to asura
 ~~~~~~~~~~~~~
 
-`teragrid Core <https://github.com/teragrid/teragrid>`__ (the "consensus engine") communicates with the application via a socket protocol that 
+`teragrid Core <https://github.com/teragrid/teragrid>`__ (the "consensus engine") communicates with the application via a socket protocol that
 satisfies the `asura <https://github.com/teragrid/asura>`__.
 
-To draw an analogy, lets talk about a well-known cryptocurrency, Bitcoin. Bitcoin is a cryptocurrency blockchain where each node maintains a fully audited Unspent Transaction Output (UTXO) database. If one wanted to create a Bitcoin-like system on top of asura, teragrid Core would be responsible for 
+To draw an analogy, lets talk about a well-known cryptocurrency, Bitcoin. Bitcoin is a cryptocurrency blockchain where each node maintains a fully audited Unspent Transaction Output (UTXO) database. If one wanted to create a Bitcoin-like system on top of asura, teragrid Core would be responsible for
 
 - Sharing blocks and transactions between nodes
 - Establishing a canonical/immutable order of transactions (the blockchain)
@@ -195,7 +193,7 @@ There is a picture of a couple doing the polka because validators are doing some
 When more than two-thirds of the validators pre-vote for the same block, we call that a **polka**.
 Every pre-commit must be justified by a polka in the same round.
 
-Validators may fail to commit a block for a number of reasons; 
+Validators may fail to commit a block for a number of reasons;
 the current proposer may be offline, or the network may be slow.
 teragrid allows them to establish that a validator should be skipped.
 Validators wait a small amount of time to receive a complete proposal block from the proposer before voting to move to the next round.
@@ -206,7 +204,7 @@ A simplifying element of teragrid is that it uses the same mechanism to commit a
 Assuming less than one-third of the validators are Byzantine, teragrid guarantees that safety will never be violated - that is, validators will never commit conflicting blocks at the same height.
 To do this it introduces a few **locking** rules which modulate which paths can be followed in the flow diagram.
 Once a validator precommits a block, it is locked on that block.
-Then, 
+Then,
 
 1) it must prevote for the block it is locked on
 2) it can only unlock, and precommit for a new block, if there is a polka for that block in a later round
@@ -214,17 +212,17 @@ Then,
 Stake
 -----
 
-In many systems, not all validators will have the same "weight" in the consensus protocol. 
-Thus, we are not so much interested in one-third or two-thirds of the validators, but in those proportions of the total voting power, 
+In many systems, not all validators will have the same "weight" in the consensus protocol.
+Thus, we are not so much interested in one-third or two-thirds of the validators, but in those proportions of the total voting power,
 which may not be uniformly distributed across individual validators.
 
 Since teragrid can replicate arbitrary applications, it is possible to define a currency, and denominate the voting power in that currency.
 When voting power is denominated in a native currency, the system is often referred to as Proof-of-Stake.
-Validators can be forced, by logic in the application, 
+Validators can be forced, by logic in the application,
 to "bond" their currency holdings in a security deposit that can be destroyed if they're found to misbehave in the consensus protocol.
-This adds an economic element to the security of the protocol, allowing one to quantify the cost of violating the assumption that less than one-third of voting power is Byzantine. 
+This adds an economic element to the security of the protocol, allowing one to quantify the cost of violating the assumption that less than one-third of voting power is Byzantine.
 
-The `Cosmos Network <http://cosmos.network>`__ is designed to use this Proof-of-Stake mechanism across an array of cryptocurrencies implemented as asura applications.
+The `Teragrid Network <http://teragrid.network>`__ is designed to use this Proof-of-Stake mechanism across an array of cryptocurrencies implemented as asura applications.
 
 The following diagram is teragrid in a (technical) nutshell. `See here for high resolution version <https://github.com/mobfoundry/hackatom/blob/master/tminfo.pdf>`__.
 

@@ -66,7 +66,7 @@ For historic queries we will need a indexing storage (Postgres, SQLite, ...).
 
 ### Issues
 
-- https://github.com/teragrid/basecoin/issues/91
+- https://github.com/teragrid/teracoin/issues/91
 - https://github.com/teragrid/teragrid/issues/376
 - https://github.com/teragrid/teragrid/issues/287
 - https://github.com/teragrid/teragrid/issues/525 (related)

@@ -18,7 +18,7 @@ that does this for you, so you can just build nice UI.
 We design for clients who have no strong trust relationship
 with any teragrid node, just the validator set as a whole.
 Beyond building nice mobile or desktop applications, the
-cosmos hub is another important example of a client,
+BaseLeague is another important example of a client,
 that needs undeniable proof without syncing the full chain,
 in order to efficiently implement IBC.
 

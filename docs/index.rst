@@ -70,7 +70,7 @@ teragrid 201
 
 * For a deeper dive, see `this thesis <https://atrium.lib.uoguelph.ca/xmlui/handle/10214/9769>`__.
 * There is also the `original whitepaper <https://teragrid.com/static/docs/teragrid.pdf>`__, though it is now quite outdated.
-* Readers might also be interested in the `Cosmos Whitepaper <https://cosmos.network/whitepaper>`__ which describes teragrid, asura, and how to build a scalable, heterogeneous, cryptocurrency network.
+* Readers might also be interested in the `Teragrid Whitepaper <https://github.com/teragrid/teradocs/wiki/Teragrid-Technical-White-Paper>`__ which describes teragrid, asura, and how to build a scalable, heterogeneous, blockchain network.
 * For example applications and related software built by the teragrid team and other, see the `software ecosystem <https://teragrid.com/ecosystem>`__.
 
-Join the `community <https://cosmos.network/community>`__ to ask questions and discuss projects.
+Join the `community <https://medium.com/teragrid-network>`__ to ask questions and discuss projects.

@@ -19,7 +19,7 @@ For instance, to create a fork and work on a branch of it, I would:
   * Create the fork on github, using the fork button.
   * Go to the original repo checked out locally (ie. `$GOPATH/src/github.com/teragrid/teragrid`)
   * `git remote rename origin upstream`
-  * `git remote add origin git@github.com:ebuchman/basecoin.git`
+  * `git remote add origin git@github.com:ebuchman/teracoin.git`
 
 Now `origin` refers to my fork and `upstream` refers to the teragrid version.
 So I can `git push -u origin master` to update my fork, and make pull requests to teragrid from there.

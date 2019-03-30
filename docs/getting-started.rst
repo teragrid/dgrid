@@ -306,15 +306,15 @@ like before - the results should be the same:
 
 Neat, eh?
 
-Basecoin - A More Interesting Example
+teracoin - A More Interesting Example
 -------------------------------------
 
-We saved the best for last; the `Cosmos SDK <https://github.com/cosmos/cosmos-sdk>`__ is a general purpose framework for building cryptocurrencies. Unlike the ``kvstore`` and ``counter``, which are strictly for example purposes. The reference implementation of Cosmos SDK is ``basecoin``, which demonstrates how to use the building blocks of the Cosmos SDK.
+We saved the best for last; the `Blockchain Framework Parkhill <https://github.com/teragrid/parkhill>`__ is a highly flexible and robust blockchain framework for building blockchain applications. Unlike the ``kvstore`` and ``counter``, which are strictly for example purposes. The reference implementation of Parkhill is ``Teracoin``, which demonstrates how to use the building blocks of Parkhill.
 
-The default ``basecoin`` application is a multi-asset cryptocurrency
+The default ``Teracoin`` application is a multi-asset cryptocurrency
 that supports inter-blockchain communication (IBC). For more details on how
-basecoin works and how to use it, see our `basecoin
-guide <http://cosmos-sdk.readthedocs.io/en/latest/basecoin-basics.html>`__
+teracoin works and how to use it, see our `teracoin
+guide <http://parkhill.readthedocs.io/en/latest/teracoin-basics.html>`__
 
 In this tutorial you learned how to run applications using teragrid
 on a single node. You saw how applications could be written in different

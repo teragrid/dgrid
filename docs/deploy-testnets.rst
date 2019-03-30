@@ -4,7 +4,7 @@ Deploy a Testnet
 Now that we've seen how asura works, and even played with a few
 applications on a single validator node, it's time to deploy a test
 network to four validator nodes. For this deployment, we'll use the
-``basecoin`` application.
+``teracoin`` application.
 
 Manual Deployments
 ------------------
@@ -58,17 +58,17 @@ The `terraform-digitalocean tool <https://github.com/teragrid/tools/tree/master/
 allows creating a set of servers on the DigitalOcean cloud.
 
 The `ansible playbooks <https://github.com/teragrid/tools/tree/master/ansible>`__
-allow creating and managing a ``basecoin`` or ``ethermint`` testnet on provisioned servers.
+allow creating and managing a ``teracoin`` or ``ethermint`` testnet on provisioned servers.
 
 Package Deployment on Linux for developers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The ``teragrid`` and ``basecoin`` applications can be installed from RPM or DEB packages on
+The ``teragrid`` and ``teracoin`` applications can be installed from RPM or DEB packages on
 Linux machines for development purposes. The packages are configured to be validators on the
 one-node network that the machine represents. The services are not started after installation,
 this way giving an opportunity to reconfigure the applications before starting.
 
-The Ansible playbooks in the previous section use this repository to install ``basecoin``.
+The Ansible playbooks in the previous section use this repository to install ``teracoin``.
 After installation, additional steps are executed to make sure that the multi-node testnet has
 the right configuration before start.
 
@@ -78,7 +78,7 @@ Install from the CentOS/RedHat repository:
 
     rpm --import https://teragrid-packages.interblock.io/centos/7/os/x86_64/RPM-GPG-KEY-teragrid
     wget -O /etc/yum.repos.d/teragrid.repo https://teragrid-packages.interblock.io/centos/7/os/x86_64/teragrid.repo
-    yum install basecoin
+    yum install teracoin
 
 Install from the Debian/Ubuntu repository:
 
@@ -86,5 +86,5 @@ Install from the Debian/Ubuntu repository:
 
     wget -O - https://teragrid-packages.interblock.io/centos/7/os/x86_64/RPM-GPG-KEY-teragrid | apt-key add -
     wget -O /etc/apt/sources.list.d/teragrid.list https://teragrid-packages.interblock.io/debian/teragrid.list
-    apt-get update && apt-get install basecoin
+    apt-get update && apt-get install teracoin
 

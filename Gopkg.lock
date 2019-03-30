@@ -230,7 +230,7 @@
 
 [[projects]]
   branch = "master"
-  name = "github.com/tendermint/ed25519"
+  name = "github.com/teragrid/ed25519"
   packages = ["edwards25519"]
   revision = "d8387025d2b9d158cf4efb07e7ebf814bcce2057"
 

@@ -14,7 +14,7 @@ manner. We might ask you to provide additional logs and data (teragrid & app)
 in a case of bug.
 -->
 
-**Tendermint version** (use `teragrid version` or `git rev-parse --verify HEAD` if installed from source):
+**Teragrid version** (use `teragrid version` or `git rev-parse --verify HEAD` if installed from source):
 
 
 **Asura app** (name for built-in, URL for self-written if it's publicly available):
