@@ -1,17 +1,47 @@
 # Mac OS X files
 .DS_Store
 
-# Binaries for programs and plugins
+# Build artifacts and binaries if any for programs and plugins
+*.swp
+*.swo
+.bak
+*.bak
+build/*
+rpc/test/.dgrid
+.debora
+.dgrid
+remote_dump
+.revision
+vendor
+.vagrant
+#------
 *.exe
 *.dll
 *.so
 *.dylib
 
-# Test binary, build with `go test -c`
+# Test logs and Test binary, build with `go test -c`
 *.test
+test/p2p/data/
+test/logs
+coverage.txt
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
 # Project-local glide cache, RE: https://github.com/Masterminds/glide/issues/736
 .glide/
+
+# Logs and Docs
+docs/_build
+docs/tools
+docs/asura-spec.rst
+*.log
+
+# Generated scripts
+scripts/wal2json/wal2json
+scripts/cutWALUntil/cutWALUntil
+
+# Others
+.idea/
+*.iml

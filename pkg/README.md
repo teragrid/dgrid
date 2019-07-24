@@ -1,43 +1,45 @@
-# `/pkg`
+## autofile
 
-Library code that's ok to use by external applications (e.g., `/pkg/mypubliclib`). Other projects will import these libraries expecting them to work, so think twice before you put something here :-)
+Autofile is file access with automatic log rotation. A group of files is maintained and rotation happens
+when the leading file gets too big. Provides a reader for reading from the file group.
 
-It's also a way to group Go code in one place when your root directory contains lots of non-Go components and directories making it easier to run various Go tool (as mentioned in the [`Best Practices for Industrial Programming`](https://www.youtube.com/watch?v=PTE4VJIdHPg) from GopherCon EU 2018).
+## cli
 
-Note that this is not a universally accepted pattern and for every popular repo that uses it you can find 10 that don't. It's up to you to decide if you want to use this pattern or not. Regardless of whether or not it's a good pattern more people will know what you mean than not. It is a bit confusing for new Go devs, but it's a pretty simple confusion to resolve and that's one of the goals for this project layout repo.
+CLI wraps the `cobra` and `viper` packages and handles some common elements of building a CLI like flags and env vars for the home directory and the logger.
 
-Examples:
+## clist
 
-* https://github.com/gogs/gogs/tree/master/pkg
-* https://github.com/prometheus/prometheus/tree/master/pkg
-* https://github.com/jaegertracing/jaeger/tree/master/pkg
-* https://github.com/istio/istio/tree/master/pkg
-* https://github.com/google/gvisor/tree/master/pkg
-* https://github.com/google/syzkaller/tree/master/pkg
-* https://github.com/perkeep/perkeep/tree/master/pkg
-* https://github.com/minio/minio/tree/master/pkg
-* https://github.com/heptio/ark/tree/master/pkg
-* https://github.com/argoproj/argo/tree/master/pkg
-* https://github.com/heptio/sonobuoy/tree/master/pkg
-* https://github.com/helm/helm/tree/master/pkg
-* https://github.com/kubernetes/kubernetes/tree/master/pkg
-* https://github.com/kubernetes/kops/tree/master/pkg
-* https://github.com/moby/moby/tree/master/pkg
-* https://github.com/grafana/grafana/tree/master/pkg
-* https://github.com/influxdata/influxdb/tree/master/pkg
-* https://github.com/cockroachdb/cockroach/tree/master/pkg
-* https://github.com/derekparker/delve/tree/master/pkg
-* https://github.com/etcd-io/etcd/tree/master/pkg
-* https://github.com/oklog/oklog/tree/master/pkg
-* https://github.com/flynn/flynn/tree/master/pkg
-* https://github.com/jesseduffield/lazygit/tree/master/pkg
-* https://github.com/gopasspw/gopass/tree/master/pkg
-* https://github.com/sourcegraph/sourcegraph/tree/master/pkg
-* https://github.com/sosedoff/pgweb/tree/master/pkg
-* https://github.com/GoogleContainerTools/skaffold/tree/master/pkg
-* https://github.com/knative/serving/tree/master/pkg
-* https://github.com/grafana/loki/tree/master/pkg
-* https://github.com/bloomberg/goldpinger/tree/master/pkg
-* https://github.com/crossplaneio/crossplane/tree/master/pkg
-* https://github.com/Ne0nd0g/merlin/tree/master/pkg
-* https://github.com/jenkins-x/jx/tree/master/pkg
+Clist provides a linekd list that is safe for concurrent access by many readers.
+
+## common
+
+Common provides a hodgepodge of useful functions.
+
+## db
+
+DB provides a database interface and a number of implementions, including ones using an in-memory map, the filesystem directory structure,
+an implemention of LevelDB in Go, and the official LevelDB in C.
+
+## events
+
+Events is a synchronous PubSub package.
+
+## flowrate
+
+Flowrate is a fork of https://github.com/mxk/go-flowrate that added a `SetREMA` method.
+
+## log
+
+Log is a log package structured around key-value pairs that allows logging level to be set differently for different keys.
+
+## merkle
+
+Merkle provides a simple static merkle tree and corresponding proofs.
+
+## process
+
+Process is a simple utility for spawning OS processes.
+
+## pubsub
+
+PubSub is an asynchronous PubSub package.
