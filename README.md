@@ -1,22 +1,21 @@
-# Dgrid
+# Dgrid <-> ◎ Multi-Consensus Blockchain Platform to Empower Reliable Businesses
 
-[Byzantine-Fault Tolerant](https://en.wikipedia.org/wiki/Byzantine_fault_tolerance)
-([Federated Byzantine Agreement](https://www.stellar.org/papers/stellar-consensus-protocol.pdf))
-[State Machine Replication](https://en.wikipedia.org/wiki/State_machine_replication).
-Or [Blockchain](https://en.wikipedia.org/wiki/Blockchain_(database)) for short.
+Multi-Consensus (First adoptions: [Byzantine-Fault Tolerant](https://en.wikipedia.org/wiki/Byzantine_fault_tolerance)
+ and [Federated Byzantine Agreement](https://www.stellar.org/papers/stellar-consensus-protocol.pdf))
+[Blockchain](https://en.wikipedia.org/wiki/Blockchain_(database)) Platform.
 
-[![version](https://img.shields.io/github/tag/dgrid/dgrid.svg)](https://github.com/teragrid/dgrid/releases/latest)
+[![version](https://img.shields.io/github/tag/teragrid/teragrid.svg)](https://github.com/teragrid/teragrid/releases/latest)
 [![Go version](https://img.shields.io/badge/go-1.9.2-blue.svg)](https://github.com/moovweb/gvm)
-[![license](https://img.shields.io/github/license/dgrid/dgrid.svg)](https://github.com/teragrid/dgrid/blob/master/LICENSE)
-[![](https://tokei.rs/b1/github/dgrid/dgrid?category=lines)](https://github.com/teragrid/dgrid)
+[![license](https://img.shields.io/github/license/teragrid/teragrid.svg)](https://github.com/teragrid/teragrid/blob/master/LICENSE)
+[![](https://tokei.rs/b1/github/teragrid/teragrid?category=lines)](https://github.com/teragrid/teragrid)
 
 
 _NOTE: This is alpha software. Please contact us if you intend to run it in production._
 
-Dgrid Core is Multi-Consensus middleware that takes a state transition machine - written in any programming language -
+Teragrid Core is Multi-Consensus middleware that takes a state transition machine - written in any programming language -
 and securely replicates it on many machines.
 
-For more information, from introduction to install to application development, [Read The Docs](https://dgrid.readthedocs.io/en/master/).
+For more information, from introduction to install to application development, [Read The Docs](https://teragrid.readthedocs.io/en/master/).
 
 ## Minimum requirements
 
@@ -26,19 +25,19 @@ Go version | Go1.9 or higher
 
 ## Install
 
-To download pre-built binaries, see our [downloads page](https://dgrid.network/downloads).
+To download pre-built binaries, see our [downloads page](https://teragrid.network/downloads).
 
 To install from source, you should be able to:
 
-`go get -u github.com/teragrid/dgrid/cmd/dgrid`
+`go get -u github.com/teragrid/teragrid/cmd/teragrid`
 
-For more details (or if it fails), [read the docs](https://dgrid.readthedocs.io/en/master/install.html).
+For more details (or if it fails), [read the docs](https://teragrid.readthedocs.io/en/master/install.html).
 
 ## Resources
 
-### Dgrid Core
+### Dgrid <-> Teragrid Core
 
-All resources involving the use of, building application on, or developing for, dgrid, can be found at [Read The Docs](https://dgrid.readthedocs.io/en/master/). Additional information about some - and eventually all - of the sub-projects below, can be found at Read The Docs.
+All resources involving the use of, building application on, or developing for, teragrid, can be found at [Read The Docs](https://teragrid.readthedocs.io/en/master/). Additional information about some - and eventually all - of the sub-projects below, can be found at Read The Docs.
 
 ### Sub-projects
 
@@ -47,16 +46,16 @@ All resources involving the use of, building application on, or developing for, 
 
 ### Applications
 
-* [TeraReal](http://github.com/teragrid/terareal); A real estate platform on Dgrid
-* [TeraCoin](http://github.com/teragrid/teracoin); Dgrid cryptocurrency
-* [TeraWallet](http://github.com/teragrid/terawallet); Dgrid wallet
-* [TeraTalk](http://github.com/teragrid/teratalk); A Secure Message Platform Integrated in Dgrid
+* [TeraReal](http://github.com/teragrid/terareal); A real estate platform on Teragrid
+* [TeraCoin](http://github.com/teragrid/teracoin); Teragrid cryptocurrency
+* [TeraWallet](http://github.com/teragrid/terawallet); Teragrid wallet
+* [TeraTalk](http://github.com/teragrid/teratalk); A Secure Message Platform Integrated in Teragrid
 * [Many more](https://github.com/teragrid/teradocs/wiki)
 
 ### More
 
-* [Original Whitepaper](https://github.com/teragrid/teradocs/wiki/Dgrid-White-Paper)
-* [Dgrid Blog](https://medium.com/dgrid-network)
+* [Original Whitepaper](https://github.com/teragrid/teradocs/wiki/Teragrid-White-Paper)
+* [Teragrid Blog](https://medium.com/teragrid-network)
 
 ## Contributing
 
@@ -66,10 +65,10 @@ Yay open source! Please see our [contributing guidelines](CONTRIBUTING.md).
 
 ### SemVer
 
-Dgrid uses [SemVer](http://semver.org/) to determine when and how the version changes.
+Teragrid uses [SemVer](http://semver.org/) to determine when and how the version changes.
 According to SemVer, anything in the public API can change at any time before version 1.1.0
 
-To provide some stability to Dgrid users in these 0.X.X days, the MINOR version is used
+To provide some stability to Teragrid users in these 0.X.X days, the MINOR version is used
 to signal breaking changes across a subset of the total public API. This subset includes all
 interfaces exposed to other processes (cli, rpc, p2p, etc.), as well as parts of the following packages:
 
